@@ -1,0 +1,31 @@
+:root {
+
+  --color-primary: var(--mat-sys-primary);
+  --color-primary-hover: var(--mat-sys-primary-container);
+  --color-on-primary: var(--mat-sys-on-primary);
+
+  --color-bg: var(--mat-sys-surface);
+  --color-surface: var(--mat-sys-surface);
+  --color-surface-variant: var(--mat-sys-surface-variant);
+
+  --color-text: var(--mat-sys-on-surface);
+  --color-text-secondary: var(--mat-sys-on-surface-variant);
+
+  --color-surface-elevated: var(--mat-sys-surface-container); 
+  
+  --color-border: var(--mat-sys-outline);
+
+  --color-success: #2e7d32;
+  --color-danger: #d32f2f;
+
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 20px;
+  --spacing-xl: 40px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+
+  --shadow-sm: 0 2px 6px rgba(0,0,0,0.1);
+  
+}

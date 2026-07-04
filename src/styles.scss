@@ -4,6 +4,9 @@
 // Learn more about theming and how to use it for your application's
 // custom components at https://material.angular.dev/guide/theming
 @use '@angular/material' as mat;
+@use './styles/variables';
+@use './styles/components';
+@use './styles/layout';
 
 html {
   height: 100%;
@@ -19,21 +22,105 @@ html {
   );
 }
 
-body {
-  // Default the application to a light color theme. This can be changed to
-  // `dark` to enable the dark color theme, or to `light dark` to defer to the
-  // user's system settings.
-  color-scheme: light;
-
-  // Set a default background, font and text colors for the application using
-  // Angular Material's system-level CSS variables. Learn more about these
-  // variables at https://material.angular.dev/guide/system-variables
-  background-color: var(--mat-sys-surface);
-  color: var(--mat-sys-on-surface);
-  font: var(--mat-sys-body-medium);
-
-  // Reset the user agent margin.
-  margin: 0;
+html, body {
   height: 100%;
+  overflow: hidden;
 }
-/* You can add global styles to this file, and also import other style files */
+
+body {
+  color-scheme: light dark;
+
+  background-color: var(--color-bg);
+  color: var(--color-text);
+
+  font: var(--mat-sys-body-medium);
+  font-family: var(--font-family, Roboto, sans-serif);
+
+  margin: 0;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body.dark-theme {
+  color-scheme: dark;
+  --color-border: rgba(255, 255, 255, 0.2);
+}
+
+body.light-theme {
+  color-scheme: light;
+}
+
+.custom-dialog .mat-mdc-dialog-surface {
+  background: var(--color-surface-elevated);
+  color: var(--color-text);
+
+  border-radius: var(--radius-md);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+
+.custom-dialog h2 {
+  margin-bottom: var(--spacing-md);
+  margin: 0;
+}
+
+.custom-dialog .form-column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.custom-dialog .mat-mdc-dialog-actions {
+  margin-top: var(--spacing-md);
+  gap: var(--spacing-sm);
+}
+
+.custom-dialog button {
+  min-width: 80px;
+}
+
+.custom-dialog {
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.custom-dialog .dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: var(--spacing-md);
+}
+
+.custom-dialog .dialog-header .icon-button {
+  background: transparent;
+  color: var(--color-text);
+}
+
+.custom-dialog .dialog-header .icon-button:hover {
+  background: var(--color-surface-variant);
+  border-radius: 50%;
+}
+
+.mat-mdc-form-field.mat-mdc-form-field-invalid .mdc-notched-outline {
+  border-color: var(--color-danger);
+}
+
+.success-snackbar {
+  background: var(--color-surface-elevated);
+  color: var(--color-text);
+  border: 1px solid var(--color-success);
+}

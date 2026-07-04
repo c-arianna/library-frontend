@@ -1,0 +1,57 @@
+<div class="container">
+
+  <button class="icon-button" (click)="toggleTheme()" [attr.aria-label]="isDark ? 'Attiva tema chiaro' : 'Attiva tema scuro'">
+  <span class="material-icons">
+    {{ isDark ? 'light_mode' : 'dark_mode' }}
+  </span>
+</button>
+
+  <mat-card class="card form-card">
+
+    <h2 class="page-title text-center icon-text">
+      <span class="material-icons">person_add</span>
+      Registrazione
+    </h2>
+
+    <form class="form-column" [formGroup]="form" (ngSubmit)="submit()">
+
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" autocomplete="email">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Nome</mat-label>
+        <input matInput formControlName="firstName" autocomplete="given-name">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Cognome</mat-label>
+        <input matInput formControlName="lastName" autocomplete="family-name">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input type="password" matInput formControlName="password" autocomplete="new-password">
+      </mat-form-field>
+
+      <button mat-stroked-button color="primary" type="submit" [disabled]="loading || form.invalid" class="full-width">
+        Registrati
+      </button>
+
+      <button mat-stroked-button type="button" class="full-width reset-button"(click)="reset()">
+        Reset
+      </button>
+    
+      </form>
+
+    <p class="login-link">
+      Hai già un account?
+      <button type="button" class="link-button" (click)="login()">
+      Accedi
+      </button>
+    </p>
+
+  </mat-card>
+
+</div>
