@@ -1,0 +1,82 @@
+<div class="dialog-header">
+
+  <h2 class="icon-text">
+    <span class="material-icons">menu_book</span>
+    Nuovo libro
+  </h2>
+
+  <button class="icon-button" (click)="close()">
+    <span class="material-icons">close</span>
+  </button>
+
+</div>
+
+<form [formGroup]="form" (submit)="submit()">
+
+  <mat-dialog-content class="form-column">
+
+  <mat-form-field appearance="outline">
+    <mat-label>ISBN</mat-label>
+    <input matInput formControlName="isbn">
+
+    @if (isInvalid('isbn') && form.get('isbn')?.hasError('required')) {
+      <mat-error>ISBN obbligatorio</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Autore</mat-label>
+    <input matInput formControlName="author">
+
+    @if (isInvalid('author') && form.get('author')?.hasError('required')) {
+      <mat-error>Autore obbligatorio</mat-error>
+    }
+
+    @if (isInvalid('author') && form.get('author')?.hasError('minlength')) {
+      <mat-error>Minimo 3 caratteri</mat-error>
+    }
+
+    @if (isInvalid('author') && form.get('author')?.hasError('maxlength')) {
+      <mat-error>Massimo 100 caratteri</mat-error>
+    }
+
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Titolo</mat-label>
+    <input matInput formControlName="title">
+
+    @if (isInvalid('title') && form.get('title')?.hasError('required')) {
+      <mat-error>Titolo obbligatorio</mat-error>
+    }
+
+    @if (isInvalid('title') && form.get('title')?.hasError('minlength')) {
+      <mat-error>Minimo 3 caratteri</mat-error>
+    }
+
+    @if (isInvalid('title') && form.get('author')?.hasError('maxlength')) {
+      <mat-error>Massimo 100 caratteri</mat-error>
+    }
+
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Descrizione</mat-label>
+    <textarea matInput formControlName="description"></textarea>
+  </mat-form-field>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+
+    <button mat-button (click)="reset()">Reset</button>
+
+    <button mat-button (click)="close()">Cancella</button>
+
+    <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
+      Salva
+    </button>
+
+  </mat-dialog-actions>
+
+</form>

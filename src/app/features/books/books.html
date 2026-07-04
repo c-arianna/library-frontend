@@ -1,0 +1,92 @@
+<div class="container">
+
+  <h1 class="page-title icon-text">
+    <span class="material-icons">menu_book</span>
+    Catalogo Libri
+  </h1>
+
+  <div class="section">
+
+  <div class="form">
+
+    <div class="form-row">
+      <input class="input"
+             placeholder="Titolo"
+             (input)="updateFilters('title', $any($event.target).value)">
+
+      <input class="input"
+             placeholder="Autore"
+             (input)="updateFilters('author', $any($event.target).value)">
+
+      <input class="input"
+             placeholder="ISBN"
+             (input)="updateFilters('isbn', $any($event.target).value)">
+    </div>
+
+    <div class="form-row checkbox-row">
+      <label class="checkbox">
+        <input type="checkbox"
+               (change)="updateFilters('onlyAvailable', $any($event.target).checked)">
+        <span>Solo disponibili</span>
+      </label>
+    </div>
+
+    <div class="form-actions">
+
+      <button class="button button-secondary"
+              (click)="clearFilters()">
+        Reset
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<div class="section">
+
+  @if (filteredBooks().length === 0) {
+
+    <p class="empty">Non ci sono libri.</p>
+
+  } @else {
+
+    <table class="table">
+
+      <thead>
+        <tr>
+          <th>ISBN</th>
+          <th>Titolo</th>
+          <th>Autore</th>
+          <th>Disponibile</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @for (book of filteredBooks(); track book.isbn) {
+          <tr>
+            <td>{{ book.isbn }}</td>
+            <td>{{ book.title }}</td>
+            <td>{{ book.author }}</td>
+            <td>
+              <span [class.available]="book.available">
+                {{ book.available ? 'Sì' : 'No' }}
+              </span>
+            </td>
+          </tr>
+        }
+      </tbody>
+
+    </table>
+
+  }
+
+  </div>
+
+    <button *hasRole="['ROLE_ADMIN','ROLE_LIBRARIAN']" class="button button-primary" (click)="openAddBookDialog()">
+      <span class="material-icons">add</span>
+      Nuovo libro
+    </button>
+
+</div>

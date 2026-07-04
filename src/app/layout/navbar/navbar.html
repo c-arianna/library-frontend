@@ -1,0 +1,45 @@
+<nav class="navbar">
+
+  <div class="logo icon-text">
+    <span class="material-icons">auto_stories</span>
+    Libreria
+  </div>
+
+  <button class="icon-button mobile-toggle" (click)="toggleMenu()">
+    <span class="material-icons">menu</span>
+  </button>
+
+  <div class="links" [class.open]="menuOpen">
+
+    <a routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="menuOpen = false">
+      <span class="icon-text">
+        <span class="material-icons">home</span>
+        Home
+      </span>
+    </a>
+
+    <a routerLink="/books" routerLinkActive="active" (click)="menuOpen = false">
+      <span class="icon-text">
+        <span class="material-icons">menu_book</span>
+        Catalogo
+      </span>
+    </a>
+
+  </div>
+
+  <div class="actions">
+
+    <span class="username">{{ username }}</span>
+
+    <button class="button button-secondary" (click)="logout()">
+      <span class="material-icons">logout</span>
+      Logout
+    </button>
+
+    <button class="icon-button" (click)="toggleTheme()">
+        <span class="material-icons">{{ isDark ? 'light_mode' : 'dark_mode' }}</span>
+    </button>
+
+  </div>
+
+</nav>

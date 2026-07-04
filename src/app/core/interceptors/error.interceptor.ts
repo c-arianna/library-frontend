@@ -1,7 +1,7 @@
 import { HttpInterceptorFn, HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { catchError, throwError } from 'rxjs';
-import { mapError } from '../../shared/utils/error-mapper';
+import { mapError } from '../../shared/utils/error.mapper';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
