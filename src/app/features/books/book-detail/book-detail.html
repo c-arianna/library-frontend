@@ -1,0 +1,167 @@
+<div class="container">
+
+  @if (store.loading()) {
+    <div class="card section-card">
+      Caricamento dettaglio libro...
+    </div>
+  }
+
+  @if (store.error()) {
+    <div class="card section-card">
+      {{ store.error() }}
+    </div>
+  }
+
+  @if (store.detail(); as book) {
+
+    <div class="card section-card details-card">
+
+      <h1 class="book-title">
+
+        <span class="material-icons">
+          menu_book
+        </span>
+
+        {{ book.title }}
+
+      </h1>
+
+      <div class="book-metadata">
+
+        <div class="metadata-item">
+
+          <span class="metadata-label">
+            ISBN
+          </span>
+
+          <span class="metadata-value">
+            {{ book.isbn }}
+          </span>
+
+        </div>
+
+        <div class="metadata-item">
+
+          <span class="metadata-label">
+            Autore
+          </span>
+
+          <span class="metadata-value">
+            {{ book.author }}
+          </span>
+
+        </div>
+
+      </div>
+      
+      @if (book.description.trim()) {
+
+        <div class="description-section">
+
+          <h3>Descrizione</h3>
+
+          <div class="description-box">
+
+            {{ book.description }}
+
+          </div>
+
+        </div>
+      }
+    
+    </div>
+
+    <div class="card section-card" *hasRole="'ROLE_READER'">
+
+      <h2>Disponibilità</h2>
+
+      <div class="detail-row">
+        <span class="detail-label">
+          Stato
+        </span>
+
+        <span class="badge" [class.available]="book.available" [class.unavailable]="!book.available">
+          {{ book.available ? 'Disponibile' : 'Non disponibile' }}
+        </span>
+
+      </div>
+
+      <div class="actions">
+
+        @if (book.available) {
+
+          <button class="button button-primary">
+            Crea prestito
+          </button>
+
+        }
+
+      </div>
+
+    </div>
+
+    <div class="card section-card" *hasRole="['ROLE_ADMIN','ROLE_LIBRARIAN']">
+
+      <h2>Gestione copie</h2>
+
+      <div class="stats-grid">
+
+        <div class="stat-card">
+          <span>Copie totali</span>
+          <strong>
+            {{ book.totalCopies }}
+          </strong>
+        </div>
+
+        <div class="stat-card">
+          <span>Copie disponibili</span>
+          <strong>
+            {{ book.availableCopies }}
+          </strong>
+        </div>
+
+        <div class="stat-card">
+          <span>Copie prestate</span>
+          <strong>
+            {{ book.borrowedCopies }}
+          </strong>
+        </div>
+
+        <div class="stat-card">
+          <span>Copie riservate</span>
+          <strong>
+            {{ book.reservedCopies }}
+          </strong>
+        </div>
+
+      </div>
+
+      <div class="actions">
+
+        <button class="button button-primary">
+          Aggiungi copie
+        </button>
+
+        @if (book.availableCopies > 0) {
+
+          <button class="button button-secondary">
+            Rimuovi copie
+          </button>
+
+        }
+
+      </div>
+
+      <div class="actions">
+
+        <button class="button button-secondary">
+          Visualizza prestiti
+        </button>
+
+      </div>
+
+    </div>
+
+  }
+
+</div>

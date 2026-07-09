@@ -4,15 +4,15 @@ import { FormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { AddBookDialog } from './addBookDialog/addBookDialog';
+import { BookAddDialog } from './book-add-dialog/book-add-dialog';
 import { HasRoleDirective } from '../../core/directives/has.role';
 import { BooksStore } from './books.store';
-import { BookFiltersDto } from '../../shared/models/book-filters.dto';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-books',
   standalone: true,
-  imports: [FormsModule, HasRoleDirective],
+  imports: [FormsModule, HasRoleDirective, RouterLink],
   templateUrl: './books.html',
   styleUrl: './books.scss'
 })
@@ -33,7 +33,7 @@ export class BooksComponent implements OnInit, OnDestroy {
   
   openAddBookDialog() {
 
-    const dialogRef = this.dialog.open(AddBookDialog, {
+    const dialogRef = this.dialog.open(BookAddDialog, {
                                             width: '420px',
                                             panelClass: 'custom-dialog'
                                           });

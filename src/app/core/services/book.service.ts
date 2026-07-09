@@ -6,6 +6,7 @@ import { BookFiltersDto } from '../../shared/models/book-filters.dto';
 import { BookDto } from '../../shared/models/book.dto';
 import { BookListResponseDto } from '../../shared/models/book-list-response.dto';
 import { AddBookResponseDto } from '../../shared/models/book-registered-response.dto';
+import { BookDetailDto } from '../../shared/models/book-detail.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -41,6 +42,10 @@ export class BookService {
 
   addBook(book: AddBookRequestDto) {
    return this.http.post<AddBookResponseDto>(this.apiUrl, book);
+  }
+
+  getBook(isbn: string) {
+    return this.http.get<BookDetailDto>(`${this.apiUrl}/${isbn}`);
   }
 
 }

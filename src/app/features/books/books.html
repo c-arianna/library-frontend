@@ -68,6 +68,7 @@
           <th>Titolo</th>
           <th>Autore</th>
           <th>Disponibile</th>
+          <th>Dettaglio</th>
         </tr>
       </thead>
 
@@ -81,6 +82,13 @@
               <span [class.available]="book.available">
                 {{ book.available ? 'Sì' : 'No' }}
               </span>
+            </td>
+            <td>
+              <a [routerLink]="['/books', book.isbn]">
+                <span class="material-icons">
+                visibility
+                </span>
+              </a>
             </td>
           </tr>
         }

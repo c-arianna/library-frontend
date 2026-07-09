@@ -1,6 +1,6 @@
 import {Injectable, computed, signal} from '@angular/core';
 
-import { Subscription } from 'rxjs';
+import { finalize, Observable, Subscription } from 'rxjs';
 
 import { BookDto } from '../../shared/models/book.dto';
 import { BookFiltersDto } from '../../shared/models/book-filters.dto';
@@ -8,6 +8,8 @@ import { BookRegisteredEventDto } from '../../shared/models/events/book-register
 import { BookService } from '../../core/services/book.service';
 import { NotificationService } from '../../core/services/notification.service';
 import { mapRegisteredEventToBook } from '../../shared/mapper/book.mapper';
+import { BookDetailDto } from '../../shared/models/book-detail.dto';
+import { mapError } from '../../shared/utils/error.mapper';
 
 @Injectable({
   providedIn: 'root'
@@ -25,8 +27,13 @@ export class BooksStore {
       onlyAvailable: false
     });
 
-  readonly filteredBooks =
-    computed(() => {
+  readonly selectedBook = signal<BookDetailDto | null>(null);
+
+  readonly loading = signal(false);
+
+  readonly error = signal<string | null>(null);
+
+  readonly filteredBooks = computed(() => {
 
       const books = this.books();
       const filters = this.filters();
@@ -70,14 +77,57 @@ export class BooksStore {
 
     });
 
-  constructor(private bookService: BookService, private notificationService: NotificationService) {}
+  readonly detail = computed(() => {
 
-  loadBooks() {
-    this.bookService.getBooks().subscribe(books => { this.books.set(books); });
+      const book = this.selectedBook();
+
+      if (!book) {
+        return null;
+      }
+
+      const availableCopies = book.totalCopies - book.borrowedCopies - book.reservedCopies;
+
+      return {
+        ...book,
+        availableCopies
+      };
+
+    });
+
+  constructor(private bookService: BookService, private notificationService: NotificationService) {}
+  
+  private executeRequest<T>(request$: Observable<T>, onSuccess: (result: T) => void) {
+
+    this.loading.set(true);
+    this.error.set(null);
+
+    request$.pipe(finalize(() => {
+        this.loading.set(false);
+      })
+    ).subscribe({
+
+      next: result => {
+        onSuccess(result);
+      },
+
+      error: err => {
+        this.error.set(mapError(err?.error?.code));
+      }
+
+    });
 
   }
 
-  startRealtimeUpdates() {
+  loadBooks() {
+    this.executeRequest(this.bookService.getBooks(), books => this.books.set(books));
+  }
+
+  loadBook(isbn: string) {
+    this.selectedBook.set(null);
+    this.executeRequest(this.bookService.getBook(isbn), book => this.selectedBook.set(book));
+  }
+
+  startRealtimeUpdates(): void {
 
     if (this.wsSub) {
       return;
@@ -87,9 +137,9 @@ export class BooksStore {
 
           if (event.eventType === 'BOOK_REGISTERED') {
 
-            const payload = event.payload as BookRegisteredEventDto;
+            const payload = event.payload;
 
-            const book = mapRegisteredEventToBook(payload)
+            const book = mapRegisteredEventToBook(payload);
 
             this.books.update(list => {
 
@@ -105,22 +155,24 @@ export class BooksStore {
 
   }
 
-  stopRealtimeUpdates() {
+  stopRealtimeUpdates(): void {
+
     this.wsSub?.unsubscribe();
+
     this.wsSub = undefined;
+
   }
 
-  updateFilter<K extends keyof BookFiltersDto>(field: K, value: BookFiltersDto[K]) {
+  updateFilter<K extends keyof BookFiltersDto>(field: K, value: BookFiltersDto[K]){
 
     this.filters.update(filters => ({
-        ...filters,
-        [field]: value
-      })
-    );
+      ...filters,
+      [field]: value
+    }));
 
   }
 
-  clearFilters() {
+  clearFilters(): void {
 
     this.filters.set({
       title: '',

@@ -20,6 +20,11 @@ export const routes: Routes = [
     loadComponent: () =>  import('./features/books/books').then(m => m.BooksComponent)
   },
   {
+    path: 'books/:isbn',
+    canActivate: [authGuard],
+    loadComponent: () => import('./features/books/book-detail/book-detail').then(m => m.BookDetail)
+  },
+  {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'

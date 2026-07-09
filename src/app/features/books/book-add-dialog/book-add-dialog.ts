@@ -10,7 +10,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-add-book-dialog',
   standalone: true,
-  templateUrl: './addBookDialog.html',
+  templateUrl: './book-add-dialog.html',
   imports: [
     ReactiveFormsModule,
     MatDialogModule,
@@ -19,11 +19,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     MatButtonModule
   ]
 })
-export class AddBookDialog {
+export class BookAddDialog {
 
   form;
 
-  constructor(private fb: FormBuilder, private dialogRef: MatDialogRef<AddBookDialog>, private bookService: BookService,
+  constructor(private fb: FormBuilder, private dialogRef: MatDialogRef<BookAddDialog>, private bookService: BookService,
     private snackBar: MatSnackBar) {
 
     this.form = this.fb.nonNullable.group({
