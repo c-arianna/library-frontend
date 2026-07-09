@@ -1,11 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { RegisterRequest } from '../../shared/models/user.model';
+import { RegisterRequest } from '../../shared/models/register-request.dto';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
 
-  private api = 'http://localhost:8080/users';
+  private api = '/api/users';
 
   constructor(private http: HttpClient) {}
 

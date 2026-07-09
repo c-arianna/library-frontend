@@ -7,6 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { mapError } from '../../../../shared/utils/error.mapper';
 import { MatCardModule } from '@angular/material/card';
 import { AuthService } from '../../../../core/auth/auth.service';
+import { ThemeService } from '../../../../core/services/theme.service';
 
 @Component({
   standalone: true,
@@ -26,12 +27,12 @@ export class RegisterPage {
   loading = false;
   error?: string;
   form;
-  isDark = false;
-
+  
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
-    private auth: AuthService
+    private auth: AuthService,
+    public theme: ThemeService
   ) {
    this.form = this.fb.nonNullable.group({
        email: ['', [Validators.required, Validators.email]],
@@ -39,16 +40,6 @@ export class RegisterPage {
        lastName: ['', [Validators.required]],
      password: ['', [Validators.required]]
    });
-
-    const savedTheme = localStorage.getItem('theme');
-
-    if (savedTheme) {
-      this.isDark = savedTheme === 'dark';
-    } else {
-      this.isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    }
-
-    this.applyTheme();
 
   }
   
@@ -88,19 +79,6 @@ export class RegisterPage {
 
   reset() {
     this.form.reset();
-  }
-
-  toggleTheme() {
-    this.isDark = !this.isDark;
-
-    localStorage.setItem('theme', this.isDark ? 'dark' : 'light');
-
-    this.applyTheme();
-  }
-
-  applyTheme() {
-    document.body.classList.toggle('dark-theme', this.isDark);
-    document.body.classList.toggle('light-theme', !this.isDark);
   }
 
 }

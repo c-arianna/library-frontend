@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../core/auth/auth.service';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { ThemeService } from '../../core/services/theme.service';
 
 @Component({
   selector: 'app-navbar',
@@ -12,9 +13,8 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 export class NavbarComponent {
 
   menuOpen = false;
-  isDark = false;
 
-  constructor(private auth: AuthService) {}
+  constructor(private auth: AuthService, public theme: ThemeService) {}
 
   get username(): string {
     return this.auth.getUsername();
@@ -27,35 +27,9 @@ export class NavbarComponent {
   get isLoggedIn(): boolean {
     return this.auth.isLoggedIn();
   }
-
-  toggleTheme() {
-    this.isDark = !this.isDark;
-
-    localStorage.setItem('theme', this.isDark ? 'dark' : 'light');
-
-    this.applyTheme();
-  }
   
   toggleMenu() {
     this.menuOpen = !this.menuOpen;
-  }
-
-  ngOnInit() {
-
-    const savedTheme = localStorage.getItem('theme');
-
-    if (savedTheme) {
-      this.isDark = savedTheme === 'dark';
-    } else {
-      this.isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    }
-
-    this.applyTheme();
-  }
-
-  applyTheme() {
-    document.body.classList.toggle('dark-theme', this.isDark);
-    document.body.classList.toggle('light-theme', !this.isDark);
   }
 
 }

@@ -11,22 +11,30 @@
 
     <div class="form-row">
       <input class="input"
-             placeholder="Titolo"
-             (input)="updateFilters('title', $any($event.target).value)">
+            placeholder="Titolo"
+            #titleInput
+            [value]="store.filters().title"
+            (input)="store.updateFilter('title', titleInput.value)">
 
       <input class="input"
-             placeholder="Autore"
-             (input)="updateFilters('author', $any($event.target).value)">
+            placeholder="Autore"
+            #authorInput
+            [value]="store.filters().author"
+            (input)="store.updateFilter('author', authorInput.value)">
 
       <input class="input"
-             placeholder="ISBN"
-             (input)="updateFilters('isbn', $any($event.target).value)">
+            placeholder="ISBN"
+            #isbnInput
+            [value]="store.filters().isbn"
+            (input)="store.updateFilter('isbn', isbnInput.value)">
     </div>
 
     <div class="form-row checkbox-row">
       <label class="checkbox">
         <input type="checkbox"
-               (change)="updateFilters('onlyAvailable', $any($event.target).checked)">
+              #availableInput
+              [checked]="store.filters().onlyAvailable"
+              (change)="store.updateFilter('onlyAvailable', availableInput.checked)">
         <span>Solo disponibili</span>
       </label>
     </div>
@@ -46,7 +54,7 @@
 
 <div class="section">
 
-  @if (filteredBooks().length === 0) {
+  @if (store.filteredBooks().length === 0) {
 
     <p class="empty">Non ci sono libri.</p>
 
@@ -64,7 +72,7 @@
       </thead>
 
       <tbody>
-        @for (book of filteredBooks(); track book.isbn) {
+        @for (book of store.filteredBooks(); track book.isbn) {
           <tr>
             <td>{{ book.isbn }}</td>
             <td>{{ book.title }}</td>

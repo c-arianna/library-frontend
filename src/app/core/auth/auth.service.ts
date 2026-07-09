@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import Keycloak from 'keycloak-js';
+import Keycloak, { KeycloakLoginOptions, KeycloakTokenParsed } from 'keycloak-js';
+import { AUTH_CONFIG } from '../config/auth.config';
 
 @Injectable({
   providedIn: 'root'
@@ -11,11 +12,7 @@ export class AuthService {
   private initPromise!: Promise<boolean>;
 
   constructor() {
-    this.keycloak = new Keycloak({
-      url: 'http://localhost:8084',
-      realm: 'library-microservices',
-      clientId: 'library-frontend'
-    });
+    this.keycloak = new Keycloak(AUTH_CONFIG);
   }
 
   async init(): Promise<boolean> {
@@ -27,7 +24,7 @@ export class AuthService {
     return this.initPromise;
   }
 
- login(redirectUri?: string, options?: any) {
+ login(redirectUri?: string, options?: KeycloakLoginOptions) {
     const finalRedirect = redirectUri || window.location.origin;
 
     this.keycloak.login({
@@ -57,7 +54,7 @@ export class AuthService {
     return this.keycloak.updateToken(minValidity);
   }
 
-  getParsedToken(): any {
+  getParsedToken(): KeycloakTokenParsed | undefined {
     return this.keycloak.tokenParsed;
   }
 

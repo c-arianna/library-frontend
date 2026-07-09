@@ -1,4 +1,4 @@
-export interface AddBookRequest{
+export interface AddBookRequestDto{
     isbn: string;
     author: string;
     title: string;

@@ -1,8 +1,8 @@
 <div class="container">
 
-  <button class="icon-button" (click)="toggleTheme()" [attr.aria-label]="isDark ? 'Attiva tema chiaro' : 'Attiva tema scuro'">
+  <button class="icon-button" (click)="theme.toggle()" [attr.aria-label]="theme.isDark() ? 'Attiva tema chiaro' : 'Attiva tema scuro'">
   <span class="material-icons">
-    {{ isDark ? 'light_mode' : 'dark_mode' }}
+    {{ theme.isDark() ? 'light_mode' : 'dark_mode' }}
   </span>
 </button>
 
