@@ -1,6 +1,6 @@
 import {Injectable, computed, signal} from '@angular/core';
 
-import { finalize, Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 import { BookDto } from '../../shared/models/book.dto';
 import { BookFiltersDto } from '../../shared/models/book-filters.dto';
@@ -8,12 +8,12 @@ import { BookUpdatedPayloadEventDto } from '../../shared/models/events/book-regi
 import { BookService } from '../../core/services/book.service';
 import { NotificationService } from '../../core/services/notification.service';
 import { BookDetailDto } from '../../shared/models/book-detail.dto';
-import { mapError } from '../../shared/utils/error.mapper';
+import { BaseFeatureStore } from '../../core/store/base-feature.store';
 
 @Injectable({
   providedIn: 'root'
 })
-export class BooksStore {
+export class BooksStore extends BaseFeatureStore {
 
   private wsSub?: Subscription;
 
@@ -27,10 +27,6 @@ export class BooksStore {
     });
 
   readonly selectedBook = signal<BookDetailDto | null>(null);
-
-  readonly loading = signal(false);
-
-  readonly error = signal<string | null>(null);
 
   readonly filteredBooks = computed(() => {
 
@@ -94,31 +90,10 @@ export class BooksStore {
     });
 
   constructor(private bookService: BookService, private notificationService: NotificationService) {
+    super();
     this.startRealtimeUpdates();
   }
   
-  private executeRequest<T>(request$: Observable<T>, onSuccess: (result: T) => void) {
-
-    this.loading.set(true);
-    this.error.set(null);
-
-    request$.pipe(finalize(() => {
-        this.loading.set(false);
-      })
-    ).subscribe({
-
-      next: result => {
-        onSuccess(result);
-      },
-
-      error: err => {
-        this.error.set(mapError(err?.error?.code));
-      }
-
-    });
-
-  }
-
   loadBooks() {
     this.executeRequest(this.bookService.getBooks(), books => this.books.set(books));
   }

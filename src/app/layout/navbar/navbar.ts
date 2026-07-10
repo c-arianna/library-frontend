@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AuthService } from '../../core/auth/auth.service';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { ThemeService } from '../../core/services/theme.service';
@@ -12,9 +12,10 @@ import { ThemeService } from '../../core/services/theme.service';
 })
 export class NavbarComponent {
 
-  menuOpen = false;
+  private readonly auth = inject(AuthService);
+  readonly theme = inject(ThemeService);
 
-  constructor(private auth: AuthService, public theme: ThemeService) {}
+  menuOpen = false;
 
   get username(): string {
     return this.auth.getUsername();

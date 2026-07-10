@@ -1,0 +1,112 @@
+<div class="container">
+
+  <h1 class="page-title icon-text">
+
+    <span class="material-icons">
+      assignment
+    </span>
+
+    Prestiti
+
+  </h1>
+
+  <div class="section">
+
+    <div class="form">
+
+      <div class="form-row">
+
+        <input class="input"
+              placeholder="ISBN"
+              #isbnInput
+              [value]="store.filters().isbn"
+              (input)="store.updateFilter('isbn', isbnInput.value)">
+
+        <select class="input"
+                [value]="store.filters().status ?? ''"
+                #statusInput
+                (change)="store.updateStatusFilter(statusInput.value)">
+
+            <option value="">
+              Tutti gli stati
+            </option>
+
+            @for (status of statuses; track status.value) {
+
+              <option [value]="status.value">
+                {{ status.label }}
+              </option>
+
+            }
+
+        </select>
+
+        <input *hasRole="['ROLE_ADMIN', 'ROLE_LIBRARIAN']" class="input"
+              placeholder="User Id"
+              #userInput
+              [value]="store.filters().userId"
+              (input)="store.updateFilter('userId', userInput.value)">
+
+      </div>
+
+      <div class="form-actions">
+
+        <button class="button button-secondary" (click)="store.clearFilters()">
+          Reset
+        </button>
+
+      </div>
+    
+    </div>
+
+  </div>
+  
+  <div class="section">
+
+    @if (store.filteredLoans().length === 0) {
+
+      <p class="empty">
+        Non ci sono prestiti
+      </p>
+
+    } @else {
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th *hasRole="['ROLE_ADMIN', 'ROLE_LIBRARIAN']">ID Prestito</th>
+            <th>ISBN</th>
+            <th *hasRole="['ROLE_ADMIN', 'ROLE_LIBRARIAN']">ID Utente</th>
+            <th>Stato</th>            
+          </tr>
+        </thead>
+
+        <tbody>
+          @for (loan of store.filteredLoans(); track loan.id) {
+
+            <tr>
+              <td *hasRole="['ROLE_ADMIN', 'ROLE_LIBRARIAN']">
+                {{ loan.id }}
+              </td>
+              <td>
+                {{ loan.isbn }}
+              </td>
+              <td *hasRole="['ROLE_ADMIN', 'ROLE_LIBRARIAN']">
+                {{ loan.userId }}
+              </td>
+              <td>
+                {{ statusLabels[loan.status] }}
+              </td>
+            </tr>
+
+          }
+
+        </tbody>
+
+      </table>
+
+    }
+
+  </div>
+
+</div>

@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NavbarComponent } from './layout/navbar/navbar';
@@ -14,7 +14,7 @@ import { AuthService } from './core/auth/auth.service';
 export class AppComponent {
   protected readonly title = signal('library-frontend');
 
-  constructor(private auth: AuthService) {}
+  private readonly auth = inject(AuthService);
 
   isLoggedIn(): boolean {
     return this.auth.isLoggedIn();

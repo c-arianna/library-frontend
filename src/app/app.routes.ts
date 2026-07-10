@@ -25,6 +25,10 @@ export const routes: Routes = [
     loadComponent: () => import('./features/books/book-detail/book-detail').then(m => m.BookDetail)
   },
   {
+    path: 'loans',
+    loadComponent: () => import('./features/loans/loans').then(m => m.LoansComponent)
+  },
+  {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'

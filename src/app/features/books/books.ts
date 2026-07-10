@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -18,7 +18,9 @@ import { RouterLink } from '@angular/router';
 })
 export class BooksComponent implements OnInit {
   
-  constructor(public store: BooksStore, private dialog: MatDialog, private snackBar : MatSnackBar) {}
+  readonly store = inject(BooksStore);
+  private readonly dialog = inject(MatDialog);
+  private readonly snackBar = inject(MatSnackBar);
 
   ngOnInit() {
     this.store.loadBooks();

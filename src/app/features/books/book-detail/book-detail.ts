@@ -1,5 +1,5 @@
-import { Component, inject } from '@angular/core';
-import { ActivatedRoute, RouterLink} from '@angular/router';
+import { Component, inject, OnInit } from '@angular/core';
+import { ActivatedRoute, Router, RouterLink} from '@angular/router';
 import { BooksStore } from '../books.store';
 import { HasRoleDirective } from '../../../core/directives/has.role';
 import { MatDialog } from '@angular/material/dialog';
@@ -12,19 +12,18 @@ import { BookCopiesDialogData } from '../book-copies-dialog/book-copies-dialog.m
   templateUrl: './book-detail.html',
   styleUrl: './book-detail.scss',
 })
-export class BookDetail {
-  
-  private route = inject(ActivatedRoute);
+export class BookDetail implements OnInit {
+   
+  readonly store = inject(BooksStore);
+  private readonly dialog = inject(MatDialog);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
 
-  constructor(public store: BooksStore, private dialog: MatDialog) {
-
+  ngOnInit() {
     const isbn = this.route.snapshot.paramMap.get('isbn');
-
     if (isbn) {
       this.store.loadBook(isbn);
     }
-
-    this.store.startRealtimeUpdates();
   }
 
   openAddCopiesDialog() {
@@ -71,6 +70,21 @@ export class BookDetail {
 
   }
 
+  openLoans() {
+    const book = this.store.detail();
 
+    if (!book) {
+      return;
+    }
+
+    this.router.navigate(
+      ['/loans'],
+      {
+        queryParams: {
+          isbn: book.isbn
+        }
+      }
+    );
+  }
 
 }
