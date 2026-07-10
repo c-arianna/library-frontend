@@ -7,6 +7,8 @@ import { BookDto } from '../../shared/models/book.dto';
 import { BookListResponseDto } from '../../shared/models/book-list-response.dto';
 import { AddBookResponseDto } from '../../shared/models/book-registered-response.dto';
 import { BookDetailDto } from '../../shared/models/book-detail.dto';
+import { BookRemoveCopiesRequest } from '../../shared/models/book-remove-copies-request.dto';
+import { BookAddCopiesRequest } from '../../shared/models/book-add-copies-request.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -46,6 +48,14 @@ export class BookService {
 
   getBook(isbn: string) {
     return this.http.get<BookDetailDto>(`${this.apiUrl}/${isbn}`);
+  }
+
+  addCopies(isbn: string, request: BookAddCopiesRequest) {
+    return this.http.post(`/api/books/${isbn}/copies/add`, request);
+  }
+
+  removeCopies(isbn: string, request : BookRemoveCopiesRequest) {
+    return this.http.post(`/api/books/${isbn}/copies/remove`, request);
   }
 
 }

@@ -1,0 +1,74 @@
+<h2 mat-dialog-title>
+
+  {{ title }}
+
+</h2>
+
+<form [formGroup]="form">
+
+  <mat-dialog-content>
+
+    <div class="form-column">
+
+      <mat-form-field>
+
+        <mat-label>
+          Quantità
+        </mat-label>
+
+        <input matInput type="number" formControlName="quantity">
+
+          @if (isInvalid('quantity') && form.controls.quantity.hasError('required')) {
+              <mat-error>
+              Quantità obbligatoria
+              </mat-error>
+          }
+
+          @if (isInvalid('quantity') && form.controls.quantity.hasError('min')) {
+              <mat-error>
+              Quantità minima 1
+              </mat-error>
+          }
+
+        @if (isInvalid('quantity') && form.controls.quantity.hasError('max')) {
+              <mat-error>
+              Quantità massima:
+              {{ data.availableCopies }}
+              </mat-error>
+        }
+
+      </mat-form-field>
+
+      @if (isRemove) {
+
+        <mat-form-field>
+          <mat-label>
+            Motivazione
+          </mat-label>
+
+          <textarea matInput rows="4" formControlName="reason"></textarea>
+        </mat-form-field>
+
+      }
+
+    </div>
+
+  </mat-dialog-content>
+
+</form>
+
+<mat-dialog-actions>
+
+  <button mat-button type="button" (click)="reset()">
+    Reset
+  </button>
+
+  <button mat-button type="button" (click)="close()">
+    Cancella
+  </button>
+
+  <button mat-raised-button color="primary" type="button" (click)="submit()">
+    Salva
+  </button>
+
+</mat-dialog-actions>

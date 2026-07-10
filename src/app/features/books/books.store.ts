@@ -4,10 +4,9 @@ import { finalize, Observable, Subscription } from 'rxjs';
 
 import { BookDto } from '../../shared/models/book.dto';
 import { BookFiltersDto } from '../../shared/models/book-filters.dto';
-import { BookRegisteredEventDto } from '../../shared/models/events/book-registered-event.dto';
+import { BookUpdatedPayloadEventDto } from '../../shared/models/events/book-registered-payload-event.dto';
 import { BookService } from '../../core/services/book.service';
 import { NotificationService } from '../../core/services/notification.service';
-import { mapRegisteredEventToBook } from '../../shared/mapper/book.mapper';
 import { BookDetailDto } from '../../shared/models/book-detail.dto';
 import { mapError } from '../../shared/utils/error.mapper';
 
@@ -94,7 +93,9 @@ export class BooksStore {
 
     });
 
-  constructor(private bookService: BookService, private notificationService: NotificationService) {}
+  constructor(private bookService: BookService, private notificationService: NotificationService) {
+    this.startRealtimeUpdates();
+  }
   
   private executeRequest<T>(request$: Observable<T>, onSuccess: (result: T) => void) {
 
@@ -127,7 +128,7 @@ export class BooksStore {
     this.executeRequest(this.bookService.getBook(isbn), book => this.selectedBook.set(book));
   }
 
-  startRealtimeUpdates(): void {
+  startRealtimeUpdates() {
 
     if (this.wsSub) {
       return;
@@ -135,31 +136,14 @@ export class BooksStore {
 
     this.wsSub = this.notificationService.messages().subscribe(event => {
 
-          if (event.eventType === 'BOOK_REGISTERED') {
+      switch(event.eventType){
 
-            const payload = event.payload;
+        case 'BOOK_UPDATED':
+          this.handleBookUpdated(event.payload);
+          break;
+        }
 
-            const book = mapRegisteredEventToBook(payload);
-
-            this.books.update(list => {
-
-              const exists = list.some(b => b.isbn === book.isbn);
-
-              return exists ? list : [book, ...list];
-
-            });
-
-          }
-
-        });
-
-  }
-
-  stopRealtimeUpdates(): void {
-
-    this.wsSub?.unsubscribe();
-
-    this.wsSub = undefined;
+    });
 
   }
 
@@ -172,7 +156,7 @@ export class BooksStore {
 
   }
 
-  clearFilters(): void {
+  clearFilters() {
 
     this.filters.set({
       title: '',
@@ -180,6 +164,52 @@ export class BooksStore {
       isbn: '',
       onlyAvailable: false
     });
+
+  }
+
+  private handleBookUpdated(payload: BookUpdatedPayloadEventDto) {
+    this.updateBookList(payload);
+    this.updateSelectedBook(payload);
+  }
+
+  private updateBookList(payload: BookUpdatedPayloadEventDto) {
+
+    const updatedBook: BookDto = {
+      isbn: payload.isbn,
+      title: payload.title,
+      author: payload.author,
+      available: payload.available
+    };
+
+    this.books.update(list => {
+
+      const index = list.findIndex(book => book.isbn === payload.isbn);
+
+      if (index === -1) {
+        return [
+          updatedBook,
+          ...list
+        ];
+
+      }
+
+      return list.map(book =>
+        book.isbn === payload.isbn
+          ? updatedBook
+          : book
+      );
+
+    });
+
+  }
+
+  private updateSelectedBook(payload: BookUpdatedPayloadEventDto) {
+
+    const selectedBook = this.selectedBook();
+
+    if (selectedBook && selectedBook.isbn === payload.isbn) {
+      this.selectedBook.set(payload);
+    }
 
   }
 

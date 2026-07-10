@@ -2,10 +2,8 @@ import { Injectable } from '@angular/core';
 import { Client } from '@stomp/stompjs';
 import { Observable, Subject } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
-import { WebsocketEvent } from '../../shared/models/websocket-event.dto';
-import { BookRegisteredEventDto } from '../../shared/models/events/book-registered-event.dto';
+import { NotificationEvent } from '../../shared/models/events/notification-events.dto';
 
-export type NotificationEvent = WebsocketEvent<BookRegisteredEventDto>;
 @Injectable({ providedIn: 'root' })
 export class NotificationService {
 
@@ -16,8 +14,6 @@ export class NotificationService {
 
     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
     const wsUrl = `${protocol}//${window.location.host}/ws/notifications`;
-
-    new WebSocket(wsUrl);
 
     this.client = new Client({
 

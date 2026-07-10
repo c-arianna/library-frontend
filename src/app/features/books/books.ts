@@ -16,15 +16,12 @@ import { RouterLink } from '@angular/router';
   templateUrl: './books.html',
   styleUrl: './books.scss'
 })
-export class BooksComponent implements OnInit, OnDestroy {
+export class BooksComponent implements OnInit {
   
   constructor(public store: BooksStore, private dialog: MatDialog, private snackBar : MatSnackBar) {}
 
   ngOnInit() {
-
     this.store.loadBooks();
-    this.store.startRealtimeUpdates();
-
   }
 
   clearFilters() {
@@ -42,8 +39,6 @@ export class BooksComponent implements OnInit, OnDestroy {
 
       if (result) {
 
-        console.log('Libro creato → aggiornato da WebSocket');
-
         this.snackBar.open('Libro in inserimento...', 'Chiudi', {
             duration: 2000
         });
@@ -51,10 +46,6 @@ export class BooksComponent implements OnInit, OnDestroy {
       }
 
     });
-  }
-
-  ngOnDestroy() {
-    this.store.stopRealtimeUpdates();
   }
 
 }

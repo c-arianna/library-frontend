@@ -16,6 +16,18 @@
 
     <div class="card section-card details-card">
 
+      <nav class="breadcrumb">
+
+        <a routerLink="/books">
+          Catalogo
+        </a>
+
+        <span>/</span>
+
+        <span>{{ book.title }}</span>
+
+      </nav>
+
       <h1 class="book-title">
 
         <span class="material-icons">
@@ -138,13 +150,13 @@
 
       <div class="actions">
 
-        <button class="button button-primary">
+        <button class="button button-primary" (click)="openAddCopiesDialog()">
           Aggiungi copie
         </button>
 
         @if (book.availableCopies > 0) {
 
-          <button class="button button-secondary">
+          <button class="button button-secondary" (click)="openRemoveCopiesDialog()">
             Rimuovi copie
           </button>
 
