@@ -1,12 +1,12 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { HasRoleDirective } from '../../core/directives/has.role';
 import { LoansStore } from './loans.store';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-loans',
   standalone: true,
-  imports: [ HasRoleDirective],
+  imports: [ HasRoleDirective, RouterLink],
   templateUrl: './loans.html',
   styleUrl: './loans.scss'
 })

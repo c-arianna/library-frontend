@@ -1,0 +1,156 @@
+<div class="container">
+
+  @if (store.loading()) {
+    <div class="card section-card">
+      Caricamento dettaglio prestito...
+    </div>
+
+  }
+
+  @if (store.error()) {
+    <div class="card section-card">
+      {{ store.error() }}
+    </div>
+
+  }
+
+  @if (store.selectedLoan(); as loan) {
+
+    <div class="card section-card details-card">
+
+      <nav class="breadcrumb">
+
+        <a routerLink="/loans">
+          Prestiti
+        </a>
+
+        <span>/</span>
+
+        <span>
+          Dettaglio prestito
+        </span>
+
+      </nav>
+
+      <h1 class="page-title icon-text">
+
+        <span class="material-icons">
+          assignment
+        </span>
+
+        Prestito
+
+        <span class="badge"
+                [class.pending]="loan.status === 'PENDING'"
+                [class.confirmed]="loan.status === 'CONFIRMED'"
+                [class.reserved]="loan.status === 'RESERVED'"
+                [class.returned]="loan.status === 'RETURNED'"
+                [class.failed]="loan.status === 'FAILED'"
+                [class.canceled]="loan.status === 'CANCELED'">
+
+            {{ statusLabels[loan.status] }}
+
+          </span>
+
+      </h1>
+
+      <div class="loan-details">
+
+        <div class="detail-row">
+
+          <span class="detail-label">
+            ID Prestito
+          </span>
+
+          <span class="detail-value">
+            {{ loan.id }}
+          </span>
+
+        </div>
+
+        <div class="detail-row">
+
+          <span class="detail-label">
+            ISBN
+          </span>
+
+          <span class="detail-value">
+            {{ loan.isbn }}
+          </span>
+
+        </div>
+
+        <div class="detail-row">
+
+          <span class="detail-label">
+            Inizio
+          </span>
+
+          <span class="detail-value">
+            {{ loan.start | date : 'dd/MM/yyyy' }}
+          </span>
+
+        </div>
+
+        <div class="detail-row">
+
+          <span class="detail-label">
+            Fine
+          </span>
+
+          <span class="detail-value">
+            {{ loan.end ? (loan.end | date : 'dd/MM/yyyy') : '-' }}
+          </span>
+
+        </div>
+
+        <div *hasRole="['ROLE_ADMIN', 'ROLE_LIBRARIAN']" class="detail-row">
+
+          <span class="detail-label">
+              User Id
+          </span>
+
+          <span class="detail-value">
+              {{ loan.userId }}
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="actions">
+
+        <button
+          class="button button-secondary" (click)="openBookDetail()">
+          Visualizza libro
+        </button>
+
+    </div>
+
+    @if (loan.status === 'CONFIRMED' || loan.status === 'RESERVED'){
+        <div *hasRole="['ROLE_ADMIN', 'ROLE_LIBRARIAN']" class="actions">
+
+          @if (loan.status === 'RESERVED'){
+            
+            <button class="button button-primary">
+                Conferma
+            </button>
+
+            <button class="button button-secondary">
+              Annulla
+            </button>
+          
+          } @else if (loan.status === 'CONFIRMED'){
+            
+            <button class="button button-primary">
+              Registra Reso
+            </button>
+          }
+          </div>
+    }
+  }
+
+</div>

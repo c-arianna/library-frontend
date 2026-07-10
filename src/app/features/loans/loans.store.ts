@@ -5,6 +5,7 @@ import { LoanService } from "../../core/services/loan.service";
 import { BaseFeatureStore } from "../../core/store/base-feature.store";
 import { LoanStatus } from "../../shared/models/loan-status.dto";
 import { Router } from "@angular/router";
+import { LoanDetailDto } from "../../shared/models/loan-detail.dto";
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,8 @@ import { Router } from "@angular/router";
 export class LoansStore extends BaseFeatureStore {
 
   readonly loans = signal<LoanDto[]>([]);
+
+  readonly selectedLoan = signal<LoanDetailDto | null>(null);
 
   readonly filters = signal<LoanFiltersDto>({
     isbn: '',
@@ -42,6 +45,10 @@ export class LoansStore extends BaseFeatureStore {
 
   loadLoans() {
     this.executeRequest(this.loanService.getLoans(), loans => this.loans.set(loans));
+  }
+
+  loadLoan(loanId: string) {
+   this.executeRequest(this.loanService.getLoan(loanId), loan => this.selectedLoan.set(loan));
   }
 
   updateFilter<K extends keyof LoanFiltersDto>(field: K, value: LoanFiltersDto[K]){

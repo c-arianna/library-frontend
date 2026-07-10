@@ -77,7 +77,8 @@
             <th *hasRole="['ROLE_ADMIN', 'ROLE_LIBRARIAN']">ID Prestito</th>
             <th>ISBN</th>
             <th *hasRole="['ROLE_ADMIN', 'ROLE_LIBRARIAN']">ID Utente</th>
-            <th>Stato</th>            
+            <th>Stato</th>         
+            <th>Dettaglio</th>   
           </tr>
         </thead>
 
@@ -97,6 +98,13 @@
               <td>
                 {{ statusLabels[loan.status] }}
               </td>
+               <td>
+              <a [routerLink]="['/loans', loan.id]">
+                <span class="material-icons">
+                visibility
+                </span>
+              </a>
+            </td>
             </tr>
 
           }

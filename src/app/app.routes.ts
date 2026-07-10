@@ -29,6 +29,10 @@ export const routes: Routes = [
     loadComponent: () => import('./features/loans/loans').then(m => m.LoansComponent)
   },
   {
+    path: 'loans/:loanId',
+    loadComponent: () => import('./features/loans/loan-detail/loan-detail').then(m => m.LoanDetailComponent)
+  },
+  {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'

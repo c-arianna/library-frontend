@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { map, Observable } from "rxjs";
 import { LoanDto } from "../../shared/models/loan.dto";
 import { LoanListResponseDto } from "../../shared/models/loan-list-response.dto";
+import { LoanDetailDto } from "../../shared/models/loan-detail.dto";
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,10 @@ export class LoanService {
 
   getLoans(): Observable<LoanDto[]> {    
     return this.http.get<LoanListResponseDto>(this.apiUrl).pipe(map(response => response.loans));
+  }
+
+  getLoan(loanId: string) {
+    return this.http.get<LoanDetailDto>(`${this.apiUrl}/${loanId}`);
   }
 
 }

@@ -1,0 +1,146 @@
+.section-card {
+  width: 100%;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  margin-bottom: var(--spacing-md);
+  font-size: .9rem;
+}
+
+.breadcrumb a {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.details-card {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.loan-details {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(220px, 1fr));
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-sm);
+}
+
+.page-title {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-top: 0;
+  margin-bottom: var(--spacing-lg);
+  font-size: 2rem;
+}
+
+.page-title .material-icons {
+  color: var(--color-primary);
+}
+
+.detail-row {
+  min-height: 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-elevated);
+  box-shadow: var(--shadow-sm);
+}
+
+.detail-row:last-child {
+  border-bottom: none;
+}
+
+.detail-label {
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  text-align: left;
+}
+
+.detail-value {
+  text-align: left;
+  word-break: break-word;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-md);
+}
+
+.actions button {
+  min-width: 180px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: .5rem 1rem;
+  border-radius: 999px;
+  font-size: .9rem;
+  font-weight: 600;
+}
+
+.badge.reserved {
+  background: rgba(255, 152, 0, .15);
+  color: #ff9800;
+}
+
+.badge.confirmed {
+  background: rgba(46, 125, 50, .15);
+  color: var(--color-success);
+}
+
+.badge.returned {
+  background: rgba(25, 118, 210, .15);
+  color: #1976d2;
+}
+
+.badge.pending {
+  background: rgba(255, 193, 7, .15);
+  color: #b8860b;
+}
+
+.badge.canceled {
+  background: rgba(211, 47, 47, .15);
+  color: var(--color-danger);
+}
+
+.badge.failed {
+  background: rgba(96, 125, 139, .15);
+  color: #607d8b;
+}
+
+@media (max-width: 768px) {
+
+  .details-card {
+    padding: var(--spacing-lg);
+  }
+
+  .detail-row {
+    grid-template-columns: 1fr;
+    gap: .5rem;
+
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .actions button {
+    width: 100%;
+  }
+
+}
