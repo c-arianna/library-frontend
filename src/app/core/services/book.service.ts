@@ -19,27 +19,8 @@ export class BookService {
 
   constructor(private http: HttpClient) {}
 
-  getBooks(filters?: BookFiltersDto): Observable<BookDto[]> {
-
-    let params = new HttpParams();
-
-    if (filters?.title) {
-      params = params.set('title', filters.title);
-    }
-
-    if (filters?.author) {
-      params = params.set('author', filters.author);
-    }
-
-    if (filters?.isbn) {
-      params = params.set('isbn', filters.isbn);
-    }
-
-    if (filters?.onlyAvailable !== undefined) {
-      params = params.set('onlyAvailable', String(filters.onlyAvailable));
-    }
-
-    return this.http.get<BookListResponseDto>(this.apiUrl, { params }).pipe(map(response => response.books));
+  getBooks(): Observable<BookDto[]> {
+    return this.http.get<BookListResponseDto>(this.apiUrl).pipe(map(response => response.books));
   }
 
   addBook(book: AddBookRequestDto) {
