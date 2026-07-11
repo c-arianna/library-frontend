@@ -26,11 +26,21 @@ export const routes: Routes = [
   },
   {
     path: 'loans',
+    canActivate: [authGuard],
     loadComponent: () => import('./features/loans/loans').then(m => m.LoansComponent)
   },
   {
     path: 'loans/:loanId',
+    canActivate: [authGuard],
     loadComponent: () => import('./features/loans/loan-detail/loan-detail').then(m => m.LoanDetailComponent)
+  },
+  {
+    path: 'users',
+    loadComponent: () => import('./features/users/users').then(c => c.UsersComponent),
+    canActivate: [authGuard],
+    data: {
+      roles: ['ROLE_ADMIN', 'ROLE_LIBRARIAN']
+    }
   },
   {
     path: '',

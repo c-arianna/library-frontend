@@ -32,6 +32,13 @@
       </span>
     </a>
 
+    <a *hasRole="['ROLE_ADMIN','ROLE_LIBRARIAN']" routerLink="/users" routerLinkActive="active" (click)="menuOpen = false">
+      <span class="icon-text">
+        <span class="material-icons">groups</span>
+        Utenti registrati
+      </span>
+    </a>
+
   </div>
 
   <div class="actions">

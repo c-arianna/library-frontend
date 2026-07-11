@@ -1,0 +1,43 @@
+<div class="container">
+
+    <h1 class="page-title icon-text">
+        <span class="material-icons">groups</span>
+        Utenti registrati
+    </h1>
+
+    <div class="section">
+
+        @if (store.readers().length === 0) {
+            <p class="empty">Nessun utente registrato.</p>
+        }@else {
+
+            <table class="table">
+
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Email</th>
+                        <th>Stato</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (user of store.readers(); track user.userId) {
+                        <tr>
+                            <td>{{ user.userId }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>
+                                <span class="badge"
+                                    [class.active]="user.status === 'ACTIVE'"
+                                    [class.suspended]="user.status === 'SUSPENDED'"
+                                    [class.disabled]="user.status === 'DISABLED'">
+
+                                    {{ statusLabels[user.status] }}
+                                </span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
