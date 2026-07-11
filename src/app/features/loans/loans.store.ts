@@ -136,6 +136,18 @@ export class LoansStore extends BaseFeatureStore {
         this.selectedLoan.set(mapLoanNotificationToDetail(payload));
       }
   
-    }
+  }
+
+  confirmLoan(loanId: string) {
+    this.executeRequest(this.loanService.confirmLoan(loanId));
+  }
+
+  cancelLoan(loanId: string) {
+    this.executeRequest(this.loanService.cancelLoan(loanId));
+  }
+
+  returnLoan(loanId: string) {
+    this.executeRequest(this.loanService.returnLoan(loanId));
+  }
     
 }

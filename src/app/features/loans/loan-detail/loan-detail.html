@@ -135,17 +135,17 @@
 
           @if (loan.status === 'RESERVED'){
             
-            <button class="button button-primary">
+            <button class="button button-primary" (click)="confirmLoan()">
                 Conferma
             </button>
 
-            <button class="button button-secondary">
+            <button class="button button-secondary" (click)="cancelLoan()">
               Annulla
             </button>
           
           } @else if (loan.status === 'CONFIRMED'){
             
-            <button class="button button-primary">
+            <button class="button button-primary" (click)="returnLoan()">
               Registra Reso
             </button>
           }

@@ -1,0 +1,30 @@
+<div class="dialog-header">
+
+  <h2>
+    {{ data.title }}
+  </h2>
+
+  <button class="icon-button" mat-dialog-close>
+
+      <span class="material-icons">
+        close
+      </span>
+
+    </button>
+</div>
+
+<mat-dialog-content>
+   <p>{{ data.message }}</p>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+
+  <button mat-button mat-dialog-close>
+    Cancella
+  </button>
+
+  <button mat-raised-button color="primary" [mat-dialog-close]="true">
+    {{ data.confirmLabel }}
+  </button>
+
+</mat-dialog-actions>

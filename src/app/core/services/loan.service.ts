@@ -28,4 +28,16 @@ export class LoanService {
     return this.http.post<LoanCreateResponse>(this.apiUrl, request);
   }
 
+  confirmLoan(loanId: string) {
+    return this.http.post<void>(`${this.apiUrl}/${loanId}/confirm`, {});
+  }
+
+  cancelLoan(loanId: string) {
+    return this.http.post<void>(`${this.apiUrl}/${loanId}/reject`, {});
+  }
+
+  returnLoan(loanId: string) {
+    return this.http.post<void>(`${this.apiUrl}/${loanId}/return`, {});
+  }
+
 }

@@ -105,13 +105,18 @@ body.light-theme {
 }
 
 .custom-dialog .dialog-header .icon-button {
-  background: transparent;
-  color: var(--color-text);
-}
+  width: 40px;
+  height: 40px;
 
-.custom-dialog .dialog-header .icon-button:hover {
-  background: var(--color-surface-variant);
-  border-radius: 50%;
+  border: none;
+  background: transparent;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  color: var(--color-text);
 }
 
 .mat-mdc-form-field.mat-mdc-form-field-invalid .mdc-notched-outline {

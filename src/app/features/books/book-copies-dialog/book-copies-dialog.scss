@@ -15,3 +15,10 @@ mat-dialog-actions {
   gap: var(--spacing-sm);
   margin-top: var(--spacing-md);
 }
+
+.dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px 12px;
+}

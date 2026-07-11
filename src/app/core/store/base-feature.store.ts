@@ -8,7 +8,7 @@ export abstract class BaseFeatureStore {
 
   readonly error = signal<string | null>(null);
 
-  protected executeRequest<T>(request$: Observable<T>, onSuccess: (result: T) => void) {
+  protected executeRequest<T>(request$: Observable<T>, onSuccess?: (result: T) => void) {
 
     this.loading.set(true);
     this.error.set(null);
@@ -20,14 +20,12 @@ export abstract class BaseFeatureStore {
         })
       )
       .subscribe({
-        next: onSuccess,
+        next: result =>{
+          onSuccess?.(result);
+        },
 
         error: err => {
-
-          this.error.set(
-            mapError(err?.error?.code)
-          );
-
+          this.error.set(mapError(err?.error?.code));
         }
       });
 
