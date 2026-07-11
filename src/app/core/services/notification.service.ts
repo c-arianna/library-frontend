@@ -23,15 +23,18 @@ export class NotificationService {
           Authorization: `Bearer ${this.auth.getToken()}`
         },
 
-        reconnectDelay: 0,
+        reconnectDelay: 5000,
 
         onConnect: () => {
           console.log('WebSocket connected');
 
-          this.client.subscribe('/topic/books', message => {
-            const event = JSON.parse(message.body);
-            this.subject.next(event);
-          });
+          this.subscribeToTopic('/topic/books');
+          
+          if (auth.hasRole('ROLE_READER')) {
+            this.subscribeToTopic('/user/queue/loans');
+          }else{
+            this.subscribeToTopic('/topic/loans');
+          }
         },
 
         onDisconnect: () => {
@@ -64,10 +67,19 @@ export class NotificationService {
     return this.subject.asObservable();
   }
 
-  disconnect(): void {
+  disconnect() {
     if (this.client?.active) {
       this.client.deactivate();
     }
+  }
+
+  private subscribeToTopic(topic: string) {
+
+    this.client.subscribe(topic, message => {
+      const event = JSON.parse(message.body);
+      this.subject.next(event);
+    });
+
   }
 
 }

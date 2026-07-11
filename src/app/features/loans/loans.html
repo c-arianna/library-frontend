@@ -96,7 +96,17 @@
                 {{ loan.userId }}
               </td>
               <td>
-                {{ statusLabels[loan.status] }}
+                <span class="badge"
+                  [class.pending]="loan.status === 'PENDING'"
+                  [class.confirmed]="loan.status === 'CONFIRMED'"
+                  [class.reserved]="loan.status === 'RESERVED'"
+                  [class.returned]="loan.status === 'RETURNED'"
+                  [class.failed]="loan.status === 'FAILED'"
+                  [class.canceled]="loan.status === 'CANCELED'">
+
+                    {{ statusLabels[loan.status] }}
+
+                </span>
               </td>
                <td>
               <a [routerLink]="['/loans', loan.id]">

@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 
 import { BookDto } from '../../shared/models/book.dto';
 import { BookFiltersDto } from '../../shared/models/book-filters.dto';
-import { BookUpdatedPayloadEventDto } from '../../shared/models/events/book-registered-payload-event.dto';
+import { BookUpdatedPayloadEventDto } from '../../shared/models/events/book-updated-payload-event.dto';
 import { BookService } from '../../core/services/book.service';
 import { NotificationService } from '../../core/services/notification.service';
 import { BookDetailDto } from '../../shared/models/book-detail.dto';
@@ -111,13 +111,12 @@ export class BooksStore extends BaseFeatureStore {
 
     this.wsSub = this.notificationService.messages().subscribe(event => {
 
-      switch(event.eventType){
+      if (event.eventType !== 'BOOK_UPDATED') {
+        return;
+      }
 
-        case 'BOOK_UPDATED':
-          this.handleBookUpdated(event.payload);
-          break;
-        }
-
+      this.handleBookUpdated(event.payload);
+     
     });
 
   }
@@ -144,7 +143,7 @@ export class BooksStore extends BaseFeatureStore {
 
   private handleBookUpdated(payload: BookUpdatedPayloadEventDto) {
     this.updateBookList(payload);
-    this.updateSelectedBook(payload);
+    this.updateBookDetail(payload);
   }
 
   private updateBookList(payload: BookUpdatedPayloadEventDto) {
@@ -178,7 +177,7 @@ export class BooksStore extends BaseFeatureStore {
 
   }
 
-  private updateSelectedBook(payload: BookUpdatedPayloadEventDto) {
+  private updateBookDetail(payload: BookUpdatedPayloadEventDto) {
 
     const selectedBook = this.selectedBook();
 

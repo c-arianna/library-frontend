@@ -166,7 +166,7 @@
 
         @if (book.available) {
 
-          <button *hasRole="'ROLE_READER'" class="button button-primary">
+          <button *hasRole="'ROLE_READER'" class="button button-primary" (click)="openLoanCreateDialog()">
             Crea prestito
           </button>
 

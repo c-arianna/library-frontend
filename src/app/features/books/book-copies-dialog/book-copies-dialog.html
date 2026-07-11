@@ -1,8 +1,14 @@
-<h2 mat-dialog-title>
+<div class="dialog-header">
 
-  {{ title }}
+  <h2>
+    {{ title }}
+  </h2>
 
-</h2>
+  <button class="icon-button" (click)="close()">
+    <span class="material-icons">close</span>
+  </button>
+
+</div>
 
 <form [formGroup]="form">
 
@@ -67,7 +73,7 @@
     Cancella
   </button>
 
-  <button mat-raised-button color="primary" type="button" (click)="submit()">
+  <button mat-raised-button color="primary" type="button" [disabled]="form.invalid" (click)="submit()">
     Salva
   </button>
 

@@ -5,6 +5,9 @@ import { HasRoleDirective } from '../../../core/directives/has.role';
 import { MatDialog } from '@angular/material/dialog';
 import { BookCopiesDialogComponent } from '../book-copies-dialog/book-copies-dialog';
 import { BookCopiesDialogData } from '../book-copies-dialog/book-copies-dialog.model';
+import { LoanCreateDialogComponent } from '../../loans/loan-create-dialog/loan-create-dialog';
+import { LoanCreateDialogData } from '../../loans/loan-create-dialog/loan-create-dialog.model';
+import { DateAdapter } from '@angular/material/core';
 
 @Component({
   selector: 'app-book-detail',
@@ -85,6 +88,26 @@ export class BookDetail implements OnInit {
         }
       }
     );
+  }
+
+  openLoanCreateDialog() {
+
+    const book = this.store.detail();
+
+    if (!book) {
+      return;
+    }
+
+    this.dialog.open(LoanCreateDialogComponent,
+      {
+        width: '500px',
+        panelClass: 'custom-dialog',
+        data: {
+          isbn: book.isbn
+        } satisfies LoanCreateDialogData
+      }
+    );
+
   }
 
 }

@@ -1,0 +1,78 @@
+<div class="dialog-header">
+
+  <h2>
+    Crea prestito
+  </h2>
+
+  <button class="icon-button" (click)="close()">
+    <span class="material-icons">close</span>
+  </button>
+
+</div>
+
+<form [formGroup]="form">
+
+  <mat-dialog-content>
+
+    <div class="form-column">
+
+      <mat-form-field>
+        <mat-label>
+          ISBN
+        </mat-label>
+
+        <input matInput formControlName="isbn" readonly>
+
+      </mat-form-field>
+
+      <mat-form-field>
+
+        <mat-label>
+          Inizio prestito
+        </mat-label>
+
+        <input matInput [matDatepicker]="startPicker" formControlName="startDate" [min]="minDate">
+
+        <mat-datepicker-toggle matIconSuffix [for]="startPicker"></mat-datepicker-toggle>
+
+        <mat-datepicker #startPicker></mat-datepicker>
+
+        @if (isInvalid('startDate')) {
+          <mat-error>
+            Data inizio obbligatoria
+          </mat-error>
+        }
+
+      </mat-form-field>
+
+      <mat-form-field>
+
+        <mat-label>
+          Fine prestito
+        </mat-label>
+
+        <input matInput [value]="form.controls.endDate.value | date:'dd/MM/yyyy'" readonly>
+
+      </mat-form-field>
+
+    </div>
+
+  </mat-dialog-content>
+
+</form>
+
+<mat-dialog-actions>
+
+  <button mat-button type="button" (click)="reset()">
+    Reset
+  </button>
+
+  <button mat-button type="button" (click)="close()">
+    Cancella
+  </button>
+
+  <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid" (click)="submit()">
+    Salva
+  </button>
+
+</mat-dialog-actions>
