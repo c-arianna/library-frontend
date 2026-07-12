@@ -18,6 +18,7 @@
                         <th>ID</th>
                         <th>Email</th>
                         <th>Stato</th>
+                        <th>Dettaglio</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -33,6 +34,13 @@
 
                                     {{ statusLabels[user.status] }}
                                 </span>
+                            </td>
+                            <td>
+                                <a [routerLink]="['/users', user.userId]">
+                                    <span class="material-icons">
+                                        visibility
+                                    </span>
+                                </a>
                             </td>
                         </tr>
                     }

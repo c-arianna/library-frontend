@@ -1,0 +1,133 @@
+<div class="container">
+
+  @if (store.loading()) {
+
+    <div class="card section-card">
+      Caricamento dettaglio utente...
+    </div>
+
+  }
+
+  @if (store.error()) {
+
+    <div class="error-state">
+
+      <span class="material-icons">
+        error_outline
+      </span>
+
+      <h2>
+        {{ store.error() }}
+      </h2>
+
+      <button class="button button-primary" routerLink="/users">
+        Torna all'elenco utenti
+      </button>
+
+    </div>
+
+  }
+
+  @if (store.selectedUser(); as user) {
+
+    <div class="card details-card">
+
+      <nav class="breadcrumb">
+
+        <a routerLink="/users">
+          Utenti Registrati
+        </a>
+
+        <span>/</span>
+
+        <span>
+          Dettaglio utente
+        </span>
+
+      </nav>
+
+      <div class="title-row">
+
+        <h1 class="page-title icon-text">
+
+            <span class="material-icons">
+                groups
+            </span>
+
+            {{ user.name }} {{ user.lastname }}
+
+            <span class="badge"
+                    [class.active]="user.status === 'ACTIVE'"
+                    [class.suspended]="user.status === 'SUSPENDED'"
+                    [class.disabled]="user.status === 'DISABLED'">
+                        {{ statusLabels[user.status] }}
+            </span>
+
+        </h1>
+
+      </div>
+
+      <div class="user-metadata">
+
+        <div class="metadata-item">
+
+          <span class="metadata-label">
+            ID
+          </span>
+
+          <span class="metadata-value">
+            {{ user.userId }}
+          </span>
+
+        </div>
+
+        <div class="metadata-item">
+
+          <span class="metadata-label">
+            Email
+          </span>
+
+          <span class="metadata-value">
+            {{ user.email }}
+          </span>
+
+        </div>
+
+        <div class="metadata-item">
+
+          <span class="metadata-label">
+            ID Identity Provider
+          </span>
+
+          <span class="metadata-value">
+            {{ user.userIdentityProviderId }}
+          </span>
+
+        </div>
+
+      </div>
+
+      <div *hasRole="['ROLE_ADMIN', 'ROLE_LIBRARIAN']" class="actions">
+
+        <button class="button button-secondary" (click)="openLoans()">
+            Visualizza prestiti
+        </button>
+
+        @if (user.status === 'ACTIVE'){
+            <button *hasRole="['ROLE_ADMIN']" class="button button-secondary" (click)="suspendUser()">
+                Sospendi Utente
+            </button>
+        }
+
+        @if (user.status === 'SUSPENDED'){
+            <button *hasRole="['ROLE_ADMIN']" class="button button-secondary" (click)="reactivateUser()">
+                Riattiva Utente
+            </button>
+        }
+
+      </div>
+    </div>
+        
+  }
+
+</div>

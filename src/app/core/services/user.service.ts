@@ -4,6 +4,7 @@ import { RegisterRequest } from '../../shared/models/register-request.dto';
 import { UserDto } from '../../shared/models/user.dto';
 import { map, Observable } from 'rxjs';
 import { UserListResponseDto } from '../../shared/models/user-list-response.dto';
+import { UserDetailDto } from '../../shared/models/user-detail-dto';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -18,6 +19,10 @@ export class UserService {
 
   getUsers(): Observable<UserDto[]> {
     return this.http.get<UserListResponseDto>(`${this.apiUrl}`).pipe(map(response => response.users));
+  }
+
+  getUser(userId: string) {
+     return this.http.get<UserDetailDto>(`${this.apiUrl}/${userId}`);
   }
 
 }

@@ -7,9 +7,22 @@
 
   }
 
-  @if (store.error()) {
-    <div class="card section-card">
-      {{ store.error() }}
+   @if (store.error()) {
+
+    <div class="error-state">
+
+      <span class="material-icons">
+        error_outline
+      </span>
+
+      <h2>
+        {{ store.error() }}
+      </h2>
+
+      <button class="button button-primary" routerLink="/loans">
+        Torna all'elenco prestiti
+      </button>
+
     </div>
 
   }

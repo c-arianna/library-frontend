@@ -43,6 +43,14 @@ export const routes: Routes = [
     }
   },
   {
+    path: 'users/:userId',
+    loadComponent: () => import('./features/users/user-detail/user-detail').then(c => c.UserDetailComponent),
+    canActivate: [authGuard],
+    data: {
+      roles: ['ROLE_ADMIN', 'ROLE_LIBRARIAN']
+    }
+  },
+  {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'

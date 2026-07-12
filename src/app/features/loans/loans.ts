@@ -35,8 +35,15 @@ export class LoansComponent implements OnInit {
 
   constructor() {
     const isbn = this.route.snapshot.queryParamMap.get('isbn');
+    
     if (isbn) {
       this.store.updateFilter('isbn',isbn);
+    }
+
+    const userId = this.route.snapshot.queryParamMap.get('userId');
+    
+    if (userId) {
+      this.store.updateFilter('userId',userId);
     }
   }
 

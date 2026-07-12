@@ -1,5 +1,5 @@
 import { HttpInterceptorFn } from '@angular/common/http';
-import { from, EMPTY } from 'rxjs';
+import { from, EMPTY, throwError } from 'rxjs';
 import { switchMap, catchError } from 'rxjs/operators';
 import { inject } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
@@ -39,8 +39,8 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     }),
 
     catchError((err) => {
-      console.warn('Errore refresh token:', err);
-      return next(req);
+      console.warn('Errore refresh token:', {request: req.url, error: err});
+      return throwError(() => err);
     })
   );
 };
