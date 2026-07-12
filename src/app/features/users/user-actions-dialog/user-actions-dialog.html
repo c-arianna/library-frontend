@@ -1,7 +1,7 @@
 <div class="dialog-header">
 
     <h2>
-        {{ isSuspend ? 'Sospendi utente' : 'Riattiva utente' }}
+        {{ title }}
     </h2>
 
     <button class="icon-button" (click)="close()">
@@ -40,7 +40,7 @@
     </button>
 
     <button mat-raised-button color="primary" type="button" (click)="submit()">
-      {{ isSuspend ? 'Sospendi' : 'Riattiva' }}
+      {{ confirmLabel }}
     </button>
 
   </mat-dialog-actions>

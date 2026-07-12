@@ -3,7 +3,7 @@
   @if (store.loading()) {
 
     <div class="card section-card">
-      Caricamento dettaglio utente...
+      Caricamento dati utente...
     </div>
 
   }
@@ -20,8 +20,8 @@
         {{ store.error() }}
       </h2>
 
-      <button class="button button-primary" routerLink="/users">
-        Torna all'elenco utenti
+      <button class="button button-primary" routerLink="isProfile() ? '/home' : '/users'">
+        {{ isProfile() ? 'Torna alla home' : 'Torna all’elenco utenti' }}
       </button>
 
     </div>
@@ -34,15 +34,25 @@
 
       <nav class="breadcrumb">
 
-        <a routerLink="/users">
-          Utenti Registrati
-        </a>
+        @if (!isProfile()) {
 
-        <span>/</span>
+          <a routerLink="/users">
+            Utenti Registrati
+          </a>
 
-        <span>
-          Dettaglio utente
-        </span>
+          <span>/</span>
+
+          <span>
+            Dettaglio utente
+          </span>
+
+        } @else {
+
+          <span>
+            Profilo
+          </span>
+
+        }
 
       </nav>
 
@@ -51,7 +61,7 @@
         <h1 class="page-title icon-text">
 
             <span class="material-icons">
-                groups
+              person
             </span>
 
             {{ user.name }} {{ user.lastname }}
@@ -107,7 +117,7 @@
 
       </div>
 
-      <div *hasRole="['ROLE_ADMIN', 'ROLE_LIBRARIAN']" class="actions">
+      <div class="actions">
 
         <button class="button button-secondary" (click)="openLoans()">
             Visualizza prestiti

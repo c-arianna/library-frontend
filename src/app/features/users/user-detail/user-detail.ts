@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { UsersStore } from '../users.store';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { HasRoleDirective } from '../../../core/directives/has.role';
@@ -17,6 +17,7 @@ export class UserDetailComponent implements OnInit {
     private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
     private readonly dialog = inject(MatDialog);
+    readonly isProfile = signal(false);
 
     readonly statusLabels = {
       ACTIVE: 'Attivo',
@@ -26,9 +27,14 @@ export class UserDetailComponent implements OnInit {
 
     ngOnInit() {
       const userId = this.route.snapshot.paramMap.get('userId');
+      this.isProfile.set(!userId);
+
       if (userId) {
         this.store.loadUser(userId);
+        return;
       }
+      
+      this.store.loadProfile();
     }
 
     openLoans() {
@@ -81,7 +87,7 @@ export class UserDetailComponent implements OnInit {
         panelClass: 'custom-dialog',
         data: {
           userId: user.userId,
-          mode: 'unsuspend'
+          action: 'unsuspend'
         }
       }
     );

@@ -5,53 +5,140 @@
     Libreria
   </div>
 
-  <button class="icon-button mobile-toggle" (click)="toggleMenu()">
+  <button
+    class="icon-button mobile-toggle"
+    (click)="toggleMenu()">
+
     <span class="material-icons">menu</span>
+
   </button>
 
-  <div class="links" [class.open]="menuOpen">
+  <div
+    class="links"
+    [class.open]="menuOpen">
 
-    <a routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="menuOpen = false">
+    <a
+      routerLink="/home"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      (click)="menuOpen = false">
+
       <span class="icon-text">
         <span class="material-icons">home</span>
         Home
       </span>
+
     </a>
 
-    <a routerLink="/books" routerLinkActive="active" (click)="menuOpen = false">
+    <a
+      routerLink="/books"
+      routerLinkActive="active"
+      (click)="menuOpen = false">
+
       <span class="icon-text">
         <span class="material-icons">menu_book</span>
         Catalogo
       </span>
+
     </a>
 
-    <a routerLink="/loans" routerLinkActive="active" (click)="menuOpen = false">
+    <a
+      routerLink="/loans"
+      routerLinkActive="active"
+      (click)="menuOpen = false">
+
       <span class="icon-text">
         <span class="material-icons">assignment</span>
         Prestiti
       </span>
+
     </a>
 
-    <a *hasRole="['ROLE_ADMIN','ROLE_LIBRARIAN']" routerLink="/users" routerLinkActive="active" (click)="menuOpen = false">
+    <a
+      *hasRole="['ROLE_ADMIN','ROLE_LIBRARIAN']"
+      routerLink="/users"
+      routerLinkActive="active"
+      (click)="menuOpen = false">
+
       <span class="icon-text">
         <span class="material-icons">groups</span>
         Utenti registrati
       </span>
+
     </a>
 
   </div>
 
   <div class="actions">
 
-    <span class="username">{{ username }}</span>
+    <button
+      class="user-menu-button"
+      [matMenuTriggerFor]="userMenu">
 
-    <button class="button button-secondary" (click)="logout()">
-      <span class="material-icons">logout</span>
-      Logout
+      <span class="material-icons">
+        account_circle
+      </span>
+
+      <span class="username">
+        {{ name }}
+      </span>
+
+      <span class="material-icons">
+        arrow_drop_down
+      </span>
+
     </button>
 
-    <button class="icon-button" (click)="theme.toggle()">
-        <span class="material-icons">{{ theme.isDark() ? 'light_mode' : 'dark_mode' }}</span>
+    <mat-menu #userMenu="matMenu" xPosition="before">
+
+      <button
+        *hasRole="['ROLE_READER']"
+        mat-menu-item
+        routerLink="/profile">
+
+        <span class="material-icons">
+          person
+        </span>
+
+        <span>Profilo</span>
+
+      </button>
+
+      <button
+        *hasRole="['ROLE_READER']"
+        mat-menu-item
+        (click)="unsubscribe()">
+
+        <span class="material-icons">
+          person_remove
+        </span>
+
+        <span>Disiscriviti</span>
+
+      </button>
+
+      <button
+        mat-menu-item
+        (click)="logout()">
+
+        <span class="material-icons">
+          logout
+        </span>
+
+        <span>Logout</span>
+
+      </button>
+
+    </mat-menu>
+
+    <button
+      class="icon-button"
+      (click)="theme.toggle()">
+
+      <span class="material-icons">
+        {{ theme.isDark() ? 'light_mode' : 'dark_mode' }}
+      </span>
+
     </button>
 
   </div>

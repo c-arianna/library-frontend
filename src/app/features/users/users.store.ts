@@ -6,6 +6,7 @@ import { UserDetailDto } from "../../shared/models/user-detail-dto";
 import { NotificationService } from "../../core/services/notification.service";
 import { Subscription } from "rxjs";
 import { UserUpdatedPayloadEventDto } from "../../shared/models/events/user-updated-payload-event.dto";
+import { UserUnsubscribeRequest } from "../../shared/models/user-unsubscribed-request.dto";
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +33,11 @@ export class UsersStore extends BaseFeatureStore {
   loadUser(userId: string) {
     this.selectedUser.set(null);
     this.executeRequest(this.userService.getUser(userId), user => this.selectedUser.set(user));
+  }
+
+  loadProfile() {
+    this.selectedUser.set(null);
+    this.executeRequest(this.userService.getProfile(), user => this.selectedUser.set(user));
   }
 
   startRealtimeUpdates() {

@@ -1,4 +1,9 @@
+export type UserAction =
+  | 'suspend'
+  | 'unsuspend'
+  | 'unsubscribe';
+
 export interface UserActionsDialogData {
-  userId: string;
-  action: 'suspend' | 'unsuspend';
+  userId?: string;
+  action: UserAction;
 }

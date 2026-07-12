@@ -6,6 +6,7 @@ import { map, Observable } from 'rxjs';
 import { UserListResponseDto } from '../../shared/models/user-list-response.dto';
 import { UserDetailDto } from '../../shared/models/user-detail-dto';
 import { UserActionRequest } from '../../shared/models/user-action-request.dto';
+import { UserUnsubscribeRequest } from '../../shared/models/user-unsubscribed-request.dto';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -32,6 +33,14 @@ export class UserService {
 
   unsuspendUser(data: UserActionRequest) {
     return this.http.post(`${this.apiUrl}/unsuspend`, data);
+  }
+
+  getProfile() {
+    return this.http.get<UserDetailDto>(`${this.apiUrl}/profile`);
+  }
+
+  unsubscribe(request: UserUnsubscribeRequest) {
+    return this.http.post(`${this.apiUrl}/unsubscribe`, request);
   }
 
 }

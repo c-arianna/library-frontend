@@ -38,35 +38,35 @@ export class AuthService {
     });
   }
 
-  isLoggedIn(): boolean {
+  isLoggedIn() {
     return !!this.keycloak.authenticated;
   }
 
-  getUsername(): string {
-    return this.keycloak.tokenParsed?.['preferred_username'] || '';
+  getName(): string {
+    return this.keycloak.tokenParsed?.['name'] || '';
   }
 
-  getToken(): string | undefined {
+  getToken() {
     return this.keycloak.token;
   }
 
-  updateToken(minValidity: number): Promise<boolean> {
+  updateToken(minValidity: number) {
     return this.keycloak.updateToken(minValidity);
   }
 
-  getParsedToken(): KeycloakTokenParsed | undefined {
+  getParsedToken() {
     return this.keycloak.tokenParsed;
   }
 
-  isInitialized(): boolean {
+  isInitialized() {
     return !!this.keycloak.authenticated || !!this.keycloak.token;
   }
 
-  getInitPromise(): Promise<boolean> {
+  getInitPromise() {
     return this.initPromise;
   }
 
-  getUserRoles(): string[] {
+  getUserRoles() {
     const token = this.keycloak.tokenParsed;
     return !token ? [] : token['realm_access']?.roles || [];
   }

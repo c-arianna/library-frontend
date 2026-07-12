@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth.guard';
+import { UserDetailComponent } from './features/users/user-detail/user-detail';
 
 export const routes: Routes = [
 
@@ -48,6 +49,14 @@ export const routes: Routes = [
     canActivate: [authGuard],
     data: {
       roles: ['ROLE_ADMIN', 'ROLE_LIBRARIAN']
+    }
+  },
+  {
+    path: 'profile',
+    component: UserDetailComponent,
+    canActivate: [authGuard],
+    data: {
+      roles: ['ROLE_READER']
     }
   },
   {

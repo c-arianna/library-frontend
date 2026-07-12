@@ -11,6 +11,7 @@ import { UserActionsDialogData } from './user-actions-dialog-model';
 import { UserActionRequest } from '../../../shared/models/user-action-request.dto';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserService } from '../../../core/services/user.service';
+import { UserUnsubscribeRequest } from '../../../shared/models/user-unsubscribed-request.dto';
 
 @Component({
   selector: 'app-user-suspend-dialog',
@@ -37,30 +38,70 @@ export class UserActionsDialogComponent {
 
     }
     
-    get isSuspend(): boolean {
-        return this.data.action === 'suspend';
+    get title() {
+
+        switch (this.data.action) {
+
+            case 'suspend':
+            return 'Sospendi utente';
+
+            case 'unsuspend':
+            return 'Riattiva utente';
+
+            case 'unsubscribe':
+            return 'Disiscrizione';
+
+        }
+
+    }
+
+    get confirmLabel(): string {
+
+        switch (this.data.action) {
+
+            case 'suspend':
+                return 'Sospendi';
+
+            case 'unsuspend':
+                return 'Riattiva';
+
+            case 'unsubscribe':
+                return 'Disiscriviti';
+
+        } 
+
     }
 
     submit() {
 
-        const request: UserActionRequest = {
-            userId: this.data.userId,
-            reason: this.form.controls.reason.value
-        };
+        const reason = this.form.controls.reason.value;
 
-        const operation = this.isSuspend ? this.userService.suspendUser(request) : this.userService.unsuspendUser(request);
+        let operation;
+
+        switch (this.data.action) {
+
+            case 'suspend':
+                operation = this.userService.suspendUser({userId: this.data.userId!, reason});
+                break;
+
+            case 'unsuspend':
+                operation = this.userService.unsuspendUser({userId: this.data.userId!, reason});
+                break;
+
+            case 'unsubscribe':
+                operation = this.userService.unsubscribe({reason});
+                break;
+        }
 
         operation.subscribe({
 
             next: () => {
-                this.dialogRef.close(true);
+                this.dialogRef.close({confirmed: true, action: this.data.action});
             },
 
             error: () => {
 
-                this.snackBar.open(
-                    'Errore durante il salvataggio',
-                    'Chiudi',
+                this.snackBar.open("Errore durante l'operazione", 'Chiudi',
                     {
                         duration: 3000
                     }

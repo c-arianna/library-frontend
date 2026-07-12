@@ -14,7 +14,7 @@ export class HomeComponent {
 
   private readonly auth = inject(AuthService);
   
-  get username(): string {
-    return this.auth.getUsername();
+  get name(): string {
+    return this.auth.getName();
   }
 }
