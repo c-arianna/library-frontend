@@ -2,6 +2,8 @@ import { Component, inject, OnInit } from '@angular/core';
 import { UsersStore } from '../users.store';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { HasRoleDirective } from '../../../core/directives/has.role';
+import { MatDialog } from '@angular/material/dialog';
+import { UserActionsDialogComponent } from '../user-actions-dialog/user-actions-dialog';
 
 @Component({
   selector: 'app-user-detail',
@@ -14,6 +16,7 @@ export class UserDetailComponent implements OnInit {
     readonly store = inject(UsersStore);
     private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
+    private readonly dialog = inject(MatDialog);
 
     readonly statusLabels = {
       ACTIVE: 'Attivo',
@@ -45,12 +48,44 @@ export class UserDetailComponent implements OnInit {
       );
     }
 
-    suspendUser(){
+    suspendUser() {
+
+      const user = this.store.selectedUser();
+
+      if (!user) {
+        return;
+      }
+
+      this.dialog.open(UserActionsDialogComponent,
+        {
+          panelClass: 'custom-dialog',
+          data: {
+            userId: user.userId,
+            action: 'suspend'
+          }
+        }
+      );
 
     }
 
-    reactivateUser(){
-      
-    }
+    reactivateUser() {
+
+      const user = this.store.selectedUser();
+
+      if (!user) {
+        return;
+      }
+
+      this.dialog.open(UserActionsDialogComponent,
+      {
+        panelClass: 'custom-dialog',
+        data: {
+          userId: user.userId,
+          mode: 'unsuspend'
+        }
+      }
+    );
+
+  }
 
 }

@@ -1,5 +1,6 @@
 import { BookUpdatedPayloadEventDto } from "./book-updated-payload-event.dto";
 import { LoanUpdatedPayloadEventDto } from "./loan-updated-payload-event.dto";
+import { UserUpdatedPayloadEventDto } from "./user-updated-payload-event.dto";
 
 export interface BookUpdatedNotification {
   eventType: 'BOOK_UPDATED';
@@ -11,4 +12,9 @@ export interface LoanUpdatedNotification {
   payload: LoanUpdatedPayloadEventDto;
 }
 
-export type NotificationEvent = BookUpdatedNotification | LoanUpdatedNotification;
+export interface UserUpdatedNotification {
+  eventType: 'USER_UPDATED';
+  payload: UserUpdatedPayloadEventDto;
+}
+
+export type NotificationEvent = BookUpdatedNotification | LoanUpdatedNotification | UserUpdatedNotification;

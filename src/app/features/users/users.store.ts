@@ -3,29 +3,108 @@ import { BaseFeatureStore } from "../../core/store/base-feature.store";
 import { UserService } from "../../core/services/user.service";
 import { UserDto } from "../../shared/models/user.dto";
 import { UserDetailDto } from "../../shared/models/user-detail-dto";
+import { NotificationService } from "../../core/services/notification.service";
+import { Subscription } from "rxjs";
+import { UserUpdatedPayloadEventDto } from "../../shared/models/events/user-updated-payload-event.dto";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsersStore extends BaseFeatureStore {
 
-    readonly users = signal<UserDto[]>([]);
+  private wsSub?: Subscription;
 
-    readonly readers = computed(() => this.users().filter(user => user.role === 'READER'));
+  readonly users = signal<UserDto[]>([]);
+
+  readonly readers = computed(() => this.users().filter(user => user.role === 'READER'));
     
-    readonly selectedUser = signal<UserDetailDto | null>(null);
+  readonly selectedUser = signal<UserDetailDto | null>(null);
 
-    constructor(private userService: UserService) {
-        super();
+  constructor(private userService: UserService, private notificationService: NotificationService) {
+    super();
+    this.startRealtimeUpdates();
+  }
+
+  loadUsers(){
+    this.executeRequest(this.userService.getUsers(), users => { this.users.set(users);});
+  }
+
+  loadUser(userId: string) {
+    this.selectedUser.set(null);
+    this.executeRequest(this.userService.getUser(userId), user => this.selectedUser.set(user));
+  }
+
+  startRealtimeUpdates() {
+
+    if (this.wsSub) {
+      return;
     }
 
-    loadUsers(){
-      this.executeRequest(this.userService.getUsers(), users => { this.users.set(users);});
-    }
+    this.wsSub = this.notificationService.messages().subscribe(event => {
 
-    loadUser(userId: string) {
-      this.selectedUser.set(null);
-      this.executeRequest(this.userService.getUser(userId), user => this.selectedUser.set(user));
-    }
+      if (event.eventType !== 'USER_UPDATED') {
+        return;
+      }
+
+      this.handleUserUpdated(event.payload);
+      
+    });
+
+  }
+
+  private handleUserUpdated(payload: UserUpdatedPayloadEventDto) {
+      this.updateUserList(payload);
+      this.updateUserDetail(payload);
+  }
+  
+  private updateUserList(payload: UserUpdatedPayloadEventDto) {
+  
+    const updatedUser: UserDto = {
+      userId: payload.userId,
+      email: payload.email,
+      role: payload.role,
+      status: payload.status
+    };
+  
+    this.users.update(list => {
+  
+      const index = list.findIndex(user => user.userId === payload.userId);
+  
+      if (index === -1) {
+        return [
+            updatedUser,
+            ...list
+        ];
+  
+      }
+  
+      return list.map(user => user.userId === payload.userId ? updatedUser : user);
+  
+    });
+  
+  }
+  
+  private updateUserDetail(payload: UserUpdatedPayloadEventDto) {
+  
+    const selectedUser = this.selectedUser();
+  
+    if (selectedUser && selectedUser.userId === payload.userId) {
+        this.selectedUser.set(this.mapUserNotificationToDetail(payload));
+      }
+  
+  }
+
+  private mapUserNotificationToDetail(event: UserUpdatedPayloadEventDto): UserDetailDto {
+  
+    return {
+      userId: event.userId,
+      email: event.email,
+      name: event.name,
+      lastname: event.lastname,
+      userIdentityProviderId: event.userIdentityProviderId,
+      status: event.status
+    };
+  
+  }
 
 }

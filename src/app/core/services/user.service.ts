@@ -5,6 +5,7 @@ import { UserDto } from '../../shared/models/user.dto';
 import { map, Observable } from 'rxjs';
 import { UserListResponseDto } from '../../shared/models/user-list-response.dto';
 import { UserDetailDto } from '../../shared/models/user-detail-dto';
+import { UserActionRequest } from '../../shared/models/user-action-request.dto';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -23,6 +24,14 @@ export class UserService {
 
   getUser(userId: string) {
      return this.http.get<UserDetailDto>(`${this.apiUrl}/${userId}`);
+  }
+
+  suspendUser(data: UserActionRequest) {
+    return this.http.post(`${this.apiUrl}/suspend`, data);
+  }
+
+  unsuspendUser(data: UserActionRequest) {
+    return this.http.post(`${this.apiUrl}/unsuspend`, data);
   }
 
 }

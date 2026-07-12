@@ -32,8 +32,10 @@ export class NotificationService {
           
           if (auth.hasRole('ROLE_READER')) {
             this.subscribeToTopic('/user/queue/loans');
+            this.subscribeToTopic('/user/queue/users');
           }else{
             this.subscribeToTopic('/topic/loans');
+            this.subscribeToTopic('/topic/users');
           }
         },
 
