@@ -38,3 +38,27 @@
   background: rgba(211, 47, 47, .15);
   color: var(--color-danger);
 }
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--spacing-sm);
+}
+
+.form-actions {
+  display: flex;
+  gap: var(--spacing-sm);
+  justify-content: center;
+}
+
+.input {
+  width: 100%;
+  box-sizing: border-box;
+}

@@ -7,6 +7,9 @@ import { NotificationService } from "../../core/services/notification.service";
 import { Subscription } from "rxjs";
 import { UserUpdatedPayloadEventDto } from "../../shared/models/events/user-updated-payload-event.dto";
 import { UserUnsubscribeRequest } from "../../shared/models/user-unsubscribed-request.dto";
+import { UserFiltersDto } from "../../shared/models/user-filters.dto";
+import { UserStatus } from "../../shared/models/user-status.dto";
+import { Router } from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +24,33 @@ export class UsersStore extends BaseFeatureStore {
     
   readonly selectedUser = signal<UserDetailDto | null>(null);
 
-  constructor(private userService: UserService, private notificationService: NotificationService) {
+  readonly filters = signal<UserFiltersDto>({
+      userId: '',
+      email: '',
+      userIdentityProviderId: '',
+      status: undefined
+  });
+  
+  readonly filteredUsers = computed(() => {
+  
+    const users = this.readers();
+    const filters = this.filters();
+  
+    return users.filter(user => {
+      
+      const matchUserId = !filters.userId || user.userId.includes(filters.userId);
+      const matchEmail = !filters.email || user.email.includes(filters.email);
+      const matchIdentityProvider = !filters.userIdentityProviderId || user.userIdentityProviderId.includes(filters.userIdentityProviderId);
+      const matchStatus = !filters.status || user.status === filters.status;
+      
+  
+        return matchUserId && matchEmail && matchIdentityProvider && matchStatus;
+  
+      });
+  
+    });
+
+  constructor(private userService: UserService, private router: Router, private notificationService: NotificationService) {
     super();
     this.startRealtimeUpdates();
   }
@@ -68,6 +97,7 @@ export class UsersStore extends BaseFeatureStore {
     const updatedUser: UserDto = {
       userId: payload.userId,
       email: payload.email,
+      userIdentityProviderId: payload.userIdentityProviderId,
       role: payload.role,
       status: payload.status
     };
@@ -112,5 +142,31 @@ export class UsersStore extends BaseFeatureStore {
     };
   
   }
+
+  updateFilter<K extends keyof UserFiltersDto>(field: K, value: UserFiltersDto[K]){
+      
+      this.filters.update(filters => ({
+        ...filters,
+        [field]: value
+      }));
+      
+    }
+      
+    clearFilters() {
+      
+      this.filters.set({
+        userId: '',
+        email: '',
+        userIdentityProviderId: '',
+        status: undefined
+      });
+  
+      this.router.navigate(['/users']);
+      
+    }
+  
+    updateStatusFilter(value: string) {
+      this.updateFilter('status', value === '' ? undefined : value as UserStatus);
+    }
 
 }

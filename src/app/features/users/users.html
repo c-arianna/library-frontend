@@ -7,7 +7,64 @@
 
     <div class="section">
 
-        @if (store.readers().length === 0) {
+    <div class="form">
+
+      <div class="form-row">
+
+        <input class="input"
+              placeholder="User ID"
+              #userIdInput
+              [value]="store.filters().userId"
+              (input)="store.updateFilter('userId', userIdInput.value)">
+
+        <input class="input"
+              placeholder="Email"
+              #emailInput
+              [value]="store.filters().email"
+              (input)="store.updateFilter('email', emailInput.value)">
+        
+        <input class="input"
+              placeholder="Identity Provider ID"
+              #identityProviderInput
+              [value]="store.filters().userIdentityProviderId"
+              (input)="store.updateFilter('userIdentityProviderId', identityProviderInput.value)">
+
+        <select class="input"
+                [value]="store.filters().status ?? ''"
+                #statusInput
+                (change)="store.updateStatusFilter(statusInput.value)">
+
+            <option value="">
+              Tutti gli stati
+            </option>
+
+            @for (status of statuses; track status.value) {
+
+              <option [value]="status.value">
+                {{ status.label }}
+              </option>
+
+            }
+
+        </select>
+
+      </div>
+
+      <div class="form-actions">
+
+        <button class="button button-secondary" (click)="store.clearFilters()">
+          Reset
+        </button>
+
+      </div>
+    
+    </div>
+
+  </div>
+
+    <div class="section">
+
+        @if (store.filteredUsers().length === 0) {
             <p class="empty">Nessun utente registrato.</p>
         }@else {
 
@@ -17,15 +74,17 @@
                     <tr>
                         <th>ID</th>
                         <th>Email</th>
+                        <th>Identity Provider ID</th>
                         <th>Stato</th>
                         <th>Dettaglio</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @for (user of store.readers(); track user.userId) {
+                    @for (user of store.filteredUsers(); track user.userId) {
                         <tr>
                             <td>{{ user.userId }}</td>
                             <td>{{ user.email }}</td>
+                            <td>{{ user.userIdentityProviderId }}</td>
                             <td>
                                 <span class="badge"
                                     [class.active]="user.status === 'ACTIVE'"

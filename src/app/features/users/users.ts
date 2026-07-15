@@ -20,6 +20,12 @@ export class UsersComponent implements OnInit {
     DISABLED: 'Disabilitato'
   };
 
+  readonly statuses = [
+    { value: 'ACTIVE', label: 'Attivo' },
+    { value: 'SUSPENDED', label: 'Sospeso' },
+    { value: 'DISABLED', label: 'Disabilitato' }
+  ];
+
   ngOnInit(): void {
     this.store.loadUsers();
   }
