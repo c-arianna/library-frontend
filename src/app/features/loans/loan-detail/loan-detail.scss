@@ -2,24 +2,6 @@
   width: 100%;
 }
 
-.breadcrumb {
-  display: flex;
-  align-items: center;
-  gap: .5rem;
-  margin-bottom: var(--spacing-md);
-  font-size: .9rem;
-}
-
-.breadcrumb a {
-  color: var(--color-primary);
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.breadcrumb a:hover {
-  text-decoration: underline;
-}
-
 .details-card {
   max-width: 900px;
   margin: 0 auto;
@@ -72,28 +54,6 @@
   word-break: break-word;
 }
 
-.actions {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: var(--spacing-md);
-  margin-top: var(--spacing-md);
-}
-
-.actions button {
-  min-width: 180px;
-}
-
-.badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: .5rem 1rem;
-  border-radius: 999px;
-  font-size: .9rem;
-  font-weight: 600;
-}
-
 .badge.reserved {
   background: rgba(255, 152, 0, .15);
   color: #ff9800;
@@ -130,10 +90,8 @@
     padding: var(--spacing-lg);
   }
 
-  .detail-row {
+  .loan-details {
     grid-template-columns: 1fr;
-    gap: .5rem;
-
   }
 
   .actions {
@@ -142,6 +100,18 @@
 
   .actions button {
     width: 100%;
+  }
+
+}
+
+@media (max-width: 480px) {
+
+  .details-card {
+    padding: var(--spacing-md);
+  }
+
+  .detail-row {
+    min-height: auto;
   }
 
 }

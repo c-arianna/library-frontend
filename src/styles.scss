@@ -70,6 +70,7 @@ body.light-theme {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-md);
+  min-width: 350px;
 }
 
 .custom-dialog .mat-mdc-dialog-actions {
@@ -100,8 +101,7 @@ body.light-theme {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  margin-bottom: var(--spacing-md);
+  padding: 20px 24px 4px;
 }
 
 .custom-dialog .dialog-header .icon-button {
@@ -117,6 +117,23 @@ body.light-theme {
 
   cursor: pointer;
   color: var(--color-text);
+}
+
+.custom-dialog .dialog-header h2 {
+  margin: 0;
+}
+
+.dialog-header [mat-dialog-title] {
+  margin: 0;
+  padding: 0;
+}
+
+.custom-dialog .mat-mdc-dialog-container-with-actions .mat-mdc-dialog-content {
+  padding: 12px 24px 0;
+}
+
+.custom-dialog p {
+  margin: 0;
 }
 
 .mat-mdc-form-field.mat-mdc-form-field-invalid .mdc-notched-outline {

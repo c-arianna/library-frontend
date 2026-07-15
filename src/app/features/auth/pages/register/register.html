@@ -1,17 +1,17 @@
-<div class="container">
+<main class="container register-container">
 
   <button class="icon-button" (click)="theme.toggle()" [attr.aria-label]="theme.isDark() ? 'Attiva tema chiaro' : 'Attiva tema scuro'">
-  <span class="material-icons">
+  <span class="material-icons" aria-hidden="true">
     {{ theme.isDark() ? 'light_mode' : 'dark_mode' }}
   </span>
 </button>
 
   <mat-card class="card form-card">
 
-    <h2 class="page-title text-center icon-text">
-      <span class="material-icons">person_add</span>
+    <h1 class="page-title text-center icon-text">
+      <span class="material-icons" aria-hidden="true">person_add</span>
       Registrazione
-    </h2>
+    </h1>
 
     <form class="form-column" [formGroup]="form" (submit)="submit()">
 
@@ -54,4 +54,4 @@
 
   </mat-card>
 
-</div>
+</main>

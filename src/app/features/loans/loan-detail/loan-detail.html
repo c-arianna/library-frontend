@@ -11,7 +11,7 @@
 
     <div class="error-state">
 
-      <span class="material-icons">
+      <span class="material-icons" aria-hidden="true">
         error_outline
       </span>
 
@@ -31,7 +31,7 @@
 
     <div class="card section-card details-card">
 
-      <nav class="breadcrumb">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
 
         <a routerLink="/loans">
           Prestiti
@@ -47,7 +47,7 @@
 
       <h1 class="page-title icon-text">
 
-        <span class="material-icons">
+        <span class="material-icons" aria-hidden="true">
           assignment
         </span>
 
@@ -131,39 +131,37 @@
 
       </div>
 
-    </div>
-
-
-    <div class="actions">
+      <div class="actions actions-compact">
 
         <button
           class="button button-secondary" (click)="openBookDetail()">
           Visualizza libro
         </button>
 
+      @if (loan.status === 'CONFIRMED' || loan.status === 'RESERVED'){
+            @if (loan.status === 'RESERVED'){
+              
+              <button *hasRole="['ROLE_ADMIN', 'ROLE_LIBRARIAN']" class="button button-primary" (click)="confirmLoan()">
+                  Conferma prestito
+              </button>
+
+              <button *hasRole="['ROLE_ADMIN', 'ROLE_LIBRARIAN']" class="button button-secondary" (click)="cancelLoan()">
+                Annulla prestito
+              </button>
+            
+            } @else if (loan.status === 'CONFIRMED'){
+              
+              <button *hasRole="['ROLE_ADMIN', 'ROLE_LIBRARIAN']" class="button button-primary" (click)="returnLoan()">
+                Registra Reso
+              </button>
+            }
+      }
+      </div>
+
     </div>
 
-    @if (loan.status === 'CONFIRMED' || loan.status === 'RESERVED'){
-        <div *hasRole="['ROLE_ADMIN', 'ROLE_LIBRARIAN']" class="actions">
 
-          @if (loan.status === 'RESERVED'){
-            
-            <button class="button button-primary" (click)="confirmLoan()">
-                Conferma
-            </button>
-
-            <button class="button button-secondary" (click)="cancelLoan()">
-              Annulla
-            </button>
-          
-          } @else if (loan.status === 'CONFIRMED'){
-            
-            <button class="button button-primary" (click)="returnLoan()">
-              Registra Reso
-            </button>
-          }
-          </div>
-    }
+    
   }
 
 </div>

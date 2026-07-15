@@ -16,7 +16,6 @@ import { DatePipe } from '@angular/common';
   selector: 'app-loan-create-dialog',
   standalone: true,
   templateUrl: './loan-create-dialog.html',
-  styleUrl: './loan-create-dialog.scss',
   imports: [
     ReactiveFormsModule,
     MatDialogModule,

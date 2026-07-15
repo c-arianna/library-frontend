@@ -11,7 +11,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   selector: 'app-add-book-dialog',
   standalone: true,
   templateUrl: './book-add-dialog.html',
-  styleUrl: './book-add-dialog.scss',
   imports: [
     ReactiveFormsModule,
     MatDialogModule,

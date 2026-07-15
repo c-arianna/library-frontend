@@ -2,7 +2,7 @@
 
   <h1 class="page-title icon-text">
 
-    <span class="material-icons">
+    <span class="material-icons" aria-hidden="true">
       assignment
     </span>
 
@@ -17,12 +17,14 @@
       <div class="form-row">
 
         <input class="input"
+              aria-label="ISBN"
               placeholder="ISBN"
               #isbnInput
               [value]="store.filters().isbn"
               (input)="store.updateFilter('isbn', isbnInput.value)">
 
         <select class="input"
+                aria-label="Stato prestito"
                 [value]="store.filters().status ?? ''"
                 #statusInput
                 (change)="store.updateStatusFilter(statusInput.value)">
@@ -42,6 +44,7 @@
         </select>
 
         <input *hasRole="['ROLE_ADMIN', 'ROLE_LIBRARIAN']" class="input"
+              aria-label="User Id"
               placeholder="User Id"
               #userInput
               [value]="store.filters().userId"
@@ -59,19 +62,28 @@
     
     </div>
 
-  </div>
-  
-  <div class="section">
-
-    @if (store.filteredLoans().length === 0) {
+     @if (store.filteredLoans().length === 0) {
 
       <p class="empty">
         Non ci sono prestiti
       </p>
 
-    } @else {
+    }
 
+  </div>
+  
+  <div class="section">
+
+    @if (store.filteredLoans().length > 0) {
+
+     <div class="table-container">
+      
       <table class="table">
+
+        <caption class="sr-only">
+          Elenco prestiti
+        </caption>
+
         <thead>
           <tr>
             <th *hasRole="['ROLE_ADMIN', 'ROLE_LIBRARIAN']">ID Prestito</th>
@@ -109,8 +121,9 @@
                 </span>
               </td>
                <td>
-              <a [routerLink]="['/loans', loan.id]">
-                <span class="material-icons">
+              <a [routerLink]="['/loans', loan.id]"
+                 [attr.aria-label]="'Visualizza dettaglio prestito ' + loan.id">
+                <span class="material-icons" aria-hidden="true">
                 visibility
                 </span>
               </a>
@@ -122,7 +135,7 @@
         </tbody>
 
       </table>
-
+    </div>
     }
 
   </div>

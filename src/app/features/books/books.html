@@ -1,7 +1,7 @@
 <div class="container">
 
   <h1 class="page-title icon-text">
-    <span class="material-icons">menu_book</span>
+    <span class="material-icons" aria-hidden="true">menu_book</span>
     Catalogo Libri
   </h1>
 
@@ -10,19 +10,23 @@
   <div class="form">
 
     <div class="form-row">
+      
       <input class="input"
+            aria-label="Titolo"
             placeholder="Titolo"
             #titleInput
             [value]="store.filters().title"
             (input)="store.updateFilter('title', titleInput.value)">
 
       <input class="input"
+            aria-label="Autore"
             placeholder="Autore"
             #authorInput
             [value]="store.filters().author"
             (input)="store.updateFilter('author', authorInput.value)">
 
       <input class="input"
+            aria-label="ISBN"
             placeholder="ISBN"
             #isbnInput
             [value]="store.filters().isbn"
@@ -50,18 +54,26 @@
 
   </div>
 
-</div>
-
-<div class="section">
-
   @if (store.filteredBooks().length === 0) {
 
     <p class="empty">Non ci sono libri.</p>
 
-  } @else {
+  }
 
+</div>
+
+<div class="section">
+
+  @if (store.filteredBooks().length > 0) {
+
+  <div class="table-container">
+    
     <table class="table">
 
+      <caption class="sr-only">
+        Elenco libri presenti nel catalogo
+      </caption>
+      
       <thead>
         <tr>
           <th>ISBN</th>
@@ -84,8 +96,9 @@
               </span>
             </td>
             <td>
-              <a [routerLink]="['/books', book.isbn]">
-                <span class="material-icons">
+              <a [routerLink]="['/books', book.isbn]"
+                 [attr.aria-label]="'Visualizza dettaglio libro ' + book.title">
+                <span class="material-icons" aria-hidden="true">
                 visibility
                 </span>
               </a>
@@ -95,14 +108,17 @@
       </tbody>
 
     </table>
-
+  </div>
   }
 
+    <div *hasRole="['ROLE_ADMIN','ROLE_LIBRARIAN']" class="form-actions list-actions">
+        <button class="button button-primary" (click)="openAddBookDialog()">
+          <span class="material-icons" aria-hidden="true">add</span>
+          Nuovo libro
+        </button>
+    </div>
   </div>
 
-    <button *hasRole="['ROLE_ADMIN','ROLE_LIBRARIAN']" class="button button-primary" (click)="openAddBookDialog()">
-      <span class="material-icons">add</span>
-      Nuovo libro
-    </button>
+   
 
 </div>

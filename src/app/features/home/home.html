@@ -1,35 +1,129 @@
-<div class="container text-center">
+<main class="container text-center">
 
   <h1 class="page-title icon-text">
-    <span class="material-icons">waving_hand</span>
+
+    <span
+      class="material-icons"
+      aria-hidden="true">
+      waving_hand
+    </span>
+
     Benvenuto, {{ name }}
+
   </h1>
 
-  <div class="grid">
+  @if (isReader) {
 
-    <a routerLink="/books" class="card home-card icon-text">
-      <span class="material-icons">menu_book</span>
-      <span>Catalogo</span>
+    <section class="welcome-section">
+
+      <p class="welcome-text">
+        Consulta il catalogo, monitora i tuoi prestiti
+        e gestisci il tuo profilo personale.
+      </p>
+
+    </section>
+
+  }
+
+  @if (isLibrarian) {
+
+    <section class="welcome-section">
+
+      <p class="welcome-text">
+        Gestisci catalogo, prestiti e utenti registrati
+        della biblioteca.
+      </p>
+
+    </section>
+
+  }
+
+  @if (isAdmin) {
+
+    <section class="welcome-section">
+
+      <p class="welcome-text">
+        Area amministrativa della biblioteca.
+        Gestisci utenti, catalogo e operazioni di prestito.
+      </p>
+
+    </section>
+
+  }
+
+  <section
+    class="grid"
+    aria-label="Funzioni disponibili">
+
+    <a
+      routerLink="/books"
+      class="card home-card">
+
+      <span
+        class="material-icons"
+        aria-hidden="true">
+        menu_book
+      </span>
+
+      <span>
+        Catalogo
+      </span>
+
     </a>
 
-  </div>
+    <a
+      routerLink="/loans"
+      class="card home-card">
 
-  <div class="grid">
+      <span
+        class="material-icons"
+        aria-hidden="true">
+        assignment
+      </span>
 
-    <a routerLink="/loans" class="card home-card icon-text">
-      <span class="material-icons">assignment</span>
-      <span>Prestiti</span>
+      <span>
+        Prestiti
+      </span>
+
     </a>
 
-  </div>
+    @if (isAdmin || isLibrarian) {
 
-  <div *hasRole="['ROLE_ADMIN','ROLE_LIBRARIAN']" class="grid">
+      <a
+        routerLink="/users"
+        class="card home-card">
 
-    <a routerLink="/users" class="card home-card icon-text">
-      <span class="material-icons">groups</span>
-      <span>Utenti Registrati</span>
-    </a>
+        <span
+          class="material-icons"
+          aria-hidden="true">
+          groups
+        </span>
 
-  </div>
+        <span>
+          Utenti Registrati
+        </span>
 
-</div>
+      </a>
+
+    }@else{
+
+      <a
+        routerLink="/profile"
+        class="card home-card">
+
+        <span
+          class="material-icons"
+          aria-hidden="true">
+          person
+        </span>
+
+        <span>
+          Profilo
+        </span>
+
+      </a>
+    }
+
+  </section>
+
+</main>

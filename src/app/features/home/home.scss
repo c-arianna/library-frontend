@@ -1,10 +1,11 @@
-.grid {
-  display: flex;
-  justify-content: center;
-  gap: var(--spacing-lg);
-  flex-wrap: wrap;
+.welcome-section {
+  max-width: 700px;
+  margin: 0 auto var(--spacing-xl);
+}
 
-  margin-top: var(--spacing-lg);
+.welcome-text {
+  color: var(--color-text-secondary);
+  line-height: 1.6;
 }
 
 .home-card {
@@ -13,24 +14,14 @@
   align-items: center;
   justify-content: center;
 
-  width: 140px;
-  height: 120px;
-
-  padding: var(--spacing-md);
-
-  border-radius: var(--radius-md);
-  background: var(--color-surface-elevated);
-  color: var(--color-text);
-
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  width: 220px;
+  min-height: 140px;
 
   text-decoration: none;
 
-  transition: all 0.2s ease;
-}
-
-.home-card .material-icons {
-  font-size: 32px;
+  transition:
+    transform .2s ease,
+    background-color .2s ease;
 }
 
 .home-card:hover {
@@ -38,9 +29,46 @@
   background: var(--color-primary-hover);
 }
 
+.home-card:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.home-card .material-icons {
+  font-size: 36px;
+  margin-bottom: var(--spacing-sm);
+}
+
 @media (max-width: 768px) {
+
+  .welcome-section {
+    max-width: 100%;
+  }
+
   .home-card {
     width: 100%;
     max-width: 280px;
+    min-height: 120px;
   }
+
+  .home-card .material-icons {
+    font-size: 32px;
+  }
+
+}
+
+@media (max-width: 480px) {
+
+  .welcome-text {
+    font-size: .95rem;
+  }
+
+  .home-card {
+    max-width: 100%;
+  }
+
+  .home-card .material-icons {
+    font-size: 28px;
+  }
+
 }

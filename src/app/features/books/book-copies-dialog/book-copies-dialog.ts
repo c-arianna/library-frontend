@@ -14,7 +14,6 @@ import { BookRemoveCopiesRequest } from '../../../shared/models/book-remove-copi
   selector: 'app-book-copies-dialog',
   standalone: true,
   templateUrl: './book-copies-dialog.html',
-  styleUrl: './book-copies-dialog.scss',
   imports: [
     ReactiveFormsModule,
     MatDialogModule,

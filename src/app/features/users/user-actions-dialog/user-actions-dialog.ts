@@ -24,8 +24,7 @@ import { UserUnsubscribeRequest } from '../../../shared/models/user-unsubscribed
     MatFormFieldModule,
     MatInputModule
   ],
-  templateUrl: './user-actions-dialog.html',
-  styleUrl: './user-actions-dialog.scss'
+  templateUrl: './user-actions-dialog.html'
 })
 export class UserActionsDialogComponent {
 

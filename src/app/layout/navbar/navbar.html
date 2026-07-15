@@ -1,19 +1,24 @@
-<nav class="navbar">
+<nav class="navbar" aria-label="Navigazione principale">
 
-  <div class="logo icon-text">
-    <span class="material-icons">auto_stories</span>
-    Libreria
-  </div>
+  <a class="logo icon-text" routerLink="/home">
+    <span class="material-icons" aria-hidden="true">auto_stories</span>
+    Biblioteca
+  </a>
 
   <button
     class="icon-button mobile-toggle"
+    type="button"
+    aria-label="Apri menu di navigazione"
+    aria-controls="main-navigation"
+    [attr.aria-expanded]="menuOpen"
     (click)="toggleMenu()">
 
-    <span class="material-icons">menu</span>
+    <span class="material-icons" aria-hidden="true">menu</span>
 
   </button>
 
   <div
+    id="main-navigation"
     class="links"
     [class.open]="menuOpen">
 
@@ -24,7 +29,7 @@
       (click)="menuOpen = false">
 
       <span class="icon-text">
-        <span class="material-icons">home</span>
+        <span class="material-icons" aria-hidden="true">home</span>
         Home
       </span>
 
@@ -36,7 +41,7 @@
       (click)="menuOpen = false">
 
       <span class="icon-text">
-        <span class="material-icons">menu_book</span>
+        <span class="material-icons" aria-hidden="true">menu_book</span>
         Catalogo
       </span>
 
@@ -48,7 +53,7 @@
       (click)="menuOpen = false">
 
       <span class="icon-text">
-        <span class="material-icons">assignment</span>
+        <span class="material-icons" aria-hidden="true">assignment</span>
         Prestiti
       </span>
 
@@ -61,7 +66,7 @@
       (click)="menuOpen = false">
 
       <span class="icon-text">
-        <span class="material-icons">groups</span>
+        <span class="material-icons" aria-hidden="true">groups</span>
         Utenti registrati
       </span>
 
@@ -73,9 +78,11 @@
 
     <button
       class="user-menu-button"
+      type="button"
+      aria-label="Menu utente"
       [matMenuTriggerFor]="userMenu">
 
-      <span class="material-icons">
+      <span class="material-icons" aria-hidden="true">
         account_circle
       </span>
 
@@ -83,7 +90,7 @@
         {{ name }}
       </span>
 
-      <span class="material-icons">
+      <span class="material-icons" aria-hidden="true">
         arrow_drop_down
       </span>
 
@@ -96,7 +103,7 @@
         mat-menu-item
         routerLink="/profile">
 
-        <span class="material-icons">
+        <span class="material-icons" aria-hidden="true">
           person
         </span>
 
@@ -109,7 +116,7 @@
         mat-menu-item
         (click)="unsubscribe()">
 
-        <span class="material-icons">
+        <span class="material-icons" aria-hidden="true">
           person_remove
         </span>
 
@@ -121,7 +128,7 @@
         mat-menu-item
         (click)="logout()">
 
-        <span class="material-icons">
+        <span class="material-icons" aria-hidden="true">
           logout
         </span>
 
@@ -133,9 +140,11 @@
 
     <button
       class="icon-button"
+      type="button"
+      [attr.aria-label]="theme.isDark() ? 'Attiva tema chiaro' : 'Attiva tema scuro'"
       (click)="theme.toggle()">
 
-      <span class="material-icons">
+      <span class="material-icons" aria-hidden="true">
         {{ theme.isDark() ? 'light_mode' : 'dark_mode' }}
       </span>
 

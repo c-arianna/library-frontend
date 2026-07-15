@@ -1,7 +1,7 @@
 <div class="container">
 
     <h1 class="page-title icon-text">
-        <span class="material-icons">groups</span>
+        <span class="material-icons" aria-hidden="true">groups</span>
         Utenti registrati
     </h1>
 
@@ -13,23 +13,27 @@
 
         <input class="input"
               placeholder="User ID"
+              aria-label="User ID"
               #userIdInput
               [value]="store.filters().userId"
               (input)="store.updateFilter('userId', userIdInput.value)">
 
         <input class="input"
               placeholder="Email"
+              aria-label="Email"
               #emailInput
               [value]="store.filters().email"
               (input)="store.updateFilter('email', emailInput.value)">
         
         <input class="input"
               placeholder="Identity Provider ID"
+              aria-label="Identity Provider ID"
               #identityProviderInput
               [value]="store.filters().userIdentityProviderId"
               (input)="store.updateFilter('userIdentityProviderId', identityProviderInput.value)">
 
         <select class="input"
+                aria-label="Stato utente"
                 [value]="store.filters().status ?? ''"
                 #statusInput
                 (change)="store.updateStatusFilter(statusInput.value)">
@@ -60,15 +64,22 @@
     
     </div>
 
+      @if (store.filteredUsers().length === 0) {
+            <p class="empty">Nessun utente registrato.</p>
+        }
+
   </div>
 
     <div class="section">
 
-        @if (store.filteredUsers().length === 0) {
-            <p class="empty">Nessun utente registrato.</p>
-        }@else {
+        @if (store.filteredUsers().length > 0) {
 
+        <div class="table-container">
             <table class="table">
+
+                <caption class="sr-only">
+                  Elenco utenti registrati
+                </caption>
 
                 <thead>
                     <tr>
@@ -95,8 +106,9 @@
                                 </span>
                             </td>
                             <td>
-                                <a [routerLink]="['/users', user.userId]">
-                                    <span class="material-icons">
+                                <a [routerLink]="['/users', user.userId]"
+                                   [attr.aria-label]="'Visualizza dettaglio utente ' + user.userId">
+                                    <span class="material-icons" aria-hidden="true">
                                         visibility
                                     </span>
                                 </a>
@@ -105,6 +117,7 @@
                     }
                 </tbody>
             </table>
+        </div>
         }
     </div>
 </div>

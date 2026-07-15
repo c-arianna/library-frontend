@@ -1,12 +1,12 @@
 <div class="dialog-header">
 
-  <h2 class="icon-text">
-    <span class="material-icons">menu_book</span>
+  <h2 mat-dialog-title class="icon-text">
+    <span class="material-icons" aria-hidden="true">menu_book</span>
     Nuovo libro
   </h2>
 
-  <button class="icon-button" (click)="close()">
-    <span class="material-icons">close</span>
+  <button class="icon-button" type="button" aria-label="Chiudi finestra" (click)="close()">
+    <span class="material-icons" aria-hidden="true">close</span>
   </button>
 
 </div>
@@ -69,9 +69,9 @@
 
   <mat-dialog-actions align="end">
 
-    <button mat-button (click)="reset()">Reset</button>
+    <button mat-button type="button" (click)="reset()">Reset</button>
 
-    <button mat-button (click)="close()">Cancella</button>
+    <button mat-button type="button" (click)="close()">Cancella</button>
 
     <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
       Salva
