@@ -12,25 +12,25 @@
       <div class="form-row">
 
         <input class="input"
-              placeholder="User ID"
-              aria-label="User ID"
-              #userIdInput
-              [value]="store.filters().userId"
-              (input)="store.updateFilter('userId', userIdInput.value)">
-
-        <input class="input"
               placeholder="Email"
               aria-label="Email"
               #emailInput
               [value]="store.filters().email"
               (input)="store.updateFilter('email', emailInput.value)">
         
+         <input class="input"
+              placeholder="Nome"
+              aria-label="Nome"
+              #nameInput
+              [value]="store.filters().name"
+              (input)="store.updateFilter('name', nameInput.value)">
+
         <input class="input"
-              placeholder="Identity Provider ID"
-              aria-label="Identity Provider ID"
-              #identityProviderInput
-              [value]="store.filters().userIdentityProviderId"
-              (input)="store.updateFilter('userIdentityProviderId', identityProviderInput.value)">
+              placeholder="Cognome"
+              aria-label="Cognome"
+              #lastnameInput
+              [value]="store.filters().lastname"
+              (input)="store.updateFilter('lastname', lastnameInput.value)">
 
         <select class="input"
                 aria-label="Stato utente"
@@ -85,7 +85,8 @@
                     <tr>
                         <th>ID</th>
                         <th>Email</th>
-                        <th>Identity Provider ID</th>
+                        <th>Nome</th>
+                        <th>Cognome</th>
                         <th>Stato</th>
                         <th>Dettaglio</th>
                     </tr>
@@ -95,7 +96,8 @@
                         <tr>
                             <td>{{ user.userId }}</td>
                             <td>{{ user.email }}</td>
-                            <td>{{ user.userIdentityProviderId }}</td>
+                            <td>{{ user.name }}</td>
+                            <td>{{ user.lastname }}</td>
                             <td>
                                 <span class="badge"
                                     [class.active]="user.status === 'ACTIVE'"

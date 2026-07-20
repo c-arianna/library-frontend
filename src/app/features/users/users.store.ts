@@ -6,7 +6,6 @@ import { UserDetailDto } from "../../shared/models/user-detail-dto";
 import { NotificationService } from "../../core/services/notification.service";
 import { Subscription } from "rxjs";
 import { UserUpdatedPayloadEventDto } from "../../shared/models/events/user-updated-payload-event.dto";
-import { UserUnsubscribeRequest } from "../../shared/models/user-unsubscribed-request.dto";
 import { UserFiltersDto } from "../../shared/models/user-filters.dto";
 import { UserStatus } from "../../shared/models/user-status.dto";
 import { Router } from "@angular/router";
@@ -25,9 +24,9 @@ export class UsersStore extends BaseFeatureStore {
   readonly selectedUser = signal<UserDetailDto | null>(null);
 
   readonly filters = signal<UserFiltersDto>({
-      userId: '',
       email: '',
-      userIdentityProviderId: '',
+      name: "",
+      lastname: "",
       status: undefined
   });
   
@@ -38,13 +37,12 @@ export class UsersStore extends BaseFeatureStore {
   
     return users.filter(user => {
       
-      const matchUserId = !filters.userId || user.userId.includes(filters.userId);
       const matchEmail = !filters.email || user.email.includes(filters.email);
-      const matchIdentityProvider = !filters.userIdentityProviderId || user.userIdentityProviderId.includes(filters.userIdentityProviderId);
+      const matchName = !filters.name || user.name.includes(filters.name);
+      const matchLastname = !filters.lastname || user.lastname.includes(filters.lastname);
       const matchStatus = !filters.status || user.status === filters.status;
       
-  
-        return matchUserId && matchEmail && matchIdentityProvider && matchStatus;
+      return matchEmail && matchName && matchLastname && matchStatus;
   
       });
   
@@ -97,6 +95,8 @@ export class UsersStore extends BaseFeatureStore {
     const updatedUser: UserDto = {
       userId: payload.userId,
       email: payload.email,
+      name: payload.name,
+      lastname: payload.lastname,
       userIdentityProviderId: payload.userIdentityProviderId,
       role: payload.role,
       status: payload.status
@@ -155,9 +155,9 @@ export class UsersStore extends BaseFeatureStore {
     clearFilters() {
       
       this.filters.set({
-        userId: '',
         email: '',
-        userIdentityProviderId: '',
+        name: "",
+        lastname: "",
         status: undefined
       });
   
