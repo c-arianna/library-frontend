@@ -5,6 +5,7 @@ export interface UserUpdatedPayloadEventDto {
   email: string;
   name: string;
   lastname: string;
+  cardNumber: string;
   userIdentityProviderId: string;
   status: UserStatus;
   role: string;

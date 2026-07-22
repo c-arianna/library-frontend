@@ -5,6 +5,6 @@ export interface UserDetailDto {
   email: string;
   name: string;
   lastname: string;
-  userIdentityProviderId: string;
+  cardNumber: string;
   status: UserStatus;
 }

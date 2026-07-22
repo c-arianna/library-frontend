@@ -19,6 +19,13 @@
               (input)="store.updateFilter('email', emailInput.value)">
         
          <input class="input"
+              placeholder="Numero tessera"
+              aria-label="Numero tessera"
+              #cardNumberInput
+              [value]="store.filters().cardNumber"
+              (input)="store.updateFilter('cardNumber', cardNumberInput.value)">
+
+         <input class="input"
               placeholder="Nome"
               aria-label="Nome"
               #nameInput
@@ -85,6 +92,7 @@
                     <tr>
                         <th>ID</th>
                         <th>Email</th>
+                        <th>Numero tessera</th>
                         <th>Nome</th>
                         <th>Cognome</th>
                         <th>Stato</th>
@@ -96,6 +104,7 @@
                         <tr>
                             <td>{{ user.userId }}</td>
                             <td>{{ user.email }}</td>
+                            <td>{{ user.cardNumber }}</td>
                             <td>{{ user.name }}</td>
                             <td>{{ user.lastname }}</td>
                             <td>

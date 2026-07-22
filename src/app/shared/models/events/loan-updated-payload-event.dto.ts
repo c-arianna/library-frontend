@@ -5,6 +5,7 @@ export interface LoanUpdatedPayloadEventDto {
   isbn: string;
   userId: string;
   identityProviderId: string;
+  cardNumber: string;
   status: LoanStatus;
   startDate: string;
   endDate: string;

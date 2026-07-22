@@ -61,10 +61,10 @@
         <h1 class="page-title icon-text">
 
             <span class="material-icons" aria-hidden="true">
-              person
+              badge
             </span>
 
-            {{ user.name }} {{ user.lastname }}
+            {{ user.cardNumber }}
 
             <span class="badge"
                     [class.active]="user.status === 'ACTIVE'"
@@ -80,19 +80,26 @@
       <div class="metadata">
 
         <div class="metadata-item">
-
           <span class="metadata-label">
-            ID
+            Nome
           </span>
 
           <span class="metadata-value">
-            {{ user.userId }}
+            {{ user.name }}
           </span>
-
         </div>
 
         <div class="metadata-item">
+          <span class="metadata-label">
+            Cognome
+          </span>
 
+          <span class="metadata-value">
+            {{ user.lastname }}
+          </span>
+        </div>
+
+        <div class="metadata-item">
           <span class="metadata-label">
             Email
           </span>
@@ -100,7 +107,6 @@
           <span class="metadata-value">
             {{ user.email }}
           </span>
-
         </div>
 
       </div>

@@ -25,6 +25,7 @@ export class UsersStore extends BaseFeatureStore {
 
   readonly filters = signal<UserFiltersDto>({
       email: '',
+      cardNumber: "",
       name: "",
       lastname: "",
       status: undefined
@@ -38,11 +39,12 @@ export class UsersStore extends BaseFeatureStore {
     return users.filter(user => {
       
       const matchEmail = !filters.email || user.email.includes(filters.email);
+      const matchCardNumber = !filters.cardNumber || user.cardNumber?.includes(filters.cardNumber);
       const matchName = !filters.name || user.name.includes(filters.name);
       const matchLastname = !filters.lastname || user.lastname.includes(filters.lastname);
       const matchStatus = !filters.status || user.status === filters.status;
       
-      return matchEmail && matchName && matchLastname && matchStatus;
+      return matchEmail && matchCardNumber && matchName && matchLastname && matchStatus;
   
       });
   
@@ -97,7 +99,7 @@ export class UsersStore extends BaseFeatureStore {
       email: payload.email,
       name: payload.name,
       lastname: payload.lastname,
-      userIdentityProviderId: payload.userIdentityProviderId,
+      cardNumber: payload.cardNumber,
       role: payload.role,
       status: payload.status
     };
@@ -137,7 +139,7 @@ export class UsersStore extends BaseFeatureStore {
       email: event.email,
       name: event.name,
       lastname: event.lastname,
-      userIdentityProviderId: event.userIdentityProviderId,
+      cardNumber: event.cardNumber,
       status: event.status
     };
   
@@ -156,6 +158,7 @@ export class UsersStore extends BaseFeatureStore {
       
       this.filters.set({
         email: '',
+        cardNumber: "",
         name: "",
         lastname: "",
         status: undefined

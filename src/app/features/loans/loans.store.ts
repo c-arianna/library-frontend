@@ -25,7 +25,8 @@ export class LoansStore extends BaseFeatureStore {
   readonly filters = signal<LoanFiltersDto>({
     isbn: '',
     status: undefined,
-    userId: ''
+    userId: '',
+    cardNumber: ''
   });
 
   readonly filteredLoans = computed(() => {
@@ -38,8 +39,9 @@ export class LoansStore extends BaseFeatureStore {
       const matchIsbn = !filters.isbn || loan.isbn.includes(filters.isbn);
       const matchStatus = !filters.status || loan.status === filters.status;
       const matchUserId = !filters.userId || loan.userId.includes(filters.userId);
+      const matchCardNumber = !filters.cardNumber || loan.cardNumber?.includes(filters.cardNumber);
 
-      return matchIsbn && matchStatus && matchUserId;
+      return matchIsbn && matchStatus && matchUserId && matchCardNumber;
 
     });
 
@@ -72,7 +74,8 @@ export class LoansStore extends BaseFeatureStore {
     this.filters.set({
       isbn: '',
       status: undefined,
-      userId: ''
+      userId: '',
+      cardNumber: ""
     });
 
     this.router.navigate(['/loans']);

@@ -4,4 +4,5 @@ export interface LoanFiltersDto {
   isbn?: string;
   status?: LoanStatus;
   userId?: string;
+  cardNumber?: string;
 }

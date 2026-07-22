@@ -44,11 +44,11 @@
         </select>
 
         <input *hasRole="['ROLE_ADMIN', 'ROLE_LIBRARIAN']" class="input"
-              aria-label="User Id"
-              placeholder="User Id"
+              aria-label="Numero Tessera"
+              placeholder="Numero Tessera"
               #userInput
-              [value]="store.filters().userId"
-              (input)="store.updateFilter('userId', userInput.value)">
+              [value]="store.filters().cardNumber"
+              (input)="store.updateFilter('cardNumber', userInput.value)">
 
       </div>
 
@@ -88,7 +88,7 @@
           <tr>
             <th *hasRole="['ROLE_ADMIN', 'ROLE_LIBRARIAN']">ID Prestito</th>
             <th>ISBN</th>
-            <th *hasRole="['ROLE_ADMIN', 'ROLE_LIBRARIAN']">ID Utente</th>
+            <th *hasRole="['ROLE_ADMIN', 'ROLE_LIBRARIAN']">Numero Tessera</th>
             <th>Stato</th>         
             <th>Dettaglio</th>   
           </tr>
@@ -105,7 +105,7 @@
                 {{ loan.isbn }}
               </td>
               <td *hasRole="['ROLE_ADMIN', 'ROLE_LIBRARIAN']">
-                {{ loan.userId }}
+                {{ loan.cardNumber }}
               </td>
               <td>
                 <span class="badge"
