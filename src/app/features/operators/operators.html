@@ -1,0 +1,72 @@
+<div class="container">
+
+    <h1 class="page-title icon-text">
+        <span class="material-icons" aria-hidden="true">admin_panel_settings</span>
+        Operatori
+    </h1>
+
+    <div class="section">
+
+        @if (store.operators().length > 0) {
+
+        <div class="table-container">
+            <table class="table">
+
+                <caption class="sr-only">
+                  Operatori
+                </caption>
+
+                <thead>
+                    <tr>
+                        <th>Email</th>
+                        <th>Ruolo</th>
+                        <th>Stato</th>
+                        <th>Dettaglio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (user of store.operators(); track user.userId) {
+                        <tr>
+                            <td>{{ user.email }}</td>
+                            <td>
+                                <span class="badge role-badge"
+                                    [class.admin]="user.role === 'ADMIN'"
+                                    [class.librarian]="user.role === 'LIBRARIAN'">
+                                        
+                                     {{ roleLabels[user.role] }}
+                                </span>
+                            </td>
+                            <td>
+                                <span class="badge"
+                                    [class.active]="user.status === 'ACTIVE'"
+                                    [class.suspended]="user.status === 'SUSPENDED'"
+                                    [class.disabled]="user.status === 'DISABLED'">
+
+                                    {{ statusLabels[user.status] }}
+                                </span>
+                            </td>
+                            <td>
+                                <a [routerLink]="['/users', user.userId]"
+                                   [attr.aria-label]="'Visualizza dettaglio utente ' + user.userId">
+                                    <span class="material-icons" aria-hidden="true">
+                                        visibility
+                                    </span>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        }
+
+        <div class="form-actions list-actions">
+
+            <button class="button button-primary" (click)="openCreateOperatorDialog()">
+                <span class="material-icons" aria-hidden="true">add</span>
+                Nuovo Operatore
+            </button>
+
+        </div>
+    </div>
+</div>

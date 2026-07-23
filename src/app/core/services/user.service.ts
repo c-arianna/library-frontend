@@ -7,6 +7,7 @@ import { UserListResponseDto } from '../../shared/models/user-list-response.dto'
 import { UserDetailDto } from '../../shared/models/user-detail-dto';
 import { UserActionRequest } from '../../shared/models/user-action-request.dto';
 import { UserUnsubscribeRequest } from '../../shared/models/user-unsubscribed-request.dto';
+import { OperatorAddDto } from '../../shared/models/operator.add.dto';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -41,6 +42,10 @@ export class UserService {
 
   unsubscribe(request: UserUnsubscribeRequest) {
     return this.http.post(`${this.apiUrl}/unsubscribe`, request);
+  }
+
+  createOperator(data: OperatorAddDto) {
+    return this.http.post(`${this.apiUrl}`, data);
   }
 
 }

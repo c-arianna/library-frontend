@@ -33,22 +33,23 @@ export class LoansComponent implements OnInit {
     CANCELED: 'Annullato'
   };
 
-  constructor() {
-    const isbn = this.route.snapshot.queryParamMap.get('isbn');
-    
-    if (isbn) {
-      this.store.updateFilter('isbn',isbn);
-    }
-
-    const userId = this.route.snapshot.queryParamMap.get('userId');
-    
-    if (userId) {
-      this.store.updateFilter('userId',userId);
-    }
-  }
-
   ngOnInit() {
+
+    this.store.clearFilters();
+
+    const isbn = this.route.snapshot.queryParamMap.get('isbn');
+
+    if (isbn) {
+      this.store.updateFilter('isbn', isbn);
+    }
+
+    const cardNumber = this.route.snapshot.queryParamMap.get('cardNumber');
+
+    if (cardNumber) {
+      this.store.updateFilter('cardNumber', cardNumber);
+    }
+
     this.store.loadLoans();
-  }
+}
 
 }

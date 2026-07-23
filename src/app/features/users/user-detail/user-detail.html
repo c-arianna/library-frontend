@@ -20,8 +20,8 @@
         {{ store.error() }}
       </h2>
 
-      <button class="button button-primary" [routerLink]="isProfile() ? '/home' : '/users'">
-        {{ isProfile() ? 'Torna alla home' : 'Torna all’elenco utenti' }}
+      <button class="button button-primary" [routerLink]="isProfile() ? '/home' : (isOperatorView() ? '/operators' : '/users')">
+        {{ isProfile() ? 'Torna alla home' : "Torna all'elenco" }}
       </button>
 
     </div>
@@ -36,9 +36,19 @@
 
         @if (!isProfile()) {
 
-          <a routerLink="/users">
-            Utenti Registrati
-          </a>
+          @if (user.role === 'READER') {
+
+            <a routerLink="/users">
+              Utenti Biblioteca
+            </a>
+
+          } @else {
+
+            <a routerLink="/operators">
+              Operatori
+            </a>
+
+          }
 
           <span>/</span>
 
@@ -60,18 +70,32 @@
 
         <h1 class="page-title icon-text">
 
-            <span class="material-icons" aria-hidden="true">
+          <span class="material-icons" aria-hidden="true">
+
+            @if (user.role === 'READER') {
               badge
-            </span>
+            } @else {
+              admin_panel_settings
+            }
+
+          </span>
+
+          @if (user.role === 'READER') {
 
             {{ user.cardNumber }}
 
-            <span class="badge"
-                    [class.active]="user.status === 'ACTIVE'"
-                    [class.suspended]="user.status === 'SUSPENDED'"
-                    [class.disabled]="user.status === 'DISABLED'">
-                        {{ statusLabels[user.status] }}
-            </span>
+          } @else {
+            {{ user.name }} {{ user.lastname }}
+          }
+
+          <span class="badge"
+                [class.active]="user.status === 'ACTIVE'"
+                [class.suspended]="user.status === 'SUSPENDED'"
+                [class.disabled]="user.status === 'DISABLED'">
+
+            {{ statusLabels[user.status] }}
+
+          </span>
 
         </h1>
 
@@ -79,26 +103,29 @@
 
       <div class="metadata">
 
-        <div class="metadata-item">
-          <span class="metadata-label">
-            Nome
-          </span>
+        @if (user.role === 'READER') {
 
-          <span class="metadata-value">
-            {{ user.name }}
-          </span>
-        </div>
+          <div class="metadata-item">
+            <span class="metadata-label">
+              Nome
+            </span>
 
-        <div class="metadata-item">
-          <span class="metadata-label">
-            Cognome
-          </span>
+            <span class="metadata-value">
+              {{ user.name }}
+            </span>
+          </div>
 
-          <span class="metadata-value">
-            {{ user.lastname }}
-          </span>
-        </div>
+          <div class="metadata-item">
+            <span class="metadata-label">
+              Cognome
+            </span>
 
+            <span class="metadata-value">
+              {{ user.lastname }}
+            </span>
+          </div>
+
+        }
         <div class="metadata-item">
           <span class="metadata-label">
             Email
@@ -109,29 +136,59 @@
           </span>
         </div>
 
+        <div class="metadata-item">
+          <span class="metadata-label">
+            Ruolo
+          </span>
+
+          <span class="badge role-badge"
+                [class.admin]="user.role === 'ADMIN'"
+                [class.librarian]="user.role === 'LIBRARIAN'"
+                [class.reader]="user.role === 'READER'">
+
+            {{ roleLabels[user.role] }}
+
+          </span>
+        </div>
+
       </div>
 
       <div class="actions actions-spaced">
 
-        <button class="button button-secondary" (click)="openLoans()">
+        @if (user.role === 'READER') {
+
+          <button
+            class="button button-secondary"
+            (click)="openLoans()">
+
             Visualizza prestiti
-        </button>
 
-        @if (user.status === 'ACTIVE'){
-            <button *hasRole="['ROLE_ADMIN']" class="button button-secondary" (click)="suspendUser()">
-                Sospendi Utente
-            </button>
+          </button>
+
         }
-
-        @if (user.status === 'SUSPENDED'){
-            <button *hasRole="['ROLE_ADMIN']" class="button button-secondary" (click)="reactivateUser()">
-                Riattiva Utente
-            </button>
-        }
-
-      </div>
-    </div>
         
+        @if(!isCurrentUser(user)){
+
+          @if (user.status === 'ACTIVE') {
+
+            <button class="button button-secondary" (click)="suspendUser()">
+              Sospendi Utente
+            </button>
+
+          }
+
+          @if (user.status === 'SUSPENDED') {
+
+            <button class="button button-secondary" (click)="reactivateUser()">
+              Riattiva Utente
+            </button>
+
+          }
+        }
+      </div>
+
+    </div>
+
   }
 
 </div>

@@ -42,7 +42,7 @@ export class AuthService {
     return !!this.keycloak.authenticated;
   }
 
-  getName(): string {
+  getName() {
     return this.keycloak.tokenParsed?.['name'] || '';
   }
 
@@ -74,5 +74,9 @@ export class AuthService {
   hasRole(role: string){
     const userRoles = this.getUserRoles();
     return userRoles.includes(role);
+  }
+
+  getUserIdentityProviderId(){
+    return this.keycloak.tokenParsed?.['sub'] || '';
   }
 }

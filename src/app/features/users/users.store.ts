@@ -140,7 +140,9 @@ export class UsersStore extends BaseFeatureStore {
       name: event.name,
       lastname: event.lastname,
       cardNumber: event.cardNumber,
-      status: event.status
+      userIdentityProviderId: event.userIdentityProviderId,
+      status: event.status,
+      role: event.role
     };
   
   }

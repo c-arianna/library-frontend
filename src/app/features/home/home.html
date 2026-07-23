@@ -100,11 +100,28 @@
         </span>
 
         <span>
-          Utenti Registrati
+          Utenti Biblioteca
         </span>
 
       </a>
 
+        @if (isAdmin){
+        <a
+          routerLink="/operators"
+          class="card home-card">
+
+          <span
+            class="material-icons"
+            aria-hidden="true">
+            admin_panel_settings
+          </span>
+
+          <span>
+            Operatori
+          </span>
+
+        </a>
+      }
     }@else{
 
       <a

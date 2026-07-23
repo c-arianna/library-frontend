@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth.guard';
 import { UserDetailComponent } from './features/users/user-detail/user-detail';
+import { OperatorsComponent } from './features/operators/operators';
 
 export const routes: Routes = [
 
@@ -53,11 +54,19 @@ export const routes: Routes = [
   },
   {
     path: 'profile',
-    component: UserDetailComponent,
+    loadComponent: () => import('./features/users/user-detail/user-detail').then(c => c.UserDetailComponent),
     canActivate: [authGuard],
     data: {
       roles: ['ROLE_READER']
     }
+  },
+  {
+    path: 'operators',
+    loadComponent: () => import('./features/operators/operators').then(c => c.OperatorsComponent),
+    canActivate: [authGuard],
+    data: {
+      roles: ['ROLE_ADMIN']
+    },
   },
   {
     path: '',

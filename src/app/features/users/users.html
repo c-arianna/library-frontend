@@ -2,7 +2,7 @@
 
     <h1 class="page-title icon-text">
         <span class="material-icons" aria-hidden="true">groups</span>
-        Utenti registrati
+        Utenti Biblioteca
     </h1>
 
     <div class="section">
@@ -90,7 +90,6 @@
 
                 <thead>
                     <tr>
-                        <th>ID</th>
                         <th>Email</th>
                         <th>Numero tessera</th>
                         <th>Nome</th>
@@ -102,7 +101,6 @@
                 <tbody>
                     @for (user of store.filteredUsers(); track user.userId) {
                         <tr>
-                            <td>{{ user.userId }}</td>
                             <td>{{ user.email }}</td>
                             <td>{{ user.cardNumber }}</td>
                             <td>{{ user.name }}</td>
