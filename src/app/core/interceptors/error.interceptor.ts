@@ -12,13 +12,14 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
 
     catchError((error: HttpErrorResponse) => {
 
-      let message = 'Errore imprevisto';
-
       if (error.error?.code) {
-        message = mapError(error.error.code);
+        const message = mapError(error.error.code);
+        return throwError(() => new Error(message));
       }
 
-      else if (error.status === 0) {
+      let message = 'Errore imprevisto';
+      
+      if (error.status === 0) {
         message = 'Server non raggiungibile';
       }
       else if (error.status === 401) {

@@ -13,6 +13,14 @@
       Registrazione
     </h1>
 
+    @if (error()) {
+
+      <div class="error-banner" role="alert">
+        {{ error() }}
+    </div>
+
+    }
+
     <form class="form-column" [formGroup]="form" (submit)="submit()">
 
       <mat-form-field appearance="outline">
@@ -35,7 +43,7 @@
         <input type="password" matInput formControlName="password" autocomplete="new-password">
       </mat-form-field>
 
-      <button mat-stroked-button color="primary" type="submit" [disabled]="loading || form.invalid" class="full-width">
+      <button mat-stroked-button color="primary" type="submit" [disabled]="loading() || form.invalid" class="full-width">
         Registrati
       </button>
 

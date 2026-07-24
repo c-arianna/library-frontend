@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { UserService } from '../../../../core/services/user.service';
 import { MatInputModule } from '@angular/material/input';
@@ -24,8 +24,9 @@ import { ThemeService } from '../../../../core/services/theme.service';
 })
 export class RegisterPage {
 
-  loading = false;
-  error?: string;
+  readonly error = signal<string | null>(null);
+  readonly loading = signal(false);
+  
   form;
   
   constructor(
@@ -42,6 +43,14 @@ export class RegisterPage {
    });
 
   }
+
+  ngOnInit() {
+
+    this.form.valueChanges.subscribe(() => {
+      this.error.set(null);
+    });
+
+  }
   
   submit() {
     if (this.form.invalid){
@@ -49,8 +58,8 @@ export class RegisterPage {
       return;
     }
 
-   this.loading = true;
-   this.error = undefined;
+   this.loading.set(true);
+   this.error.set(null);
 
    const formValue = this.form.getRawValue();
 
@@ -66,8 +75,8 @@ export class RegisterPage {
         this.auth.login();
       },
       error: (err) => {
-        this.error = mapError(err?.error?.code);
-        this.loading = false;
+        this.error.set(mapError(err?.error?.code));
+        this.loading.set(false);
       }
     });
 
