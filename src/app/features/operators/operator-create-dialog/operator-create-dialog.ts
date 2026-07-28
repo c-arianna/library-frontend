@@ -21,8 +21,7 @@ import { MatSelectModule } from '@angular/material/select';
     MatOption,
     MatSelectModule
   ],
-  templateUrl: './operator-create-dialog.html',
-  styleUrl: './operator-create-dialog.scss'
+  templateUrl: './operator-create-dialog.html'
 })
 export class OperatorCreateDialogComponent {
 

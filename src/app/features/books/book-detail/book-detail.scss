@@ -95,6 +95,10 @@
   color: var(--color-danger);
 }
 
+.actions button {
+  flex: 1;
+  white-space: nowrap;
+}
 @media (max-width: 768px) {
 
   .details-card {

@@ -8,6 +8,8 @@ import { BookCopiesDialogData } from '../book-copies-dialog/book-copies-dialog.m
 import { LoanCreateDialogComponent } from '../../loans/loan-create-dialog/loan-create-dialog';
 import { LoanCreateDialogData } from '../../loans/loan-create-dialog/loan-create-dialog.model';
 import { DateAdapter } from '@angular/material/core';
+import { BookSubscriptionDialog } from '../book-subscription-dialog/book-subscription-dialog';
+import { BookSubscriptionDialogData } from '../book-subscription-dialog/book-subscription-dialog.model';
 
 @Component({
   selector: 'app-book-detail',
@@ -105,6 +107,26 @@ export class BookDetail implements OnInit {
         data: {
           isbn: book.isbn
         } satisfies LoanCreateDialogData
+      }
+    );
+
+  }
+
+  openBookSubscriptionDialog() {
+
+    const book = this.store.detail();
+
+    if (!book) {
+      return;
+    }
+
+    this.dialog.open(BookSubscriptionDialog,
+      {
+        width: '500px',
+        panelClass: 'custom-dialog',
+        data: {
+          isbn: book.isbn
+        } satisfies BookSubscriptionDialogData
       }
     );
 

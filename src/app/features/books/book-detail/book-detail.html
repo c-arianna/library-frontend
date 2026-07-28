@@ -182,6 +182,11 @@
             Crea prestito
           </button>
 
+        }@else {
+          <button *hasRole="'ROLE_READER'" class="button button-primary" (click)="openBookSubscriptionDialog()">
+            <span class="material-icons" aria-hidden="true">notifications</span>
+            <span>Avvisami quando disponibile!</span>
+          </button>
         }
 
         <button *hasRole="['ROLE_ADMIN','ROLE_LIBRARIAN']" class="button button-primary" (click)="openAddCopiesDialog()">

@@ -1,0 +1,49 @@
+<div class="dialog-header">
+
+  <h2 mat-dialog-title class="icon-text">
+    <span class="material-icons" aria-hidden="true">notifications</span>
+    Avvisami quando disponibile!
+  </h2>
+
+  <button class="icon-button" type="button" aria-label="Chiudi finestra" (click)="close()">
+    <span class="material-icons" aria-hidden="true">close</span>
+  </button>
+
+</div>
+
+<form [formGroup]="form" (submit)="submit()">
+
+  <mat-dialog-content class="form-column">
+
+    <mat-form-field appearance="outline">
+      <mat-label>ISBN</mat-label>
+      
+      <input matInput formControlName="isbn" readonly>
+
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Numero di telefono</mat-label>
+      <input matInput formControlName="phoneNumber">
+
+      @if (isInvalid('phoneNumber') && form.get('phoneNumber')?.hasError('required')) {
+        <mat-error>Numero di telefono obbligatorio</mat-error>
+      }
+
+    </mat-form-field>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+
+    <button mat-button type="button" (click)="reset()">Reset</button>
+
+    <button mat-button type="button" (click)="close()">Cancella</button>
+
+    <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
+      Salva
+    </button>
+
+  </mat-dialog-actions>
+
+</form>

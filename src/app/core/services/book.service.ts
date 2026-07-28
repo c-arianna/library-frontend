@@ -9,6 +9,7 @@ import { AddBookResponseDto } from '../../shared/models/book-registered-response
 import { BookDetailDto } from '../../shared/models/book-detail.dto';
 import { BookRemoveCopiesRequest } from '../../shared/models/book-remove-copies-request.dto';
 import { BookAddCopiesRequest } from '../../shared/models/book-add-copies-request.dto';
+import { BookSubscribeRequest } from '../../shared/models/book-subscribe-request.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -39,4 +40,7 @@ export class BookService {
     return this.http.post(`/api/books/${isbn}/copies/remove`, request);
   }
 
+  subscribeBookAvailability(isbn: string, request: BookSubscribeRequest){
+    return this.http.post(`/api/books/${isbn}/subscription`, request);
+  }
 }
