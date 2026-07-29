@@ -69,6 +69,14 @@ export const routes: Routes = [
     },
   },
   {
+    path: 'admin/dashboard',
+    loadComponent: () => import('./features/dashboard/admin-dashboard').then(c => c.AdminDashboardComponent),
+    canActivate: [authGuard],
+    data: {
+      roles: ['ROLE_ADMIN', 'ROLE_LIBRARIAN']
+    },
+  },
+  {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'

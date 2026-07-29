@@ -10,7 +10,8 @@ export function mapLoanNotificationToLoan(payload: LoanUpdatedPayloadEventDto) :
     isbn: payload.isbn,
     userId: payload.userId,
     cardNumber: payload.cardNumber,
-    status: payload.status
+    status: payload.status,
+    overdue: payload.overdue
   };
 
 }
@@ -28,7 +29,9 @@ export function mapLoanNotificationToDetail(event: LoanUpdatedPayloadEventDto): 
     user,
     status: event.status,
     start: event.startDate,
-    end: event.endDate
+    end: event.endDate,
+    overdue: event.overdue,
+    daysOverdue: event.daysOverdue
   };
 
 }

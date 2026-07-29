@@ -2,11 +2,12 @@ import { Component, inject, OnInit } from '@angular/core';
 import { HasRoleDirective } from '../../core/directives/has.role';
 import { LoansStore } from './loans.store';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-loans',
   standalone: true,
-  imports: [ HasRoleDirective, RouterLink],
+  imports: [ HasRoleDirective, RouterLink, MatTooltipModule],
   templateUrl: './loans.html',
   styleUrl: './loans.scss'
 })

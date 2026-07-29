@@ -27,3 +27,19 @@
   background: rgba(96, 125, 139, .15);
   color: #607d8b;
 }
+
+.overdue-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-left: 0.5rem;
+
+  color: #fbbf24;
+
+  vertical-align: middle;
+}
+
+.overdue-icon .material-icons {
+  font-size: 20px;
+}

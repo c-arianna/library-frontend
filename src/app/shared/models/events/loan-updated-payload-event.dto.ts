@@ -9,4 +9,6 @@ export interface LoanUpdatedPayloadEventDto {
   status: LoanStatus;
   startDate: string;
   endDate: string;
+  overdue: boolean;
+  daysOverdue: number;
 }

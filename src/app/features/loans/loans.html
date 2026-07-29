@@ -119,14 +119,22 @@
                     {{ statusLabels[loan.status] }}
 
                 </span>
+
+                @if (loan.overdue) {
+                  <span class="overdue-icon" matTooltip="Prestito scaduto" aria-label="Prestito scaduto">
+                    <span class="material-icons" aria-hidden="true">
+                    warning
+                    </span>
+                  </span>
+                }
               </td>
                <td>
-              <a [routerLink]="['/loans', loan.id]"
-                 [attr.aria-label]="'Visualizza dettaglio prestito ' + loan.id">
-                <span class="material-icons" aria-hidden="true">
-                visibility
-                </span>
-              </a>
+                <a [routerLink]="['/loans', loan.id]"
+                  [attr.aria-label]="'Visualizza dettaglio prestito ' + loan.id">
+                  <span class="material-icons" aria-hidden="true">
+                  visibility
+                  </span>
+                </a>
             </td>
             </tr>
 

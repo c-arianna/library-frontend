@@ -45,6 +45,20 @@
 
       </nav>
 
+      @if (loan.overdue) {
+        <div class="warning-banner" role="alert">
+
+          <span class="material-icons" aria-hidden="true">
+            warning
+          </span>
+
+          <span>
+           {{ overdueMessage }}
+          </span>
+
+        </div>
+      }
+
       <h1 class="page-title icon-text">
 
         <span class="material-icons" aria-hidden="true">

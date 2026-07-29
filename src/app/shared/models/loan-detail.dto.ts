@@ -7,5 +7,7 @@ export interface LoanDetailDto {
   status: LoanStatus;
   start: string;
   end: string;
-  user: LoanUserDto
+  user: LoanUserDto;
+  overdue: boolean;
+  daysOverdue: number;
 }

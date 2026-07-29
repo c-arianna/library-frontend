@@ -72,6 +72,16 @@
 
     </a>
 
+    <a *hasRole="['ROLE_ADMIN','ROLE_LIBRARIAN']" routerLink="/admin/dashboard" routerLinkActive="active" 
+          (click)="menuOpen = false">
+
+        <span class="icon-text">
+          <span class="material-icons" aria-hidden="true">analytics</span>
+          Dashboard
+        </span>
+
+    </a>
+
      <a
       *hasRole="['ROLE_ADMIN']"
       routerLink="/operators"

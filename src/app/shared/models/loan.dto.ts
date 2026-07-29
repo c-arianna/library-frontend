@@ -6,4 +6,5 @@ export interface LoanDto {
   userId: string;
   cardNumber: string;
   status: LoanStatus;
+  overdue: boolean;
 }
