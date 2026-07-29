@@ -6,6 +6,7 @@ import { LoanListResponseDto } from "../../shared/models/loan-list-response.dto"
 import { LoanDetailDto } from "../../shared/models/loan-detail.dto";
 import { LoanCreateRequest } from "../../shared/models/loan-create-request.dto";
 import { LoanCreateResponse } from "../../shared/models/loan-create.response.dto";
+import { LoanReturnRequest } from "../../shared/models/loan-return-request.dto";
 
 @Injectable({
   providedIn: 'root'
@@ -36,8 +37,8 @@ export class LoanService {
     return this.http.post<void>(`${this.apiUrl}/${loanId}/reject`, {});
   }
 
-  returnLoan(loanId: string) {
-    return this.http.post<void>(`${this.apiUrl}/${loanId}/return`, {});
+  returnLoan(loanId: string, request: LoanReturnRequest) {
+    return this.http.post<void>(`${this.apiUrl}/${loanId}/return`, request);
   }
 
 }

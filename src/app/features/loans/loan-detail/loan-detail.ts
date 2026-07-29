@@ -6,6 +6,8 @@ import { HasRoleDirective } from '../../../core/directives/has.role';
 import { DatePipe } from '@angular/common';
 import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialog/confirm-dialog';
 import { MatDialog } from '@angular/material/dialog';
+import { LoanReturnDialogComponent } from '../loan-return-dialog/loan-return-dialog';
+import { LoanReturnDialogData } from '../loan-return-dialog/loan-return-dialog.model';
 
 @Component({
   selector: 'app-loan-detail',
@@ -85,17 +87,22 @@ export class LoanDetailComponent implements OnInit {
 
   returnLoan() {
 
-    this.openConfirmDialog('Registra reso', 'Vuoi registrare il reso del libro?', 'Registra',
-              () => {
-                const loan = this.store.selectedLoan();
+    const loan = this.store.selectedLoan();
+    
+    if (!loan) {
+      return;
+    }
+    
+    this.dialog.open(LoanReturnDialogComponent,
+      {
+        width: '420px',
+        panelClass: 'custom-dialog',
+        data: {
+            loanId: loan.id
+        } satisfies LoanReturnDialogData
+      }
+    );
 
-                if (!loan) {
-                  return;
-                }
-
-                this.store.returnLoan(loan.id);
-              }
-      );
   }
 
   private openConfirmDialog(title: string, message: string, confirmLabel: string, action: () => void) {
@@ -118,6 +125,12 @@ export class LoanDetailComponent implements OnInit {
         }
 
       });
+  }
+
+  get overdueMessage() {
+    const loan = this.store.selectedLoan();
+    const days = loan ? loan.daysOverdue : 0;
+    return days === 1 ? 'Prestito scaduto da 1 giorno.' : `Prestito scaduto da ${days} giorni.`;
   }
 
 }

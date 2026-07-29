@@ -149,8 +149,4 @@ export class LoansStore extends BaseFeatureStore {
     this.executeRequest(this.loanService.cancelLoan(loanId));
   }
 
-  returnLoan(loanId: string) {
-    this.executeRequest(this.loanService.returnLoan(loanId));
-  }
-    
 }
