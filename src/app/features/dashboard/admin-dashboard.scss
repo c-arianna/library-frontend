@@ -1,6 +1,12 @@
+.section {
+  border: 1px solid #1f2937;
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
 .section-header {
-  display: flex;
-  justify-content: center;
   margin-bottom: var(--spacing-lg);
 }
 
@@ -9,17 +15,19 @@
   margin: 0;
 }
 
+.section-description {
+  margin: 0.5rem 0 1rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.table-wrapper {
+    margin-top: 1.5rem;
+}
+
 .empty-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  gap: var(--spacing-sm);
-
-  padding: var(--spacing-xl);
-
   text-align: center;
+  padding: 2rem;
 }
 
 .empty-state .material-icons {
@@ -27,9 +35,28 @@
   color: var(--color-success, #22c55e);
 }
 
-.empty-state p {
-  margin: 0;
+.risk-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 90px;
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
 
-  font-size: 1rem;
-  font-weight: 500;
+.risk-low {
+  background: rgba(34,197,94,.15);
+  color: #22c55e;
+}
+
+.risk-medium {
+  background: rgba(245,158,11,.15);
+  color: #f59e0b;
+}
+
+.risk-high {
+  background: rgba(239,68,68,.15);
+  color: #ef4444;
 }

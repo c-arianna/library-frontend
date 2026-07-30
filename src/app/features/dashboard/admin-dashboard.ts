@@ -6,6 +6,8 @@ import { DatePipe } from '@angular/common';
 import { NotificationService } from '../../core/services/notification.service';
 import { Subscription } from 'rxjs';
 import { LoanUpdatedPayloadEventDto } from '../../shared/models/events/loan-updated-payload-event.dto';
+import { UserLoanStatisticsDto } from '../../shared/models/user-loan-statistics.dto';
+import { RiskLevel } from '../../shared/models/risk-level.dto';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -20,9 +22,17 @@ export class AdminDashboardComponent implements OnInit {
 
   readonly overdueLoans = signal<LoanOverdueDto[]>([]);
 
-  readonly loading = signal(false);
+  readonly userLoanStatistics = signal<UserLoanStatisticsDto[]>([]);
 
-  readonly error = signal<string | undefined>(undefined);
+  readonly overdueLoansState = signal({
+    loading: false,
+    error: null as string | null
+  });
+
+  readonly statisticsState = signal({
+    loading: false,
+    error: null as string | null
+  });
 
   constructor(private dashboardService: DashboardService, private notificationService: NotificationService) {
     this.startRealtimeUpdates();
@@ -30,6 +40,7 @@ export class AdminDashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadOverdueLoans();
+    this.loadStatistics();
   }
 
    startRealtimeUpdates() {
@@ -98,21 +109,32 @@ export class AdminDashboardComponent implements OnInit {
 
   loadOverdueLoans() {
 
-    this.loading.set(true);
-    this.error.set(undefined);
-
+    this.overdueLoansState.set({loading: true, error: null});
+    
     this.dashboardService.getOverdueLoans()
       .subscribe({
         next: loans => {
           this.overdueLoans.set(loans);
-          this.loading.set(false);
+          this.overdueLoansState.set({loading: false, error: null});
         },
         error: err => {
-          this.error.set(
-            err?.message ?? 'Errore durante il caricamento dei prestiti scaduti'
-          );
+          this.overdueLoansState.set({loading: false, error: err?.message ?? 'Errore durante il caricamento dei prestiti scaduti'});
+        }
+      });
+  }
 
-          this.loading.set(false);
+  loadStatistics() {
+
+    this.statisticsState.set({loading: true, error: null});
+   
+    this.dashboardService.getUserLoanStatistics()
+      .subscribe({
+        next: statistic => {
+          this.userLoanStatistics.set(statistic);
+          this.statisticsState.set({loading: false, error: null});
+        },
+        error: err => {
+          this.statisticsState.set({loading: false, error: err?.message ?? 'Errore durante il caricamento delle statistiche'});
         }
       });
   }
@@ -121,4 +143,17 @@ export class AdminDashboardComponent implements OnInit {
     return this.overdueLoans().length > 0;
   }
 
+  hasStatistics(): boolean {
+    return this.userLoanStatistics().length > 0;
+  }
+
+  mapRiskToDescription(riskLevel : RiskLevel){
+
+    switch(riskLevel){
+      case 'HIGH': return "Alto"
+      case 'MEDIUM': return "Medio"
+      case 'LOW': return "Basso"
+    }
+  }
+  
 }

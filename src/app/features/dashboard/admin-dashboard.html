@@ -21,11 +21,11 @@
 
   </section>
 
-  <section class="section">
+  <section class="section" aria-labelledby="overdue-loans-title" aria-describedby="overdue-loans-description">
 
     <div class="section-header">
 
-      <h2 class="section-title icon-text">
+      <h2 id="overdue-loans-title" class="section-title icon-text">
 
         <span class="material-icons" aria-hidden="true">
           warning
@@ -35,12 +35,15 @@
 
       </h2>
 
+      <p id="overdue-loans-description" class="section-description">
+        Elenco dei prestiti attualmente scaduti e non ancora restituiti.
+      </p>
 
     </div>
 
-    @if (loading()) {
+    @if (overdueLoansState().loading) {
 
-      <div class="empty-state">
+      <div class="empty-state" role="status">
 
         <span
           class="material-icons"
@@ -56,41 +59,41 @@
 
     }
 
-    @if (error()) {
+    @if (overdueLoansState().error) {
 
       <div
         class="error-banner"
         role="alert">
 
-        {{ error() }}
+        {{ overdueLoansState().error }}
 
       </div>
 
     }
 
-    @if (!loading() && !error() && !hasOverdueLoans()) {
+    @if (!overdueLoansState().loading && !overdueLoansState().error && !hasOverdueLoans()) {
 
       <div class="empty-state">
 
-        <span
-          class="material-icons"
-          aria-hidden="true">
+        <span class="material-icons">
           check_circle
         </span>
 
-        <p>
-          Non ci sono prestiti scaduti.
-        </p>
+        <h3>Non risultano prestiti scaduti al momento.</h3>
 
       </div>
 
     }
 
-    @if (!loading() && !error() && hasOverdueLoans()) {
+    @if (!overdueLoansState().loading && !overdueLoansState().error && hasOverdueLoans()) {
 
       <div class="table-wrapper">
 
         <table class="table">
+
+          <caption class="sr-only">
+            Elenco dei prestiti attualmente scaduti.
+          </caption>
 
           <thead>
 
@@ -163,5 +166,137 @@
     }
 
   </section>
+
+  <section class="section" aria-labelledby="statistics-title" aria-describedby="statistics-description">
+
+    <div class="section-header">
+
+      <h2 id="statistics-title" class="section-title icon-text">
+
+      Storico ritardi utenti
+
+      </h2>
+
+      <p id="statistics-description" class="section-description">
+        Statistiche storiche sui ritardi restituiti dagli utenti.
+        I prestiti attualmente scaduti sono mostrati nella sezione precedente.
+      </p>
+
+    </div>
+
+    @if (statisticsState().loading) {
+
+      <div class="empty-state" role="status">
+
+        <span
+          class="material-icons"
+          aria-hidden="true">
+          hourglass_top
+        </span>
+
+        <p>
+          Caricamento statistiche...
+        </p>
+
+      </div>
+
+    }
+
+    @if (statisticsState().error) {
+
+      <div
+        class="error-banner"
+        role="alert">
+
+        {{ statisticsState().error }}
+
+      </div>
+
+    }
+
+    @if (!statisticsState().loading && !statisticsState().error && !hasStatistics()) {
+
+      <div class="empty-state">
+
+        <span class="material-icons">
+          check_circle
+        </span>
+
+        <h3>Non risultano utenti con prestiti in ritardo al momento</h3>
+
+      </div>
+
+    }
+
+    @if (!statisticsState().loading && !statisticsState().error && hasStatistics()) {
+
+      <div class="table-wrapper">
+
+        <table class="table">
+
+          <caption class="sr-only">
+            Statistiche storiche dei ritardi degli utenti.
+          </caption>
+
+          <thead>
+
+            <tr>
+              <th scope="col">Utente</th>
+              <th scope="col">Prestiti scaduti non resi</th>
+              <th scope="col">Prestiti resi in ritardo</th>
+              <th scope="col">Giorni di ritardo sui prestiti resi</th>
+              <th scope="col">Rischio</th>
+            </tr>
+
+          </thead>
+
+          <tbody>
+
+            @for (statistic of userLoanStatistics(); track statistic.userId) {
+
+              <tr>
+
+                <td>
+                 <a
+                    class="table-link"
+                    [routerLink]="['/users', statistic.userId]">
+                    {{ statistic.cardNumber }}
+                  </a>
+                </td>
+
+                <td>
+                  {{ statistic.activeOverdueLoansCount }}
+                </td>
+
+                <td>
+                  {{ statistic.overdueLoansCount }}
+                </td>
+
+                <td>
+                 {{ statistic.totalDaysOverdue }}
+                </td>
+                <td>
+                  <span
+                      class="risk-badge"
+                      [class.risk-high]="statistic.riskLevel === 'HIGH'"
+                      [class.risk-medium]="statistic.riskLevel === 'MEDIUM'"
+                      [class.risk-low]="statistic.riskLevel === 'LOW'">
+                    {{ mapRiskToDescription(statistic.riskLevel) }}
+                  </span>
+                </td>
+              </tr>
+
+            }
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    }
+
+  </section>
+
 
 </main>

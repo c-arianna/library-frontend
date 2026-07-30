@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { LoanOverdueDto } from '../../shared/models/loan-overdue.dto';
+import { UserLoanStatisticsDto } from '../../shared/models/user-loan-statistics.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,10 @@ export class DashboardService {
 
   getOverdueLoans() {
     return this.http.get<LoanOverdueDto[]>(`${this.apiUrl}/dashboard/overdue`);
+  }
+
+  getUserLoanStatistics() {
+    return this.http.get<UserLoanStatisticsDto[]>(`${this.apiUrl}/dashboard/overdue/statistics`);
   }
   
 }
