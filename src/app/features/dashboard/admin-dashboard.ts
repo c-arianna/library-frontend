@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, inject, OnInit, signal, ViewChild } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { LoanOverdueDto } from '../../shared/models/loan-overdue.dto';
 import { DashboardService } from '../../core/services/dashboard.service';
@@ -8,6 +8,18 @@ import { Subscription } from 'rxjs';
 import { LoanUpdatedPayloadEventDto } from '../../shared/models/events/loan-updated-payload-event.dto';
 import { UserLoanStatisticsDto } from '../../shared/models/user-loan-statistics.dto';
 import { RiskLevel } from '../../shared/models/risk-level.dto';
+import { Chart, LineController, LineElement, PointElement, CategoryScale, LinearScale, Legend, Tooltip } from 'chart.js';
+import { DailyLoanStatisticDto } from '../../shared/models/daily.loan.statistic.dto';
+
+Chart.register(
+  LineController,
+  LineElement,
+  PointElement,
+  CategoryScale,
+  LinearScale,
+  Legend,
+  Tooltip
+);
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -16,13 +28,22 @@ import { RiskLevel } from '../../shared/models/risk-level.dto';
   templateUrl: './admin-dashboard.html',
   styleUrl: './admin-dashboard.scss'
 })
-export class AdminDashboardComponent implements OnInit {
+export class AdminDashboardComponent implements OnInit, AfterViewInit {
+
+  @ViewChild('loanChart')
+  chartCanvas!: ElementRef<HTMLCanvasElement>;
+
+  private chart?: Chart;
 
   private wsSub?: Subscription;
 
   readonly overdueLoans = signal<LoanOverdueDto[]>([]);
 
   readonly userLoanStatistics = signal<UserLoanStatisticsDto[]>([]);
+
+  readonly dailyLoanStatistics = signal<DailyLoanStatisticDto[]>([]);
+
+  readonly selectedDays = signal(30);
 
   readonly overdueLoansState = signal({
     loading: false,
@@ -43,7 +64,11 @@ export class AdminDashboardComponent implements OnInit {
     this.loadStatistics();
   }
 
-   startRealtimeUpdates() {
+  ngAfterViewInit() {
+    this.loadDailyLoanStatistics();
+  }
+
+  startRealtimeUpdates() {
 
     if (this.wsSub) {
       return;
@@ -155,5 +180,90 @@ export class AdminDashboardComponent implements OnInit {
       case 'LOW': return "Basso"
     }
   }
-  
+
+  loadDailyLoanStatistics(days: number = 30) {
+
+    this.selectedDays.set(days);
+
+    const to = new Date();
+    const from = new Date();
+    from.setDate(to.getDate() - days);
+
+    this.dashboardService.getDailyLoanStatistics(this.toIsoDate(from), this.toIsoDate(to))
+      .subscribe({
+          next: statistics => {
+            this.dailyLoanStatistics.set(statistics);
+            this.createChart(statistics);
+          },
+          error: error => {
+            console.error(error);
+          }
+
+    });
+
+  }
+
+  private createChart(statistics: DailyLoanStatisticDto[]) {
+
+    if (this.chart) {
+      this.chart.destroy();
+    }
+    
+    this.chart = new Chart(this.chartCanvas.nativeElement, {
+
+      type: 'line',
+
+      data: {
+
+        labels: statistics.map(d => d.statisticDate),
+
+          datasets: [
+
+            {
+              label: 'Creati',
+              data: statistics.map(d => d.loansCreated),
+              borderColor: '#b8860b',
+              tension: 0.3
+            },
+
+            {
+              label: 'Confermati',
+              data: statistics.map(d => d.loansConfirmed),
+              borderColor: '#2e7d32',
+              tension: 0.3
+            },
+
+            {
+              label: 'Annullati',
+              data: statistics.map(d => d.loansCanceled),
+              borderColor: '#d32f2f',
+              tension: 0.3
+            },
+
+            {
+              label: 'Restituiti',
+              data: statistics.map(d => d.loansReturned),
+              borderColor: '#1976d2',
+              tension: 0.3
+            }
+
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false
+        }
+
+    });
+
+  }
+
+  private toIsoDate(date: Date) {
+    return date.toISOString().split('T')[0];
+  }
+
+  ngOnDestroy(): void {
+    this.chart?.destroy();
+  }
+
 }
