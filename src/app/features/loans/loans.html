@@ -86,8 +86,9 @@
 
         <thead>
           <tr>
-            <th *hasRole="['ROLE_ADMIN', 'ROLE_LIBRARIAN']">ID Prestito</th>
             <th>ISBN</th>
+            <th>Autore</th>
+            <th>Titolo</th>
             <th *hasRole="['ROLE_ADMIN', 'ROLE_LIBRARIAN']">Numero Tessera</th>
             <th>Stato</th>         
             <th>Dettaglio</th>   
@@ -98,13 +99,16 @@
           @for (loan of store.filteredLoans(); track loan.id) {
 
             <tr>
-              <td *hasRole="['ROLE_ADMIN', 'ROLE_LIBRARIAN']">
-                {{ loan.id }}
-              </td>
               <td>
                 {{ loan.isbn }}
               </td>
-              <td *hasRole="['ROLE_ADMIN', 'ROLE_LIBRARIAN']">
+               <td>
+                {{ loan.author }}
+              </td>
+               <td>
+                {{ loan.title }}
+              </td>
+              <td *hasRole="['ROLE_ADMIN', 'ROLE_LIBRARIAN']" class="card-number">
                 {{ loan.cardNumber }}
               </td>
               <td>

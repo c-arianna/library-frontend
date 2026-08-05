@@ -1,0 +1,41 @@
+.section-description {
+  margin: 0.5rem 0 1rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.table-wrapper {
+    margin-top: 1.5rem;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 2rem;
+}
+
+.empty-state .material-icons {
+  font-size: 2.5rem;
+  color: var(--color-success, #22c55e);
+}
+
+.table-link {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.overdue-badge {
+  display: inline-flex;
+  align-items: center;
+
+  padding: 0.35rem 0.75rem;
+
+  border-radius: 999px;
+
+  background-color: rgba(220, 38, 38, 0.15);
+  color: #ef4444;
+
+  font-weight: 600;
+  font-size: 0.875rem;
+}

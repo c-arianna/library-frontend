@@ -1,0 +1,53 @@
+<main class="container">
+
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+
+      <a routerLink="/admin/dashboard">
+        Dashboard amministrativa
+      </a>
+
+      <span>/</span>
+
+      <span aria-current="page">
+        Prestiti per giorno
+      </span>
+
+    </nav>
+
+    <h1 class="page-title icon-text">
+        <span class="material-icons">
+          insights
+        </span>
+
+        Prestiti per giorno
+    </h1>
+
+      <p class="section-description">
+        Andamento giornaliero dei prestiti della biblioteca.
+      </p>
+
+    <div class="chart-filters">
+
+      <button type="button" class="filter-button" [class.active]="selectedDays() === 7" (click)="loadDailyLoanStatistics(7)">
+        7 giorni
+      </button>
+
+      <button type="button" class="filter-button" [class.active]="selectedDays() === 30" (click)="loadDailyLoanStatistics(30)">
+        30 giorni
+      </button>
+
+      <button type="button" class="filter-button" [class.active]="selectedDays() === 90" (click)="loadDailyLoanStatistics(90)">
+        90 giorni
+      </button>
+
+    <button type="button" class="filter-button" [class.active]="selectedDays() === 365" (click)="loadDailyLoanStatistics(365)">
+      Anno
+    </button>
+
+  </div>
+
+    <div class="chart-container">
+      <canvas #loanChart></canvas>
+    </div>
+
+</main>

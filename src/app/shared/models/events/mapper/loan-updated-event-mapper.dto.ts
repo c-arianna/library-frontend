@@ -1,3 +1,4 @@
+import { LoanBookDto } from "../../loan-book.dto";
 import { LoanDetailDto } from "../../loan-detail.dto";
 import { LoanUserDto } from "../../loan-user.dto";
 import { LoanDto } from "../../loan.dto";
@@ -8,6 +9,8 @@ export function mapLoanNotificationToLoan(payload: LoanUpdatedPayloadEventDto) :
   return {
     id: payload.loanId,
     isbn: payload.isbn,
+    author: payload.author,
+    title: payload.title,
     userId: payload.userId,
     cardNumber: payload.cardNumber,
     status: payload.status,
@@ -18,6 +21,12 @@ export function mapLoanNotificationToLoan(payload: LoanUpdatedPayloadEventDto) :
 
 export function mapLoanNotificationToDetail(event: LoanUpdatedPayloadEventDto): LoanDetailDto {
 
+  const book : LoanBookDto  = {
+      isbn: event.isbn,
+      author: event.author,
+      title: event.title
+  };
+
   const user : LoanUserDto  = {
       id: event.userId,
       cardNumber: event.cardNumber
@@ -25,7 +34,7 @@ export function mapLoanNotificationToDetail(event: LoanUpdatedPayloadEventDto): 
   
   return {
     id: event.loanId,
-    isbn: event.isbn,
+    book,
     user,
     status: event.status,
     start: event.startDate,

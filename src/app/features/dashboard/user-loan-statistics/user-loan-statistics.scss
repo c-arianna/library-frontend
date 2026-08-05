@@ -1,0 +1,52 @@
+.section-description {
+  margin: 0.5rem 0 1rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.table-wrapper {
+    margin-top: 1.5rem;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 2rem;
+}
+
+.empty-state .material-icons {
+  font-size: 2.5rem;
+  color: var(--color-success, #22c55e);
+}
+
+.table-link {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.risk-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 90px;
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.risk-low {
+  background: rgba(34,197,94,.15);
+  color: #22c55e;
+}
+
+.risk-medium {
+  background: rgba(245,158,11,.15);
+  color: #f59e0b;
+}
+
+.risk-high {
+  background: rgba(239,68,68,.15);
+  color: #ef4444;
+}

@@ -1,0 +1,155 @@
+<main class="container">
+
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+
+      <a routerLink="/admin/dashboard">
+        Dashboard amministrativa
+      </a>
+
+      <span>/</span>
+
+      <span aria-current="page">
+        Prestiti scaduti
+      </span>
+
+    </nav>
+
+    <h1 class="page-title icon-text">
+
+        <span class="material-icons" aria-hidden="true">
+          warning
+        </span>
+
+        Prestiti scaduti
+
+    </h1>
+
+      <p class="section-description">
+        Elenco dei prestiti attualmente scaduti e non ancora restituiti.
+      </p>
+
+    @if (overdueLoansState().loading) {
+
+      <div class="empty-state" role="status">
+
+        <span
+          class="material-icons"
+          aria-hidden="true">
+          hourglass_top
+        </span>
+
+        <p>
+          Caricamento prestiti scaduti...
+        </p>
+
+      </div>
+
+    }
+
+    @if (overdueLoansState().error) {
+
+      <div
+        class="error-banner"
+        role="alert">
+
+        {{ overdueLoansState().error }}
+
+      </div>
+
+    }
+
+    @if (!overdueLoansState().loading && !overdueLoansState().error && !hasOverdueLoans()) {
+
+      <div class="empty-state">
+
+        <span class="material-icons">
+          check_circle
+        </span>
+
+        <h3>Non risultano prestiti scaduti al momento.</h3>
+
+      </div>
+
+    }
+
+    @if (!overdueLoansState().loading && !overdueLoansState().error && hasOverdueLoans()) {
+
+      <div class="table-wrapper">
+
+        <table class="table">
+
+          <caption class="sr-only">
+            Elenco dei prestiti attualmente scaduti.
+          </caption>
+
+          <thead>
+
+            <tr>
+              <th scope="col">Prestito</th>
+              <th scope="col">ISBN</th>
+              <th scope="col">Utente</th>
+              <th scope="col">Scadenza</th>
+              <th scope="col">Ritardo</th>
+              <th scope="col">Dettaglio prestito</th>
+            </tr>
+
+          </thead>
+
+          <tbody>
+
+            @for (loan of overdueLoans(); track loan.loanId) {
+
+              <tr>
+
+                <td>
+                  {{ loan.loanId }}
+                </td>
+
+                <td>
+                  <a
+                    class="table-link"
+                    [routerLink]="['/books', loan.isbn]">
+                    {{ loan.isbn }}
+                  </a>
+                </td>
+
+                <td>
+                  <a
+                    class="table-link"
+                    [routerLink]="['/users', loan.userId]">
+                    {{ loan.cardNumber }}
+                  </a>
+                </td>
+
+                <td>
+                 {{ loan.dueDate | date:'dd/MM/yyyy' }}
+                </td>
+
+                <td>
+                  <span class="badge overdue-badge">
+                    {{ loan.daysOverdue }} giorni
+                  </span>
+                </td>
+
+                <td>
+                    <a [routerLink]="['/loans', loan.loanId]"
+                       [attr.aria-label]="'Visualizza dettaglio prestito ' + loan.loanId">
+                       <span class="material-icons" aria-hidden="true">
+                       visibility
+                       </span>
+                    </a>
+                </td>
+
+              </tr>
+
+            }
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    }
+
+</main>

@@ -135,7 +135,7 @@ export class LoansStore extends BaseFeatureStore {
   
       const selectedLoan = this.selectedLoan();
   
-      if (selectedLoan && selectedLoan.isbn === payload.isbn) {
+      if (selectedLoan && selectedLoan.book.isbn === payload.isbn) {
         this.selectedLoan.set(mapLoanNotificationToDetail(payload));
       }
   

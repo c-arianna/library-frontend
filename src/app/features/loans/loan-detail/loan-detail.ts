@@ -55,7 +55,7 @@ export class LoanDetailComponent implements OnInit {
 
     this.router.navigate([
       '/books',
-      loan.isbn
+      loan.book.isbn
     ]);
 
   }

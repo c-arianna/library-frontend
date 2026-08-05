@@ -70,7 +70,39 @@ export const routes: Routes = [
   },
   {
     path: 'admin/dashboard',
-    loadComponent: () => import('./features/dashboard/admin-dashboard').then(c => c.AdminDashboardComponent),
+    loadComponent: () => import('./features/dashboard/admin-dashboard/admin-dashboard').then(c => c.AdminDashboardComponent),
+    canActivate: [authGuard],
+    data: {
+      roles: ['ROLE_ADMIN', 'ROLE_LIBRARIAN']
+    },
+  },
+  {
+    path: 'admin/dashboard/daily-loan-statistics',
+    loadComponent: () => import('./features/dashboard/daily-loan-statistics/daily-loan-statistics').then(c => c.DailyLoanStatisticsComponent),
+    canActivate: [authGuard],
+    data: {
+      roles: ['ROLE_ADMIN', 'ROLE_LIBRARIAN']
+    },
+  },
+  {
+    path: 'admin/dashboard/overdue-loans',
+    loadComponent: () => import('./features/dashboard/overdue-loans/overdue-loans').then(c => c.OverdueLoansComponent),
+    canActivate: [authGuard],
+    data: {
+      roles: ['ROLE_ADMIN', 'ROLE_LIBRARIAN']
+    },
+  },
+  {
+    path: 'admin/dashboard/user-loan-statistics',
+    loadComponent: () => import('./features/dashboard/user-loan-statistics/user-loan-statistics').then(c => c.UserLoanStatisticsComponent),
+    canActivate: [authGuard],
+    data: {
+      roles: ['ROLE_ADMIN', 'ROLE_LIBRARIAN']
+    },
+  },
+  {
+    path: 'admin/dashboard/popular-books',
+    loadComponent: () => import('./features/dashboard/popular-books/popular-books').then(c => c.PopularBooksComponent),
     canActivate: [authGuard],
     data: {
       roles: ['ROLE_ADMIN', 'ROLE_LIBRARIAN']

@@ -1,0 +1,144 @@
+<main class="container">
+
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+
+      <a routerLink="/admin/dashboard">
+        Dashboard amministrativa
+      </a>
+
+      <span>/</span>
+
+      <span aria-current="page">
+        Storico ritardo utenti
+      </span>
+
+    </nav>
+
+    <h1 class="page-title icon-text">
+
+      <span class="material-icons" aria-hidden="true">
+        group
+      </span>
+
+      Storico ritardi utenti
+
+    </h1>
+
+      <p class="section-description">
+        Statistiche storiche sui ritardi restituiti dagli utenti.
+        I prestiti attualmente scaduti sono mostrati nella sezione precedente.
+      </p>
+
+    @if (statisticsState().loading) {
+
+      <div class="empty-state" role="status">
+
+        <span
+          class="material-icons"
+          aria-hidden="true">
+          hourglass_top
+        </span>
+
+        <p>
+          Caricamento statistiche...
+        </p>
+
+      </div>
+
+    }
+
+    @if (statisticsState().error) {
+
+      <div
+        class="error-banner"
+        role="alert">
+
+        {{ statisticsState().error }}
+
+      </div>
+
+    }
+
+    @if (!statisticsState().loading && !statisticsState().error && !hasStatistics()) {
+
+      <div class="empty-state">
+
+        <span class="material-icons">
+          check_circle
+        </span>
+
+        <h3>Non risultano utenti con prestiti in ritardo al momento</h3>
+
+      </div>
+
+    }
+
+    @if (!statisticsState().loading && !statisticsState().error && hasStatistics()) {
+
+      <div class="table-wrapper">
+
+        <table class="table">
+
+          <caption class="sr-only">
+            Statistiche storiche dei ritardi degli utenti.
+          </caption>
+
+          <thead>
+
+            <tr>
+              <th scope="col">Utente</th>
+              <th scope="col">Prestiti scaduti non resi</th>
+              <th scope="col">Prestiti resi in ritardo</th>
+              <th scope="col">Giorni di ritardo sui prestiti resi</th>
+              <th scope="col">Rischio</th>
+            </tr>
+
+          </thead>
+
+          <tbody>
+
+            @for (statistic of userLoanStatistics(); track statistic.userId) {
+
+              <tr>
+
+                <td>
+                 <a
+                    class="table-link"
+                    [routerLink]="['/users', statistic.userId]">
+                    {{ statistic.cardNumber }}
+                  </a>
+                </td>
+
+                <td>
+                  {{ statistic.activeOverdueLoansCount }}
+                </td>
+
+                <td>
+                  {{ statistic.overdueLoansCount }}
+                </td>
+
+                <td>
+                 {{ statistic.totalDaysOverdue }}
+                </td>
+                <td>
+                  <span
+                      class="risk-badge"
+                      [class.risk-high]="statistic.riskLevel === 'HIGH'"
+                      [class.risk-medium]="statistic.riskLevel === 'MEDIUM'"
+                      [class.risk-low]="statistic.riskLevel === 'LOW'">
+                    {{ mapRiskToDescription(statistic.riskLevel) }}
+                  </span>
+                </td>
+              </tr>
+
+            }
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    }
+
+</main>

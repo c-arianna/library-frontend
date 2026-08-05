@@ -3,6 +3,8 @@ import { LoanStatus } from "../loan-status.dto";
 export interface LoanUpdatedPayloadEventDto {
   loanId: string;
   isbn: string;
+  author: string;
+  title: string;
   userId: string;
   identityProviderId: string;
   cardNumber: string;

@@ -102,7 +102,31 @@
           </span>
 
           <span class="detail-value">
-            {{ loan.isbn }}
+            {{ loan.book.isbn }}
+          </span>
+
+        </div>
+
+         <div class="detail-row">
+
+          <span class="detail-label">
+            Titolo
+          </span>
+
+          <span class="detail-value">
+            {{ loan.book.title }}
+          </span>
+
+        </div>
+
+        <div class="detail-row">
+
+          <span class="detail-label">
+            Autore
+          </span>
+
+          <span class="detail-value">
+            {{ loan.book.author }}
           </span>
 
         </div>

@@ -1,0 +1,114 @@
+<main class="container">
+
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+
+      <a routerLink="/admin/dashboard">
+        Dashboard amministrativa
+      </a>
+
+      <span>/</span>
+
+      <span aria-current="page">
+        Libri più prestati
+      </span>
+
+  </nav>
+
+  <h1 class="page-title icon-text">
+
+    <span class="material-icons">
+      menu_book
+    </span>
+
+    Libri più prestati
+
+  </h1>
+
+  <p class="section-description">
+        Classifica dei libri con il maggior numero di prestiti registrati.
+  </p>
+
+   @if (state().loading) {
+
+      <div class="empty-state" role="status">
+
+        <span
+          class="material-icons"
+          aria-hidden="true">
+          hourglass_top
+        </span>
+
+        <p>
+          Caricamento statistiche...
+        </p>
+
+      </div>
+
+    }
+
+    @if (state().error) {
+
+      <div
+        class="error-banner"
+        role="alert">
+
+        {{ state().error }}
+
+      </div>
+
+    }
+
+    @if (!state().loading && !state().error && !hasLoans()) {
+
+      <div class="empty-state">
+
+        <h3>Non ci sono prestiti registrati</h3>
+
+      </div>
+
+    }
+
+   @if (!state().loading && !state().error && hasLoans()) {
+
+      <div class="table-wrapper">
+
+        <table class="table">
+
+          <thead>
+
+            <tr>
+              <th>ISBN</th>
+              <th>Titolo</th>
+              <th>Autore</th>
+              <th>Prestiti</th>
+            </tr>
+
+          </thead>
+
+          <tbody>
+
+            @for (book of popularBooks();
+                  track book.isbn) {
+
+              <tr>
+
+                <td>{{ book.isbn }}</td>
+
+                <td>{{ book.title }}</td>
+
+                <td>{{ book.author }}</td>
+
+                <td>{{ book.loanCount }}</td>
+
+              </tr>
+
+            }
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    }
+</main>
