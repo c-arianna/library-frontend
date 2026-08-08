@@ -109,6 +109,16 @@ export const routes: Routes = [
     },
   },
   {
+    path: 'book-requests',
+    loadComponent: () => import('./features/book-requests/book.requests').then(c => c.BookRequestsComponent),
+    canActivate: [authGuard]
+  },
+  {
+    path: 'book-requests/:requestId',
+    loadComponent: () => import('./features/book-requests/book-request-detail/book-request-detail').then(c => c.BookRequestDetailComponent),
+    canActivate: [authGuard]
+  },
+  {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'

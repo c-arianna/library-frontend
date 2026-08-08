@@ -1,0 +1,274 @@
+<main class="container">
+
+  @if (store.loading()) {
+
+    <span
+      class="material-icons"
+      aria-hidden="true">
+      hourglass_top
+    </span>
+
+    <div class="card section-card">
+      Caricamento dettaglio richiesta...
+    </div>
+
+  }
+
+  @if (store.error()) {
+
+    <div
+      class="error-banner"
+      role="alert">
+
+      <span
+        class="material-icons"
+        aria-hidden="true">
+        error_outline
+      </span>
+
+      <h2>
+        {{ store.error() }}
+      </h2>
+
+      <button
+        class="button button-primary"
+        routerLink="/book-requests">
+
+        Torna all'elenco richieste
+
+      </button>
+
+    </div>
+
+  }
+
+  @if (
+    !store.loading()
+    && !store.error()
+    && store.selectedRequest();
+    as bookRequest
+  ) {
+
+    <section class="card details-card">
+
+      <nav
+        class="breadcrumb"
+        aria-label="Breadcrumb">
+
+        <a routerLink="/book-requests">
+          Richieste libri
+        </a>
+
+        <span>/</span>
+
+        <span>
+          Dettaglio richiesta
+        </span>
+
+      </nav>
+
+      <div class="metadata">
+
+        <div class="metadata-item">
+
+          <span class="metadata-label">
+            Utente richiedente
+          </span>
+
+          <span class="metadata-value">
+            {{ bookRequest.cardNumber }}
+          </span>
+
+        </div>
+
+        <div class="metadata-item">
+
+          <span class="metadata-label">
+            ISBN
+          </span>
+
+          <span class="metadata-value">
+            {{ bookRequest.isbn || '-' }}
+          </span>
+
+        </div>
+
+        <div class="metadata-item">
+
+          <span class="metadata-label">
+            Titolo
+          </span>
+
+          <span class="metadata-value">
+            {{ bookRequest.title }}
+          </span>
+
+        </div>
+
+        <div class="metadata-item">
+
+          <span class="metadata-label">
+            Autore
+          </span>
+
+          <span class="metadata-value">
+            {{ bookRequest.author }}
+          </span>
+
+        </div>
+
+        <div class="metadata-item">
+
+          <span class="metadata-label">
+            Stato
+          </span>
+
+          <span
+            class="badge"
+            [class.pending]="bookRequest.status === 'PENDING'"
+            [class.approved]="bookRequest.status === 'APPROVED'"
+            [class.rejected]="bookRequest.status === 'REJECTED'">
+
+            {{ statusLabels[bookRequest.status] }}
+
+          </span>
+
+        </div>
+
+        <div class="metadata-item">
+
+          <span class="metadata-label">
+            Voti
+          </span>
+
+          <span class="metadata-value">
+            {{ bookRequest.votes }}
+          </span>
+
+        </div>
+
+        @if (bookRequest.notes.trim()) {
+
+          <div class="metadata-item notes-item">
+
+            <span class="metadata-label">
+              Note
+            </span>
+
+            <p class="notes-content">
+              {{ bookRequest.notes || '-' }}
+            </p>
+
+          </div>
+        }
+
+      </div>
+
+      <div class="section-divider"></div>
+
+        <h2 class="section-title">
+          Utenti che hanno votato
+        </h2>
+
+      @if (bookRequest.bookRequestVotes.length === 0) {
+
+        <div class="empty-state">
+
+          <span
+            class="material-icons"
+            aria-hidden="true">
+            how_to_vote
+          </span>
+
+          <p>
+            Nessun voto registrato.
+          </p>
+
+        </div>
+
+      } @else {
+
+        <div class="table-container">
+
+          <table class="table">
+
+            <caption class="sr-only">
+              Elenco utenti che hanno votato la richiesta
+            </caption>
+
+            <thead>
+
+              <tr>
+                <th>#</th>
+                <th>Numero tessera</th>
+              </tr>
+
+            </thead>
+
+            <tbody>
+
+              @for (vote of bookRequest.bookRequestVotes; track vote.userId; let index = $index) {
+
+                <tr>
+                  <td>
+                    {{ index + 1 }}
+                  </td>
+                  <td>
+                    {{ vote.cardNumber }}
+                  </td>
+                </tr>
+
+              }
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      }
+
+      <div class="action-bar">
+
+        @if (bookRequest.status === 'PENDING') {
+
+          <button
+            *hasRole="['ROLE_ADMIN', 'ROLE_LIBRARIAN']"
+            class="button button-primary"
+            (click)="openApproveDialog()">
+
+            Approva richiesta
+
+          </button>
+
+          <button
+            *hasRole="['ROLE_ADMIN', 'ROLE_LIBRARIAN']"
+            class="button button-secondary"
+            (click)="openRejectDialog()">
+
+            Rigetta richiesta
+
+          </button>
+
+        }
+
+        @if (bookRequest.canVote) {
+
+          <button
+            *hasRole="['ROLE_READER']"
+            class="button button-primary"
+            (click)="openVoteDialog()">
+
+            Vota richiesta
+
+          </button>
+
+        }
+
+      </div>
+
+    </section>
+
+  }
+
+</main>

@@ -1,3 +1,4 @@
+import { BookRequestUpdatedPayloadEventDto } from "./book-request-updated-payload-event-dto";
 import { BookUpdatedPayloadEventDto } from "./book-updated-payload-event.dto";
 import { LoanUpdatedPayloadEventDto } from "./loan-updated-payload-event.dto";
 import { UserUpdatedPayloadEventDto } from "./user-updated-payload-event.dto";
@@ -17,4 +18,9 @@ export interface UserUpdatedNotification {
   payload: UserUpdatedPayloadEventDto;
 }
 
-export type NotificationEvent = BookUpdatedNotification | LoanUpdatedNotification | UserUpdatedNotification;
+export interface BookRequestUpdatedNotification {
+  eventType: 'BOOK_REQUEST_UPDATED';
+  payload: BookRequestUpdatedPayloadEventDto;
+}
+
+export type NotificationEvent = BookUpdatedNotification | LoanUpdatedNotification | UserUpdatedNotification | BookRequestUpdatedNotification;

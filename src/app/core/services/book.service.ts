@@ -2,7 +2,6 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { AddBookRequestDto } from '../../shared/models/book-registered-request.dto';
-import { BookFiltersDto } from '../../shared/models/book-filters.dto';
 import { BookDto } from '../../shared/models/book.dto';
 import { BookListResponseDto } from '../../shared/models/book-list-response.dto';
 import { AddBookResponseDto } from '../../shared/models/book-registered-response.dto';
@@ -33,14 +32,14 @@ export class BookService {
   }
 
   addCopies(isbn: string, request: BookAddCopiesRequest) {
-    return this.http.post(`/api/books/${isbn}/copies/add`, request);
+    return this.http.post(`${this.apiUrl}/${isbn}/copies/add`, request);
   }
 
   removeCopies(isbn: string, request : BookRemoveCopiesRequest) {
-    return this.http.post(`/api/books/${isbn}/copies/remove`, request);
+    return this.http.post(`${this.apiUrl}/${isbn}/copies/remove`, request);
   }
 
   subscribeBookAvailability(isbn: string, request: BookSubscribeRequest){
-    return this.http.post(`/api/books/${isbn}/subscription`, request);
+    return this.http.post(`${this.apiUrl}/${isbn}/subscription`, request);
   }
 }

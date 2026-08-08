@@ -1,0 +1,66 @@
+<div class="dialog-header">
+
+  <h2 mat-dialog-title>
+    {{ data.title }}
+  </h2>
+
+  <button
+    class="icon-button"
+    type="button"
+    aria-label="Chiudi finestra"
+    [mat-dialog-close]="null">
+
+    <span
+      class="material-icons"
+      aria-hidden="true">
+      close
+    </span>
+
+  </button>
+
+</div>
+
+<mat-dialog-content>
+
+  <p class="dialog-message">
+    {{ data.message }}
+  </p>
+
+  <div class="reason-container">
+
+    <label for="reason">
+      Motivazione (facoltativa)
+    </label>
+
+    <textarea
+      id="reason"
+      rows="5"
+      formControlName="reason">
+    </textarea>
+
+  </div>
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+
+  <button
+    mat-button
+    type="button"
+    [mat-dialog-close]="null">
+
+    Annulla
+
+  </button>
+
+  <button
+    mat-raised-button
+    color="warn"
+    type="button"
+    (click)="confirm()">
+
+    Rigetta
+
+  </button>
+
+</mat-dialog-actions>

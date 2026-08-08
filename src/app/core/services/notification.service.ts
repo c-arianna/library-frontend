@@ -29,7 +29,8 @@ export class NotificationService {
           console.log('WebSocket connected');
 
           this.subscribeToTopic('/topic/books');
-          
+          this.subscribeToTopic('/topic/bookRequests');
+
           if (auth.hasRole('ROLE_READER')) {
             this.subscribeToTopic('/user/queue/loans');
             this.subscribeToTopic('/user/queue/users');

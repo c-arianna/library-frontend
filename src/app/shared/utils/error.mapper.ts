@@ -50,6 +50,27 @@ export function mapError(code?: string): string {
     case 'INVALID_STATE_TRANSITION':
       return 'Operazione non consentita nello stato attuale del prestito';
 
+    case 'BOOK_ALREADY_REGISTERED':
+      return 'Il libro richiesto è già presente nel catalogo';
+
+    case 'BOOK_REQUEST_ALREADY_EXIST':
+      return 'Richiesta già creata per questo libro, se vuoi puoi votarla';
+
+    case 'BOOK_REQUEST_NOT_FOUND':
+      return 'Richiesta non trovata';
+
+    case 'BOOK_REQUEST_ALREADY_CLOSED':
+      return 'La richiesta è chiusa, non puoi procedere con la votazione';
+
+    case 'INVALID_REQUEST_STATE_TRANSITION':
+      return 'Operazione non consentita nello stato attuale della richiesta';
+
+    case 'USER_ALREADY_VOTED':
+      return 'Hai già votato questa richiesta';
+
+    case 'USER_REQUESTER_CANNOT_VOTE':
+      return 'Hai creato la richiesta, quindi non puoi votarla'
+      
     default:
       return 'Si è verificato un errore imprevisto';
 

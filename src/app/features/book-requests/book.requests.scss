@@ -1,0 +1,21 @@
+.badge.pending {
+  background: rgba(255, 193, 7, .15);
+  color: #b8860b;
+}
+
+.badge.approved {
+  background: rgba(46, 125, 50, .15);
+  color: var(--color-success);
+}
+
+.badge.rejected {
+  background: rgba(211, 47, 47, .15);
+  color: var(--color-danger);
+}
+
+.page-actions {
+  display: flex;
+  justify-content: flex-end;
+
+  margin-bottom: 1.5rem;
+}

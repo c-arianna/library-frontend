@@ -1,0 +1,122 @@
+<main class="container">
+
+  <h1 class="page-title icon-text">
+    <span class="material-icons" aria-hidden="true">how_to_vote</span>
+    Richieste libri
+  </h1>
+
+  <p *hasRole="['ROLE_ADMIN', 'ROLE_LIBRARIAN']" class="section-description">
+    Consulta le richieste di acquisto e i voti espressi dagli utenti.
+  </p>
+
+  <p *hasRole="['ROLE_READER']" class="section-description">
+    Esplora le richieste di nuovi libri e supporta quelle che ritieni interessanti.
+  </p>
+  
+  <div *hasRole="['ROLE_READER']" class="page-actions">
+
+    <button class="button button-primary" (click)="openAddBookRequestDialog()">
+      <span class="material-icons" aria-hidden="true">add</span>
+      Nuova richiesta
+    </button>
+
+  </div>
+
+  @if (store.loading()) {
+
+    <div class="empty-state" role="status">
+
+      <span class="material-icons" aria-hidden="true">
+        hourglass_top
+      </span>
+
+      <p>
+        Caricamento richieste...
+      </p>
+
+    </div>
+
+  }
+
+  @if (store.error()) {
+
+    <div
+      class="error-banner"
+      role="alert">
+
+      {{ store.error() }}
+
+    </div>
+
+  }
+
+  @if (!store.loading() && !store.error()) {
+
+    
+     @if (store.bookRequests().length === 0) {
+
+      <div class="empty-state">
+        <h3>Non sono presenti richieste</h3>
+      </div>
+
+    }@else{
+
+     <div class="table-container">
+
+      <table class="table">
+
+        <caption class="sr-only">
+            Elenco richieste libri
+        </caption>
+
+        <thead>
+          <tr>
+            <th>Titolo</th>
+            <th>Autore</th>
+            <th>ISBN</th>
+            <th>Voti</th>
+            <th>Stato</th>
+            <th>Dettaglio</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          @for (request of store.bookRequests(); track request.requestId) {
+            <tr>
+              <td>{{ request.title }}</td>
+              <td>{{ request.author }}</td>
+              <td>{{ request.isbn || '-' }}</td>
+              <td>{{ request.votes }}</td>
+              <td>
+                <span class="badge"
+                    [class.pending]="request.status === 'PENDING'"
+                    [class.approved]="request.status === 'APPROVED'"
+                    [class.rejected]="request.status === 'REJECTED'">
+
+                    {{ statusLabels[request.status] }}
+
+                </span>
+              </td>
+
+              <td>
+                <a [routerLink]="['/book-requests', request.requestId]"
+                 [attr.aria-label]="'Visualizza dettaglio richiesta ' + request.requestId">
+                  <span class="material-icons">
+                    visibility
+                  </span>
+                </a>
+              </td>
+            </tr>
+
+          }
+
+        </tbody>
+
+      </table>
+    </div>
+    
+    }
+   }
+
+</main>
