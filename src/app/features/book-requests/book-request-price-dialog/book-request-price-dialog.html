@@ -1,0 +1,66 @@
+<div class="dialog-header">
+
+  <h2 mat-dialog-title>
+    {{ data.title }}
+  </h2>
+
+  <button class="icon-button" type="button" aria-label="Chiudi finestra" (click)="close()">
+    <span class="material-icons" aria-hidden="true">
+      close
+    </span>
+  </button>
+
+</div>
+
+<mat-dialog-content>
+
+  <p class="dialog-message">
+   Inserisci il costo stimato del libro. Il prezzo sarà utilizzato per valutare le richieste in base al budget disponibile.
+  </p>
+
+  <div class="reason-container">
+
+    <form [formGroup]="form" (submit)="save()">
+
+       <mat-dialog-content class="form-column">
+
+        <mat-form-field appearance="outline">
+          <mat-label>Prezzo stimato (€)</mat-label>
+          <input matInput type="number" min="0.01" step="0.01" formControlName="estimatedPrice">
+
+          @if (isInvalid('estimatedPrice') && form.get('estimatedPrice')?.hasError('required')) {
+
+            <mat-error>
+              Prezzo obbligatorio
+            </mat-error>
+
+          }
+
+          @if (isInvalid('estimatedPrice') && form.get('estimatedPrice')?.hasError('min')) {
+
+            <mat-error>
+              Il prezzo deve essere maggiore di zero
+            </mat-error>
+
+          }
+        </mat-form-field>
+
+      </mat-dialog-content>
+      
+      <mat-dialog-actions align="end">
+
+        <button mat-button type="button" (click)="close()">
+          Annulla
+        </button>
+
+        <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
+          Salva
+         </button>
+
+      </mat-dialog-actions>
+    </form>
+    
+  </div>
+
+</mat-dialog-content>
+

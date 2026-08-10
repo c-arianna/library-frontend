@@ -147,6 +147,24 @@
 
         </div>
 
+        <div class="metadata-item">
+
+        <span class="metadata-label">
+          Prezzo stimato
+        </span>
+
+        <span class="metadata-value">
+
+          @if (bookRequest.estimatedPrice != null) {
+              {{ bookRequest.estimatedPrice | number:'1.2-2' }} €
+          } @else {
+            -
+          }
+
+        </span>
+
+        </div>
+
         @if (bookRequest.notes.trim()) {
 
           <div class="metadata-item notes-item">
@@ -248,6 +266,13 @@
 
             Rigetta richiesta
 
+          </button>
+
+          <button 
+            *hasRole="['ROLE_ADMIN', 'ROLE_LIBRARIAN']"
+            class="button button-secondary"
+            (click)="openEstimatedPriceDialog()">
+            {{ bookRequest.estimatedPrice == null ? 'Inserisci prezzo' : 'Aggiorna prezzo' }}
           </button>
 
         }

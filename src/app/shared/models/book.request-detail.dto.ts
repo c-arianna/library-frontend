@@ -12,5 +12,6 @@ export interface BookRequestDetailDto{
     status: BookRequestStatus;
     votes: number;
     canVote: boolean;
-    bookRequestVotes: BookRequestVoteDto[];
+    bookRequestVotes: BookRequestVoteDto[],
+    estimatedPrice: number | null;
 }

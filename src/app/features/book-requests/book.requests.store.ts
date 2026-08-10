@@ -43,6 +43,10 @@ export class BookRequestsStore extends BaseFeatureStore {
     this.executeRequest(this.service.rejectRequest(requestId, reason));
   }
 
+  updatePrice(requestId: string, estimatedPrice: number) {
+    this.executeRequest(this.service.updatePrice(requestId, estimatedPrice));
+  }
+
   startRealtimeUpdates() {
 
     if (this.wsSub) {

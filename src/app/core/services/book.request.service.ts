@@ -39,4 +39,8 @@ export class BookRequestService {
     return this.http.post<void>(`${this.apiUrl}/${requestId}/reject`, {reason});
   }
 
+  updatePrice(requestId: string, estimatedPrice: number) {
+    return this.http.patch<void>(`${this.apiUrl}/${requestId}/estimatedPrice`, {estimatedPrice});
+  }
+
 }
