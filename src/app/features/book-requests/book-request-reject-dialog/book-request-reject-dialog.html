@@ -28,39 +28,31 @@
 
   <div class="reason-container">
 
-    <label for="reason">
-      Motivazione (facoltativa)
-    </label>
+    <form [formGroup]="form" (submit)="confirm()">
 
-    <textarea
-      id="reason"
-      rows="5"
-      formControlName="reason">
-    </textarea>
+       <mat-dialog-content class="form-column">
 
+        <mat-form-field appearance="outline">
+          <mat-label> Motivazione (facoltativa)</mat-label>
+          <textarea matInput formControlName="reason"></textarea>
+        </mat-form-field>
+
+       </mat-dialog-content>
+      
+      <mat-dialog-actions align="end">
+
+        <button mat-button type="button" [mat-dialog-close]="null">
+            Annulla
+        </button>
+
+        <button mat-raised-button color="warn" type="submit" [disabled]="form.invalid">
+            Rigetta
+          </button>
+
+      </mat-dialog-actions>
+    </form>
+    
   </div>
 
 </mat-dialog-content>
 
-<mat-dialog-actions align="end">
-
-  <button
-    mat-button
-    type="button"
-    [mat-dialog-close]="null">
-
-    Annulla
-
-  </button>
-
-  <button
-    mat-raised-button
-    color="warn"
-    type="button"
-    (click)="confirm()">
-
-    Rigetta
-
-  </button>
-
-</mat-dialog-actions>

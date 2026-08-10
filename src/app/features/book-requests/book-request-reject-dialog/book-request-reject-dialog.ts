@@ -10,6 +10,7 @@ import {
   MatDialogRef
 } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
 
 export interface RejectBookRequestDialogData {
   title: string;
@@ -22,7 +23,8 @@ export interface RejectBookRequestDialogData {
   imports: [
     MatDialogModule,
     MatButtonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatInputModule
   ],
   templateUrl: './book-request-reject-dialog.html',
   styleUrl: './book-request-reject-dialog.scss'
