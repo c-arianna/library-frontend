@@ -119,6 +119,14 @@ export const routes: Routes = [
     canActivate: [authGuard]
   },
   {
+    path: 'purchase-suggestions',
+    loadComponent: () => import('./features/purchase-suggestions/purchase-suggestions').then(c => c.PurchaseSuggestionsComponent),
+    canActivate: [authGuard],
+    data: {
+      roles: ['ROLE_ADMIN', 'ROLE_LIBRARIAN']
+    }
+  },
+  {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'

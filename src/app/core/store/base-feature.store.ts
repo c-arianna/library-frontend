@@ -25,14 +25,8 @@ export abstract class BaseFeatureStore {
         },
 
         error: err => {
-          console.log('STORE ERROR', err);
-
-          if (err instanceof Error) {
-            this.error.set(err.message);
-            return;
-          }
-          const message = mapError(err?.error?.code);
-          this.error.set(message);
+          const errorMessage = err instanceof Error ? err.message : mapError(err?.error?.code);
+          this.error.set(errorMessage);
         }
       });
 

@@ -5,6 +5,7 @@ import { BookRequestDto } from "../../shared/models/book.request.dto";
 import { BookRequestDetailDto } from "../../shared/models/book.request-detail.dto";
 import { CreateBookRequestDto } from "../../shared/models/book.request.add.dto";
 import { CreateBookRequestResponseDto } from "../../shared/models/book.request.add.response.dto";
+import { PurchaseSuggestionDto } from "../../shared/models/purchase-suggestion.dto";
 
 @Injectable({
   providedIn: 'root'
@@ -41,6 +42,10 @@ export class BookRequestService {
 
   updatePrice(requestId: string, estimatedPrice: number) {
     return this.http.patch<void>(`${this.apiUrl}/${requestId}/estimatedPrice`, {estimatedPrice});
+  }
+
+  calculateSuggestion(budget: number){
+    return this.http.get<PurchaseSuggestionDto>(`${this.apiUrl}/purchaseSuggestions?budget=${budget}`);
   }
 
 }

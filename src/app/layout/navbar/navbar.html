@@ -93,11 +93,17 @@
 
     </a>
 
-     <a
-      *hasRole="['ROLE_ADMIN']"
-      routerLink="/operators"
-      routerLinkActive="active"
-      (click)="menuOpen = false">
+    <a *hasRole="['ROLE_ADMIN','ROLE_LIBRARIAN']" routerLink="/purchase-suggestions" routerLinkActive="active" 
+          (click)="menuOpen = false">
+
+        <span class="icon-text">
+          <span class="material-icons" aria-hidden="true">shopping_cart</span>
+          Suggerimenti acquisto
+        </span>
+
+    </a>
+
+    <a *hasRole="['ROLE_ADMIN']" routerLink="/operators" routerLinkActive="active" (click)="menuOpen = false">
 
       <span class="icon-text">
         <span class="material-icons" aria-hidden="true">admin_panel_settings</span>

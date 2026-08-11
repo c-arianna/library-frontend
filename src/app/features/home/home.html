@@ -51,9 +51,7 @@
 
   }
 
-  <section
-    class="grid"
-    aria-label="Funzioni disponibili">
+  <section class="cards-grid" aria-label="Funzioni disponibili">
 
     <a
       routerLink="/books"
@@ -121,24 +119,6 @@
 
       </a>
 
-        @if (isAdmin){
-          <a
-            routerLink="/operators"
-            class="card home-card">
-
-            <span
-              class="material-icons"
-              aria-hidden="true">
-              admin_panel_settings
-            </span>
-
-            <span>
-              Operatori
-            </span>
-
-          </a>
-      }
-
       <a routerLink="/admin/dashboard" class="card home-card">
 
         <span
@@ -152,6 +132,34 @@
         </span>
 
       </a>
+
+      <a routerLink="/purchase-suggestions" class="card home-card">
+
+        <span
+          class="material-icons"
+          aria-hidden="true">
+          shopping_cart
+        </span>
+
+        <span>
+          Suggerimenti acquisto
+        </span>
+
+      </a>
+
+      @if (isAdmin){
+        <a routerLink="/operators" class="card home-card">
+
+          <span class="material-icons" aria-hidden="true">
+            admin_panel_settings
+          </span>
+
+          <span>
+            Operatori
+          </span>
+
+        </a>
+      }
 
     }@else{
 

@@ -6,6 +6,7 @@ import { BookRequestDetailDto } from "../../shared/models/book.request-detail.dt
 import { Subscription } from "rxjs";
 import { NotificationService } from "../../core/services/notification.service";
 import { BookRequestUpdatedPayloadEventDto } from "../../shared/models/events/book-request-updated-payload-event-dto";
+import { PurchaseSuggestionDto } from "../../shared/models/purchase-suggestion.dto";
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,8 @@ export class BookRequestsStore extends BaseFeatureStore {
   readonly bookRequests = signal<BookRequestDto[]>([]);
 
   readonly selectedRequest = signal<BookRequestDetailDto | null>(null);
+
+  readonly purchaseSuggestion = signal<PurchaseSuggestionDto | null>(null);
 
   constructor(private service: BookRequestService, private notificationService: NotificationService) {
     super();
@@ -45,6 +48,10 @@ export class BookRequestsStore extends BaseFeatureStore {
 
   updatePrice(requestId: string, estimatedPrice: number) {
     this.executeRequest(this.service.updatePrice(requestId, estimatedPrice));
+  }
+
+  calculateSuggestion(budget: number) {
+    this.executeRequest(this.service.calculateSuggestion(budget), purchaseSuggestion => this.purchaseSuggestion.set(purchaseSuggestion));
   }
 
   startRealtimeUpdates() {
@@ -107,6 +114,10 @@ export class BookRequestsStore extends BaseFeatureStore {
       this.loadBookRequest(payload.requestId);
     }
 
+  }
+
+  clearSuggestion() {
+    this.purchaseSuggestion.set(null);
   }
 
 }

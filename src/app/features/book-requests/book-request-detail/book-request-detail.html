@@ -2,9 +2,7 @@
 
   @if (store.loading()) {
 
-    <span
-      class="material-icons"
-      aria-hidden="true">
+    <span class="material-icons" aria-hidden="true">
       hourglass_top
     </span>
 
@@ -16,13 +14,9 @@
 
   @if (store.error()) {
 
-    <div
-      class="error-banner"
-      role="alert">
+    <div class="error-banner" role="alert">
 
-      <span
-        class="material-icons"
-        aria-hidden="true">
+      <span class="material-icons" aria-hidden="true">
         error_outline
       </span>
 
@@ -30,24 +24,15 @@
         {{ store.error() }}
       </h2>
 
-      <button
-        class="button button-primary"
-        routerLink="/book-requests">
-
+      <button class="button button-primary" routerLink="/book-requests">
         Torna all'elenco richieste
-
       </button>
 
     </div>
 
   }
 
-  @if (
-    !store.loading()
-    && !store.error()
-    && store.selectedRequest();
-    as bookRequest
-  ) {
+  @if (!store.loading() && !store.error() && store.selectedRequest(); as bookRequest) {
 
     <section class="card details-card">
 
@@ -149,19 +134,23 @@
 
         <div class="metadata-item">
 
-        <span class="metadata-label">
-          Prezzo stimato
-        </span>
+          <span class="metadata-label">
+            Prezzo stimato
+          </span>
 
-        <span class="metadata-value">
+          <span class="metadata-value">
 
-          @if (bookRequest.estimatedPrice != null) {
+            @if (bookRequest.estimatedPrice != null) {
+
               {{ bookRequest.estimatedPrice | number:'1.2-2' }} €
-          } @else {
-            -
-          }
 
-        </span>
+            } @else {
+
+              -
+
+            }
+
+          </span>
 
         </div>
 
@@ -174,27 +163,66 @@
             </span>
 
             <p class="notes-content">
-              {{ bookRequest.notes || '-' }}
+              {{ bookRequest.notes || '-'  }}
             </p>
 
           </div>
+
+        }
+
+      </div>
+
+      <div class="action-bar">
+
+        @if (bookRequest.status === 'PENDING') {
+
+          <button *hasRole="['ROLE_ADMIN', 'ROLE_LIBRARIAN']" class="button button-primary" (click)="openApproveDialog()">
+            Approva richiesta
+          </button>
+
+          <button *hasRole="['ROLE_ADMIN', 'ROLE_LIBRARIAN']" class="button button-secondary" (click)="openRejectDialog()">
+            Rigetta richiesta
+          </button>
+
+          <button *hasRole="['ROLE_ADMIN', 'ROLE_LIBRARIAN']" class="button button-secondary" (click)="openEstimatedPriceDialog()">
+            {{ bookRequest.estimatedPrice == null ? 'Inserisci prezzo' : 'Aggiorna prezzo' }}
+          </button>
+
+        }
+
+        @if (bookRequest.canVote) {
+
+          <button *hasRole="['ROLE_READER']" class="button button-primary" (click)="openVoteDialog()">
+            Vota richiesta
+          </button>
+
+        }@else if (bookRequest.status === 'PENDING') {
+
+          <div class="vote-info" *hasRole="['ROLE_READER']">
+
+            <span class="material-icons" aria-hidden="true">
+              task_alt
+            </span>
+
+            Hai già votato questa richiesta.
+
+          </div>
+
         }
 
       </div>
 
       <div class="section-divider"></div>
 
-        <h2 class="section-title">
-          Utenti che hanno votato
-        </h2>
+      <h2 class="section-title">
+        Utenti che hanno votato
+      </h2>
 
       @if (bookRequest.bookRequestVotes.length === 0) {
 
         <div class="empty-state">
 
-          <span
-            class="material-icons"
-            aria-hidden="true">
+          <span class="material-icons" aria-hidden="true">
             how_to_vote
           </span>
 
@@ -228,12 +256,8 @@
               @for (vote of bookRequest.bookRequestVotes; track vote.userId; let index = $index) {
 
                 <tr>
-                  <td>
-                    {{ index + 1 }}
-                  </td>
-                  <td>
-                    {{ vote.cardNumber }}
-                  </td>
+                  <td>{{ index + 1 }}</td>
+                  <td>{{ vote.cardNumber }}</td>
                 </tr>
 
               }
@@ -245,52 +269,6 @@
         </div>
 
       }
-
-      <div class="action-bar">
-
-        @if (bookRequest.status === 'PENDING') {
-
-          <button
-            *hasRole="['ROLE_ADMIN', 'ROLE_LIBRARIAN']"
-            class="button button-primary"
-            (click)="openApproveDialog()">
-
-            Approva richiesta
-
-          </button>
-
-          <button
-            *hasRole="['ROLE_ADMIN', 'ROLE_LIBRARIAN']"
-            class="button button-secondary"
-            (click)="openRejectDialog()">
-
-            Rigetta richiesta
-
-          </button>
-
-          <button 
-            *hasRole="['ROLE_ADMIN', 'ROLE_LIBRARIAN']"
-            class="button button-secondary"
-            (click)="openEstimatedPriceDialog()">
-            {{ bookRequest.estimatedPrice == null ? 'Inserisci prezzo' : 'Aggiorna prezzo' }}
-          </button>
-
-        }
-
-        @if (bookRequest.canVote) {
-
-          <button
-            *hasRole="['ROLE_READER']"
-            class="button button-primary"
-            (click)="openVoteDialog()">
-
-            Vota richiesta
-
-          </button>
-
-        }
-
-      </div>
 
     </section>
 

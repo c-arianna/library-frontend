@@ -1,0 +1,216 @@
+<main class="container">
+
+  <h1 class="page-title icon-text">
+    <span class="material-icons" aria-hidden="true">shopping_cart</span>
+    Suggerimenti acquisto
+  </h1>
+
+  <p class="section-description">
+    Calcola la combinazione ottimale di libri da acquistare in base al budget disponibile. <br />
+    I suggerimenti sono calcolati considerando il numero di voti ricevuti, il tempo di attesa delle richieste e il 
+    budget disponibile.
+  </p>
+
+  <div class="section">
+
+    <form class="form" [formGroup]="form" (ngSubmit)="calculate()">
+
+      <div class="form-row budget-row">
+
+        <label for="budget">
+          Budget disponibile (€)
+        </label>
+
+        <input id="budget" class="input budget-input"
+               aria-label="Budget a disposizione"
+               type="number"
+               formControlName="budget"
+               placeholder="Budget a disposizione">
+
+      </div>
+
+      <div class="form-actions">
+
+        <button class="button button-primary" type="submit">
+          Calcola
+        </button>
+
+        <button class="button button-secondary" type="button" (click)="reset()">
+          Reset
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+  @if (store.loading()) {
+
+    <div class="empty-state" role="status">
+
+      <span class="material-icons" aria-hidden="true">
+        hourglass_top
+      </span>
+
+      <p>
+        Calcolo in corso...
+      </p>
+
+    </div>
+
+  }
+
+  @if (store.error()) {
+
+    <div class="error-banner" role="alert">
+      {{ store.error() }}
+    </div>
+  }
+
+  @if (!store.error() && !store.loading() && store.purchaseSuggestion(); as result) {
+    
+    @if (result.status === 'NO_PENDING_REQUESTS') {
+
+      <div class="empty-state">
+
+        <p>
+          Non ci sono richieste di acquisto in attesa di valutazione.
+        </p>
+
+      </div>
+
+    }
+
+    @if (result.status === 'NO_REQUESTS_WITH_PRICE') {
+
+      <div class="empty-state">
+
+        <p>
+          Le richieste pendenti non hanno ancora un prezzo stimato associato.
+        </p>
+
+      </div>
+
+    }
+
+    @if (result.status === 'BUDGET_TOO_LOW') {
+
+      <div class="empty-state">
+
+        <p>
+          Il budget disponibile non è sufficiente per acquistare i libri richiesti.
+        </p>
+
+      </div>
+
+    }
+
+    @if (result.status === 'SUCCESS') {
+      <div class="section">
+
+        <div class="summary-grid">
+
+          <div class="card summary-card">
+
+            <span class="summary-label">
+              Budget
+            </span>
+
+            <span class="summary-value">
+              {{ result.budget }} €
+            </span>
+
+          </div>
+
+          <div class="card summary-card">
+
+            <span class="summary-label">
+              Costo totale
+            </span>
+
+            <span class="summary-value">
+               {{result.totalCost | number:'1.2-2' }} €
+            </span>
+
+          </div>
+
+          <div class="card summary-card">
+
+            <span class="summary-label">
+              Score totale
+            </span>
+
+            <span class="summary-value">
+              {{ result.totalScore }}
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="section">
+
+        <div class="table-container">
+
+          <table class="table">
+
+              <caption class="sr-only">
+                  Elenco libri suggeriti
+              </caption>
+            
+              <thead>
+                  <tr>
+                      <th>Titolo</th>
+                      <th>Autore</th>
+                      <th>Prezzo Stimato</th>
+                      <th>Voti</th>
+                      <th>Score</th>
+                      <th>Dettaglio</th>
+                  </tr>
+            </thead>
+
+            <tbody>
+
+              @for (book of result.books; track book.requestId) {
+
+                <tr>
+                  <td>{{ book.title }}</td>
+                  <td>{{ book.author }}</td>
+                  <td>{{ book.estimatedPrice | number:'1.2-2' }} € </td>
+                  <td>{{ book.votes }}</td>
+                  <td>{{ book.score }}</td>
+                  <td>
+                    <a [routerLink]="['/book-requests', book.requestId]"
+                      [attr.aria-label]="'Visualizza dettaglio richiesta ' + book.requestId">
+                      <span class="material-icons" aria-hidden="true">
+                        visibility
+                      </span>
+                    </a>
+                  </td>
+                </tr>
+
+              }
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+        <div class="export-actions">
+
+          <button class="button button-primary" type="button" (click)="exportCsv()">
+            Esporta CSV
+          </button>
+
+        </div>
+      </div>
+
+    }
+
+  }
+
+</main>

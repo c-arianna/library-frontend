@@ -35,7 +35,7 @@ export class LoanDetailComponent implements OnInit {
 
   private readonly dialog = inject(MatDialog);
 
-  ngOnInit(): void {
+  ngOnInit() {
 
     const loanId = this.route.snapshot.paramMap.get('loanId');
 

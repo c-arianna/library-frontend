@@ -53,7 +53,7 @@
   @if (!store.loading() && !store.error()) {
 
     
-     @if (store.bookRequests().length === 0) {
+    @if (store.bookRequests().length === 0) {
 
       <div class="empty-state">
         <h3>Non sono presenti richieste</h3>
@@ -102,7 +102,7 @@
               <td>
                 <a [routerLink]="['/book-requests', request.requestId]"
                  [attr.aria-label]="'Visualizza dettaglio richiesta ' + request.requestId">
-                  <span class="material-icons">
+                  <span class="material-icons" aria-hidden="true">
                     visibility
                   </span>
                 </a>
