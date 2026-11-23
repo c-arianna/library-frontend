@@ -1,0 +1,175 @@
+<main class="container">
+
+  @if (store.loading()) {
+
+    <div class="empty-state" role="status">
+
+      <span
+        class="material-icons"
+        aria-hidden="true">
+        hourglass_top
+      </span>
+
+      <p>
+        Ricerca dei libri simili...
+      </p>
+
+    </div>
+
+  }
+
+  @if (store.error()) {
+
+    <div class="error-state">
+
+      <span
+        class="material-icons"
+        aria-hidden="true">
+        error_outline
+      </span>
+
+      <h2>
+        {{ store.error() }}
+      </h2>
+
+      <button
+        class="button button-primary"
+        routerLink="/books">
+
+        Torna al catalogo
+
+      </button>
+
+    </div>
+
+  }
+
+  @if (!store.loading() && !store.error() && store.similarBooksResult(); as result) {
+
+    <section class="card details-card">
+               
+        <nav class="breadcrumb">
+
+        <a routerLink="/books">
+            Catalogo
+        </a>
+
+        /
+
+        <a [routerLink]="['/books', result.sourceBook.isbn]">
+
+            {{ result.sourceBook.title }}
+
+        </a>
+
+        /
+
+        <span>
+            Libri simili
+        </span>
+
+        </nav>
+
+    <div class="details-card">
+
+      <div class="reference-book-container">
+      
+        <div class="reference-book-card">
+
+            <div class="reference-section">
+
+                <span class="metadata-label">
+                LIBRO DI RIFERIMENTO
+                </span>
+
+                <div class="reference-value">
+                {{ result.sourceBook.title }}
+                </div>
+
+            </div>
+
+            <div class="reference-section">
+
+                <span class="metadata-label">
+                AUTORE
+                </span>
+
+                <div class="reference-value">
+                {{ result.sourceBook.author }}
+                </div>
+
+            </div>
+
+        </div>
+
+      </div>
+
+      <div class="section-divider"></div>
+
+      @if(result.books.length === 0) {
+
+        <div class="empty-state">
+
+          <span
+            class="material-icons"
+            aria-hidden="true">
+
+            search_off
+
+          </span>
+
+          <h3>
+            Nessun libro simile trovato
+          </h3>
+
+        </div>
+
+      } @else {
+
+        <h2 class="section-title">
+          Libri simili trovati: {{result.books.length}}
+        </h2>
+
+        <div class="metadata">
+
+          @for(book of result.books; track book.isbn) {
+
+            <div class="metadata-item">
+
+              <span class="metadata-label">
+                TITOLO
+              </span>
+
+              <span class="metadata-value">
+
+                <a
+                  class="book-link"
+                  [routerLink]="['/books', book.isbn]">
+
+                  {{ book.title }}
+
+                </a>
+
+              </span>
+
+              <span class="metadata-label">
+                AUTORE
+              </span>
+
+              <span class="metadata-value">
+                {{ book.author }}
+              </span>
+
+            </div>
+
+          }
+
+        </div>
+
+      }
+
+    </div>
+    </section>
+  }
+
+</main>

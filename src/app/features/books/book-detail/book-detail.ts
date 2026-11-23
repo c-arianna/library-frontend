@@ -132,4 +132,16 @@ export class BookDetail implements OnInit {
 
   }
 
+  openSimilarBooks() {
+
+    const book = this.store.detail();
+
+    if (!book) {
+      return;
+    }
+
+    this.router.navigate(['/books', book.isbn, 'similar']);
+  
+  }
+
 }

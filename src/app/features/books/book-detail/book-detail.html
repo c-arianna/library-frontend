@@ -189,6 +189,13 @@
           </button>
         }
 
+        <div class="ai-actions">
+          <button class="button button-primary" (click)="openSimilarBooks()">
+              <span class="material-icons" aria-hidden="true">auto_awesome</span>
+              <span>Libri simili</span>
+          </button>
+        </div>
+
         <button *hasRole="['ROLE_ADMIN','ROLE_LIBRARIAN']" class="button button-primary" (click)="openAddCopiesDialog()">
           Aggiungi copie
         </button>

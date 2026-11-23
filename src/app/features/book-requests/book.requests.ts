@@ -1,6 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { BookRequestDto } from '../../shared/models/book.request.dto';
 import { BookRequestsStore } from './book.requests.store';
 import { HasRoleDirective } from '../../core/directives/has.role';
 import { MatDialog } from '@angular/material/dialog';

@@ -127,6 +127,11 @@ export const routes: Routes = [
     }
   },
   {
+    path: 'books/:isbn/similar',
+    canActivate: [authGuard],
+    loadComponent: () => import('./features/books/similar-books/similar-books').then(m => m.SimilarBooksComponent)
+  },
+  {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'
