@@ -173,13 +173,15 @@
       <div class="actions actions-spaced">
 
         <button *hasRole="'ROLE_READER'" class="button button-secondary" (click)="openLoans()">
-          Visualizza prestiti
+            <span class="material-icons">list_alt</span>
+            <span>Visualizza prestiti</span>
         </button>
 
         @if (book.available) {
 
           <button *hasRole="'ROLE_READER'" class="button button-primary" (click)="openLoanCreateDialog()">
-            Crea prestito
+            <span class="material-icons">add_circle</span>
+            <span>Crea prestito</span>
           </button>
 
         }@else {
@@ -189,27 +191,33 @@
           </button>
         }
 
-        <div class="ai-actions">
-          <button class="button button-primary" (click)="openSimilarBooks()">
-              <span class="material-icons" aria-hidden="true">auto_awesome</span>
-              <span>Libri simili</span>
-          </button>
-        </div>
+        <button class="button button-primary" (click)="openSimilarBooks()">
+          <span class="material-icons" aria-hidden="true">auto_awesome</span>
+          <span>Libri simili</span>
+        </button>
 
+        <button class="button button-primary" (click)="openReadingPath()">
+          <span class="material-icons" aria-hidden="true">school</span>
+          <span>Percorso di lettura</span>
+        </button>
+        
         <button *hasRole="['ROLE_ADMIN','ROLE_LIBRARIAN']" class="button button-primary" (click)="openAddCopiesDialog()">
-          Aggiungi copie
+            <span class="material-icons">library_add</span>
+            <span>Aggiungi copie</span>
         </button>
 
         @if (book.availableCopies > 0) {
 
           <button *hasRole="['ROLE_ADMIN','ROLE_LIBRARIAN']" class="button button-secondary" (click)="openRemoveCopiesDialog()">
-            Rimuovi copie
+              <span class="material-icons">library_remove</span>
+              <span>Rimuovi copie</span>
           </button>
 
         }
 
         <button *hasRole="['ROLE_ADMIN','ROLE_LIBRARIAN']" class="button button-secondary" (click)="openLoans()">
-          Visualizza prestiti
+            <span class="material-icons">list_alt</span>
+            <span>Visualizza prestiti</span>
         </button>
 
       </div>

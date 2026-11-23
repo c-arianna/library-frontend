@@ -144,4 +144,14 @@ export class BookDetail implements OnInit {
   
   }
 
+  openReadingPath(){
+    const book = this.store.detail();
+
+    if (!book) {
+      return;
+    }
+
+    this.router.navigate(['/books', book.isbn, 'reading-path']);
+  }
+
 }

@@ -1,0 +1,141 @@
+<main class="container">
+
+  @if (store.loading()) {
+
+    <div class="empty-state" role="status">
+
+      <span class="material-icons" aria-hidden="true">
+        hourglass_top
+      </span>
+
+      <p>
+       Caricamento dei dati...
+      </p>
+
+    </div>
+
+  }
+
+  @if (store.error()) {
+
+    <div class="error-state">
+
+      <span class="material-icons" aria-hidden="true">
+        error_outline
+      </span>
+
+      <h2>
+        {{ store.error() }}
+      </h2>
+
+      <button
+        class="button button-primary"
+        routerLink="/books">
+
+        Torna al catalogo
+
+      </button>
+
+    </div>
+
+  }
+
+  @if (!store.loading() && !store.error() && store.journey(); as result) {
+
+    <section class="card details-card">
+               
+        <nav class="breadcrumb">
+
+        <a routerLink="/books">
+            Catalogo
+        </a>
+
+        /
+
+        <span>
+            Percorso di lettura
+        </span>
+
+        </nav>
+
+    <div class="details-card">
+
+      @if(result.books.length === 0) {
+
+        <div class="empty-state">
+
+          <span class="material-icons" aria-hidden="true">
+            search_off
+          </span>
+
+          <h3>
+            Nessun libro trovato
+          </h3>
+
+        </div>
+
+      } @else {
+
+        <div class="journey-container">
+
+           @if (result.explanation) {
+
+                <div class="explanation-card">
+
+                    <h2>
+                        Come è stato costruito questo percorso?
+                    </h2>
+                    
+                    <p>
+                        {{ result.explanation }}
+                    </p>
+
+                </div>
+
+            }
+          
+          <div class="section-divider"></div>
+          
+          <div class="timeline">
+            
+            @for(step of store.orderedBooks(); track step.isbn; let last = $last) {
+
+                <div class="timeline-item">
+
+                    <div class="timeline-left">
+
+                        <div class="timeline-marker">
+                            {{ step.order }}
+                        </div>
+
+                        @if (!last) {
+                            <div class="timeline-line"></div>
+                        }
+                    </div>
+                    
+                    <div class="timeline-content">
+
+                        <a class="book-link" [routerLink]="['/books', step.isbn]">
+                        {{ step.title }}
+                        </a>
+
+                        <div class="author">
+                            {{ step.author }}
+                        </div>
+
+                    </div>
+
+                </div>
+            }
+
+          </div>
+
+        </div>
+
+      }
+      
+    </div> 
+    </section>
+  }
+
+</main>
