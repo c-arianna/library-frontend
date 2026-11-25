@@ -137,6 +137,14 @@ export const routes: Routes = [
     loadComponent: () => import('./features/books/reading-journey/reading-journey').then(m => m.ReadingJourneyComponent)
   },
   {
+    path: 'recommended-books',
+    loadComponent: () => import('./features/books/recommended-books/recommended-books').then(m => m.RecommendedBooksComponent),
+    canActivate: [authGuard],
+    data: {
+      roles: ['ROLE_USER']
+    }
+  },
+  {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'
