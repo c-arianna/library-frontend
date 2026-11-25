@@ -141,7 +141,7 @@ export const routes: Routes = [
     loadComponent: () => import('./features/books/recommended-books/recommended-books').then(m => m.RecommendedBooksComponent),
     canActivate: [authGuard],
     data: {
-      roles: ['ROLE_USER']
+      roles: ['ROLE_READER']
     }
   },
   {
