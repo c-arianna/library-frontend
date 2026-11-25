@@ -1,20 +1,23 @@
-import { Injectable, signal } from "@angular/core";
+import { computed, Injectable, signal } from "@angular/core";
 import { BaseFeatureStore } from "../../../core/store/base-feature.store";
 import { RecommendedBook } from "../../../shared/models/recommended.book.dto";
 import { AssistantService } from "../../../core/services/assistant.service";
+import { BookRecommendationsResult, RecommendedBookType } from "../../../shared/models/recommended.book.response.dto";
 
 @Injectable()
 export class RecommendedBooksStore extends BaseFeatureStore {
 
-  readonly recommendations = signal<RecommendedBook[]>([]);
+  readonly recommendations = signal<BookRecommendationsResult | null>(null);
   readonly explanations = signal<Record<string, string>>({});
   readonly expanded = signal<Record<string, boolean>>({});
+  readonly isPersonalized = computed(() => this.recommendations()?.type === RecommendedBookType.PERSONALIZED);
   
   constructor(private assistantService: AssistantService) {
     super();
   }
 
   loadRecommendations() {
+    this.recommendations.set(null);
     this.executeRequest(this.assistantService.getRecommendedBooks(), result => this.recommendations.set(result));
   }
 
@@ -53,6 +56,5 @@ export class RecommendedBooksStore extends BaseFeatureStore {
       this.loadExplanation(isbn);
     }
   }
-
 
 }

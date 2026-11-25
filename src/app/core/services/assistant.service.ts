@@ -6,6 +6,7 @@ import { SimilarBooksResult } from '../../shared/models/similar-books-response.d
 import { ReadingJourneyResult } from '../../shared/models/reading-journey.response.dto';
 import { RecommendedBook } from '../../shared/models/recommended.book.dto';
 import { RecommendationExplanation } from '../../shared/models/recommendation.explanation.dto';
+import { BookRecommendationsResult } from '../../shared/models/recommended.book.response.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -24,8 +25,8 @@ export class AssistantService {
     return this.http.get<ReadingJourneyResult>(`${this.apiUrl}/books/${isbn}/readingpath`);
   }
 
-  getRecommendedBooks() : Observable<RecommendedBook[]>{
-    return this.http.get<RecommendedBook[]>(`${this.apiUrl}/recommendation`);
+  getRecommendedBooks() : Observable<BookRecommendationsResult>{
+    return this.http.get<BookRecommendationsResult>(`${this.apiUrl}/recommendation`);
   }
 
   explainRecommendation(isbn: string){

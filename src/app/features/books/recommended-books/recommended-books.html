@@ -36,7 +36,7 @@
 
     }
 
-    @if (!store.loading() && !store.error() && store.recommendations().length > 0) {
+    @if (!store.loading() && !store.error() && store.recommendations(); as recommendations) {
       
       <div class="card details-card">
       
@@ -57,7 +57,27 @@
 
         <div class="books-grid">
 
-            @for (book of store.recommendations(); track book.isbn) {
+             @if(recommendations.books.length === 0) {
+
+                <div class="empty-state">
+
+                    <span
+                        class="material-icons"
+                        aria-hidden="true">
+
+                        search_off
+
+                    </span>
+
+                    <h3>
+                        Nessun libro trovato
+                    </h3>
+
+                </div>
+
+            } @else {
+
+              @for (book of recommendations.books; track book.isbn) {
 
                 <div class="card book-card">
 
@@ -77,54 +97,59 @@
 
                     </div>
 
-                    <div class="book-actions">
+                    @if (store.isPersonalized()) {
+                       
+                        <div class="book-actions">
 
-                        <button class="button button-primary" type="button" (click)="store.toggleExplanation(book.isbn)">
+                            <button class="button button-primary" type="button" (click)="store.toggleExplanation(book.isbn)">
 
-                            <span class="material-icons" aria-hidden="true">
-                                info
-                            </span>
+                                <span class="material-icons" aria-hidden="true">
+                                    info
+                                </span>
 
-                            @if (!store.isExpanded(book.isbn)) {
-                                Perché consigliato?
-                            } @else {
-                                Nascondi spiegazione
-                            }
-
-                        </button>
-                        
-                    </div>
-                        
-                    @if (store.isExpanded(book.isbn)) {
-
-                            <div class="explanation-card">
-
-                                @if (store.getExplanation(book.isbn)) {
-
-                                    <p>
-                                        {{ store.getExplanation(book.isbn) }}
-                                    </p>
-
+                                @if (!store.isExpanded(book.isbn)) {
+                                    Perché consigliato?
                                 } @else {
+                                    Nascondi spiegazione
+                                }
 
-                                <div class="loading-explanation">
+                            </button>
+                        
+                        </div>
+                        
+                        @if (store.isExpanded(book.isbn)) {
 
-                                    <span class="material-icons">
-                                    hourglass_top
-                                    </span>
+                                <div class="explanation-card">
 
-                                    Generazione spiegazione...
+                                    @if (store.getExplanation(book.isbn)) {
+
+                                        <p>
+                                            {{ store.getExplanation(book.isbn) }}
+                                        </p>
+
+                                    } @else {
+
+                                    <div class="loading-explanation">
+
+                                        <span class="material-icons">
+                                        hourglass_top
+                                        </span>
+
+                                        Generazione spiegazione...
+
+                                    </div>
+
+                                    }
 
                                 </div>
 
-                                }
-
-                            </div>
-
-                    }   
+                        }   
+                    }
                     </div>
 
             }
+
+          }
 
         </div>
     </div>

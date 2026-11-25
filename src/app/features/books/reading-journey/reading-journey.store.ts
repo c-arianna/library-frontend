@@ -16,7 +16,7 @@ export class ReadingJourneyStore extends BaseFeatureStore {
     }
 
     loadReadingJourney(isbn: string) {
-        this.journey .set(null);
+        this.journey.set(null);
         this.executeRequest(this.assistantService.getReadingJouney(isbn), result  => this.journey .set(result));
     }
 }
