@@ -1,100 +1,182 @@
 <main class="container">
 
-  <h1 class="page-title icon-text">
-    <span
-      class="material-icons"
-      aria-hidden="true">
-      analytics
-    </span>
-
-    Dashboard amministrativa
-  </h1>
-
-  <p class="welcome-text">
-    Accedi ai report amministrativi della biblioteca.
-  </p>
-
-  <div class="dashboard-grid">
-
-    <a
-      routerLink="daily-loan-statistics"
-      class="dashboard-card card">
-
+  <div class="dashboard-header">
+  
+    <h1 class="page-title icon-text">
       <span
         class="material-icons"
         aria-hidden="true">
-        insights
+        analytics
       </span>
 
-      <h2>
-        Prestiti per giorno
+      Dashboard amministrativa
+    </h1>
+
+    <p class="welcome-text">
+      Accedi ai report amministrativi della biblioteca.
+    </p>
+
+  </div>
+
+  <div class="card analytics-assistant-card">
+
+      <h2 class="icon-text">
+        <span
+          class="material-icons"
+          aria-hidden="true">
+          query_stats
+        </span>
+
+        Analytics Assistant
       </h2>
 
       <p>
-        Andamento dei prestiti
+        Descrivi l'analisi che desideri visualizzare.
       </p>
 
-    </a>
+      <div class="assistant-form">
 
-    <a
-      routerLink="overdue-loans"
-      class="dashboard-card card">
+        <input type="text" [value]="query()" (input)="onQueryChange($event)" 
+              placeholder="Mostrami l'andamento dei prestiti degli ultimi 90 giorni" (keyup.enter)="analyze()">
 
-      <span
-        class="material-icons"
-        aria-hidden="true">
-        warning
-      </span>
+        <button class="button button-primary"  [disabled]="!query().trim() || loading()" (click)="analyze()">
+          @if (!loading()) {
+            Analizza
+          } @else {
 
-      <h2>
-        Prestiti scaduti
-      </h2>
+            <span class="material-icons spin">
+              sync
+            </span>
 
-      <p>
-        Prestiti in ritardo
-      </p>
+            Analisi...
+          }
+        </button>
 
-    </a>
+      </div>
 
-    <a
-      routerLink="user-loan-statistics"
-      class="dashboard-card card">
+      @if (errorMessage()) {
 
-      <span
-        class="material-icons"
-        aria-hidden="true">
-        group
-      </span>
+        <div class="assistant-error">
 
-      <h2>
-        Storico ritardi utenti
-      </h2>
+          <span
+            class="material-icons"
+            aria-hidden="true">
+            error_outline
+          </span>
 
-      <p>
-        Analisi dei ritardi
-      </p>
+          {{ errorMessage() }}
 
-    </a>
+        </div>
 
-    <a
-      routerLink="popular-books"
-      class="dashboard-card card">
+      }
 
-      <span
-        class="material-icons"
-        aria-hidden="true">
-        menu_book
-      </span>
+      @if (assistantMessage()) {
 
-      <h2>
-        Libri più prestati
-      </h2>
+        <div class="assistant-response card">
 
-      <p>
-        Classifica libri
-      </p>
+          <span
+            class="material-icons"
+            aria-hidden="true">
+            info
+          </span>
 
-    </a>
+          {{ assistantMessage() }}
+
+        </div>
+
+      }
+
+  </div>
+  
+  <div class="card dashboards-container">
+    
+    <h2 class="section-title">
+      Dashboard disponibili
+    </h2>
+
+    <div class="dashboard-grid">
+
+      <a
+        routerLink="daily-loan-statistics"
+        class="dashboard-card card">
+
+        <span
+          class="material-icons"
+          aria-hidden="true">
+          insights
+        </span>
+
+        <h2>
+          Prestiti per giorno
+        </h2>
+
+        <p>
+          Andamento dei prestiti
+        </p>
+
+      </a>
+
+      <a
+        routerLink="overdue-loans"
+        class="dashboard-card card">
+
+        <span
+          class="material-icons"
+          aria-hidden="true">
+          warning
+        </span>
+
+        <h2>
+          Prestiti scaduti
+        </h2>
+
+        <p>
+          Prestiti in ritardo
+        </p>
+
+      </a>
+
+      <a
+        routerLink="user-loan-statistics"
+        class="dashboard-card card">
+
+        <span
+          class="material-icons"
+          aria-hidden="true">
+          group
+        </span>
+
+        <h2>
+          Storico ritardi utenti
+        </h2>
+
+        <p>
+          Analisi dei ritardi
+        </p>
+
+      </a>
+
+      <a
+        routerLink="popular-books"
+        class="dashboard-card card">
+
+        <span
+          class="material-icons"
+          aria-hidden="true">
+          menu_book
+        </span>
+
+        <h2>
+          Libri più prestati
+        </h2>
+
+        <p>
+          Classifica libri
+        </p>
+
+      </a>
+    
+    </div>
 
   </div>
 

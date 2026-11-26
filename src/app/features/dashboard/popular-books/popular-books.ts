@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, signal } from "@angular/core";
 import { DashboardService } from "../../../core/services/dashboard.service";
 import { PopularBookDto } from "../../../shared/models/popular.books.dto";
-import { RouterLink } from "@angular/router";
+import { ActivatedRoute, RouterLink } from "@angular/router";
 
 @Component({
   selector: 'app-popular-books',
@@ -21,19 +21,23 @@ export class PopularBooksComponent implements OnInit {
 
     readonly dashboardService = inject(DashboardService)
 
-    ngOnInit(): void {
-        this.load();
+    readonly route = inject(ActivatedRoute);
+
+    ngOnInit() {
+      this.route.queryParamMap.subscribe(params => {
+        const limit = Number(params.get('limit')) || 10;
+        this.load(limit);
+      });
     }
 
-    load() {
+    load(limit: number = 10) {
 
         this.state.set({
             loading: true,
             error: null
         });
 
-        this.dashboardService.findMostPopularBooks()
-          .subscribe({
+        this.dashboardService.findMostPopularBooks(limit).subscribe({
 
             next: books => {
 

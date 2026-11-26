@@ -28,23 +28,49 @@
 
     <div class="chart-filters">
 
-      <button type="button" class="filter-button" [class.active]="selectedDays() === 7" (click)="loadDailyLoanStatistics(7)">
+      <button type="button" class="filter-button" [class.active]="selectedDays() === 7" (click)="applyPresetFilter(7)">
         7 giorni
       </button>
 
-      <button type="button" class="filter-button" [class.active]="selectedDays() === 30" (click)="loadDailyLoanStatistics(30)">
+      <button type="button" class="filter-button" [class.active]="selectedDays() === 30" (click)="applyPresetFilter(30)">
         30 giorni
       </button>
 
-      <button type="button" class="filter-button" [class.active]="selectedDays() === 90" (click)="loadDailyLoanStatistics(90)">
+      <button type="button" class="filter-button" [class.active]="selectedDays() === 90" (click)="applyPresetFilter(90)">
         90 giorni
       </button>
 
-    <button type="button" class="filter-button" [class.active]="selectedDays() === 365" (click)="loadDailyLoanStatistics(365)">
+    <button type="button" class="filter-button" [class.active]="selectedDays() === 365" (click)="applyPresetFilter(365)">
       Anno
     </button>
 
-  </div>
+    </div>
+
+    @if (isCustomFilter()) {
+
+      <div class="custom-filter">
+
+        <span
+          class="material-icons"
+          aria-hidden="true">
+          auto_awesome
+        </span>
+
+        <div class="custom-filter-text">
+
+          <div class="custom-filter-title">
+            Filtro personalizzato
+          </div>
+
+          <div class="custom-filter-value">
+            Ultimi {{ selectedDays() }} giorni
+          </div>
+
+        </div>
+
+      </div>
+
+    }
 
     <div class="chart-container">
       <canvas #loanChart></canvas>

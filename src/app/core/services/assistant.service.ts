@@ -7,6 +7,8 @@ import { ReadingJourneyResult } from '../../shared/models/reading-journey.respon
 import { RecommendedBook } from '../../shared/models/recommended.book.dto';
 import { RecommendationExplanation } from '../../shared/models/recommendation.explanation.dto';
 import { BookRecommendationsResult } from '../../shared/models/recommended.book.response.dto';
+import { AnalyticsQueryRequest } from '../../shared/models/analytics.query.request.dto';
+import { AnalyticsQueryResponse } from '../../shared/models/analytics.query.response.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +33,10 @@ export class AssistantService {
 
   explainRecommendation(isbn: string){
     return this.http.get<RecommendationExplanation>(`${this.apiUrl}/recommendations/explain/${isbn}`);
+  }
+
+  loadAnalyticsData(request: AnalyticsQueryRequest){
+    return this.http.post<AnalyticsQueryResponse>(`${this.apiUrl}/analytics/query`, request);
   }
 
 }

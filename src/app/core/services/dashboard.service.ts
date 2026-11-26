@@ -26,8 +26,8 @@ export class DashboardService {
     return this.http.get<DailyLoanStatisticDto[]>(`${this.apiUrl}/dashboard/daily/statistics`, {params: {from, to}});
   }
 
-  findMostPopularBooks(){
-     return this.http.get<PopularBookDto[]>(`${this.apiUrl}/dashboard/popularBooks`);
+  findMostPopularBooks(limit: number){
+     return this.http.get<PopularBookDto[]>(`${this.apiUrl}/dashboard/popularBooks`, {params: {limit}});
   }
   
 }
